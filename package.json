@@ -1,0 +1,6 @@
+{
+  "name": "token-utility-css",
+  "workspaces": [
+    "packages/*"
+  ]
+}

@@ -1,0 +1,155 @@
+:root {
+  --font-family: "Poppins", "Helvetica", "Arial", sans-serif;
+
+  /* Prototype Colors */
+
+  --color-true-black-rgb: 0, 0, 0;
+  --color-true-black: rgb(var(--color-true-black-rgb));
+  --color-black-rgb: 32, 36, 32;
+  --color-black: rgb(var(--color-black-rgb));
+  --color-grey-dark-rgb: 44, 52, 44;
+  --color-grey-dark: rgb(var(--color-grey-dark-rgb));
+  --color-grey-mid-rgb: 82, 91, 82;
+  --color-grey-mid: rgb(var(--color-grey-mid-rgb));
+  --color-grey-rgb: 208, 212, 208;
+  --color-grey: rgb(var(--color-grey-rgb));
+  --color-green-rgb: 34, 146, 38;
+  --color-green: rgb(var(--color-green-rgb));
+  --color-green-lime-rgb: 53, 185, 55;
+  --color-green-lime: rgb(var(--color-green-lime-rgb));
+  --color-green-lime-light-rgb: 145, 231, 148;
+  --color-green-lime-light: rgb(var(--color-green-lime-light-rgb));
+  --color-green-light-rgb: 200, 228, 201;
+  --color-green-light: rgb(var(--color-green-light-rgb));
+  --color-green-lightest-rgb: 250, 255, 249;
+  --color-green-lightest: rgb(var(--color-green-lightest-rgb));
+  --color-grey-green-light-rgb: 242, 250, 240;
+  --color-grey-green-light: rgb(var(--color-grey-green-light-rgb));
+  --color-grey-light-rgb: 241, 246, 240;
+  --color-grey-light: rgb(var(--color-grey-light-rgb));
+  --color-grey-light-neutral-rgb: 230, 230, 230;
+  --color-grey-light-neutral: rgb(var(--color-grey-light-neutral-rgb));
+  --color-white-rgb: 255, 255, 255;
+  --color-white: rgb(var(--color-white-rgb));
+
+  --color-skill-match-green-dark-rgb: 7, 88, 10;
+  --color-skill-match-green-dark: rgb(var(--color-skill-match-green-dark-rgb));
+  --color-skill-match-green-rgb: 77, 157, 80;
+  --color-skill-match-green: rgb(var(--color-skill-match-green-rgb));
+  --color-skill-match-green-light-rgb: 188, 229, 190;
+  --color-skill-match-green-light: rgb(
+    var(--color-skill-match-green-light-rgb)
+  );
+
+  --color-yellow-rgb: 233, 188, 57;
+  --color-yellow: rgb(var(--color-yellow-rgb));
+  --color-purple-rgb: 159, 85, 147;
+  --color-purple: rgb(var(--color-purple-rgb));
+  --color-red-rgb: 198, 86, 97;
+  --color-red: rgb(var(--color-red-rgb));
+
+  /* Color variants */
+
+  --color-green-alpha-40: rgba(var(--color-green-rgb), 0.4);
+  --color-green-alpha-5: rgba(var(--color-green-rgb), 0.05);
+  --color-black-alpha-10: rgba(var(--color-black-rgb), 0.1);
+
+  /*  GMAC Brand Colors */
+
+  --color-gray-gmac-light-1-rgb: 12, 10, 10;
+  --color-gray-gmac-light-2-rgb: 36, 32, 32;
+  --color-gray-gmac-light-3-rgb: 60, 55, 55;
+
+  --color-gray-gmac-light-1-rgb: 212, 211, 211;
+  --color-gray-gmac-light-2-rgb: 240, 235, 235;
+  --color-gray-gmac-light-3-rgb: 248, 244, 244;
+
+  --color-gray-gmac-light-1: rgb(var(--color-gray-gmac-light-1-rgb));
+  --color-gray-gmac-light-2: rgb(var(--color-gray-gmac-light-2-rgb));
+  --color-gray-gmac-light-3: rgb(var(--color-gray-gmac-light-3-rgb));
+
+  --color-gray-gmac-light-1: rgb(var(--color-gray-gmac-light-1-rgb));
+  --color-gray-gmac-light-2: rgb(var(--color-gray-gmac-light-2-rgb));
+  --color-gray-gmac-light-3: rgb(var(--color-gray-gmac-light-3-rgb));
+
+  --color-gmac-black-rgb: 60, 55, 55;
+  --color-gmac-black: rgb(var(--color-gmac-black-rgb));
+  --color-gmac-black-dark-rgb: 39, 36, 36;
+  --color-gmac-black-dark: rgb(var(--color-gmac-black-dark-rgb));
+  --color-gmac-white-rgb: 255, 255, 255;
+  --color-gmac-white: rgb(var(--color-gmac-white-rgb));
+  --color-green-gmac-rgb: 98, 165, 45;
+  --color-green-gmac: rgb(var(--color-green-gmac-rgb));
+  --color-cyan-gmac-rgb: 80, 154, 159;
+  --color-cyan-gmac: rgb(var(--color-cyan-gmac-rgb));
+  --color-red-gmac-rgb: 198, 86, 97;
+  --color-red-gmac: rgb(var(--color-red-gmac-rgb));
+  --color-lilac-gmac-rgb: 158, 95, 147;
+  --color-lilac-gmac: rgb(var(--color-lilac-gmac-rgb));
+  --color-steel-blue-gmac-rgb: 60, 138, 184;
+  --color-steel-blue-gmac: rgb(var(--color-steel-blue-gmac-rgb));
+  --color-periwinkle-gmac-rgb: 134, 137, 209;
+  --color-periwinkle-gmac: rgb(var(--color-periwinkle-gmac-rgb));
+  --color-gray-gmac-rgb: 157, 157, 157;
+  --color-gray-gmac: rgb(var(--color-gray-gmac));
+
+  /* Color variants */
+  --color-gray-gmac-alpha-90: rgba(var(--color-gray-gmac-rgb), 0.9);
+  --color-gray-gmac-alpha-20: rgba(var(--color-gray-gmac-rgb), 0.2);
+  --color-gray-gmac-alpha-15: rgba(var(--color-gray-gmac-rgb), 0.15);
+
+  /* Text Sizes */
+  --text-title-xl: fluid(32px, 56px);
+  --text-title-l: fluid(26px, 42px);
+  --text-title-m: fluid(18px, 34px);
+  --text-title-s: fluid(20px, 24px);
+  --text-body-xl: fluid(20px, 28px);
+  --text-body-l: fluid(16px, 24px);
+  --text-body-m: fluid(14px, 20px);
+  --text-body-s: fluid(12px, 16px);
+  --text-body-xs: fluid(10px, 14px);
+  --text-body-2xs: fluid(8px, 12px);
+  --text-eyebrow: fluid(16px, 20px);
+  --text-caption: fluid(10.5px, 13.5px);
+
+  /* Spacing */
+  /* https://utopia.fyi/space/calculator/?c=320,16,1.2,1440,24,1.25,5,2,&s=0.85|0.6|0.4|0.15,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+  --space-3xs: fluid(6px, 10px);
+  --space-2xs: fluid(10px, 15px);
+  --space-xs: fluid(14px, 20px);
+  --space-s: fluid(16px, 24px);
+  --space-m: fluid(24px, 36px);
+  --space-l: fluid(32px, 48px);
+  --space-xl: fluid(48px, 72px);
+  --space-2xl: fluid(64px, 96px);
+  --space-3xl: fluid(96px, 144px);
+
+  /* Table spacing */
+  --space-table-s: 2px;
+  --space-table-m: 4px;
+  --space-table-l: 6px;
+  --space-table-xl: 16px;
+  --space-table-2xl: 20px;
+
+  /* Measures */
+  --input-height: fluid(44px, 72px);
+
+  /* Grid */
+  --grid-gutter: var(--space-xs);
+  --grid-margin: var(--space-l);
+  --grid-columns: 10;
+
+  /* Border Radii */
+  --border-radius-s: 6px;
+  --border-radius-m: 8px;
+
+  /* Z Indices */
+  --z-index-questions: 100;
+  --z-index-modal-overlay: 101;
+  --z-index-modal-dialog: 201;
+
+  /* Transitions */
+  --fast-transition: 100ms ease-in-out;
+  --default-transition: 200ms ease-in-out;
+  --slow-transition: 200ms ease-in-out;
+}
