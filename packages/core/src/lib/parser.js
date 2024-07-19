@@ -68,16 +68,6 @@ export const u = new Proxy({}, {
 });`;
 };
 
-const createAllClassNames = (utilities) => {
-  return utilities
-    .map(({ name, utilities }) => {
-      return Object.keys(utilities).map((classNameKey) => {
-        return camelCaseFromArray([classNameKey, name]);
-      });
-    })
-    .flat();
-};
-
 const generateCSS = (cssMap, _classNames = [], options) => {
   const classNames = _classNames.length === 0 ? Object.keys(cssMap) : uniqueArray(_classNames);
 
@@ -99,7 +89,7 @@ const generateCSS = (cssMap, _classNames = [], options) => {
   return `/* ${new Date().toISOString()} */\n${options.banner}\n\n${css}`;
 };
 
-const generateCSSMap = (utilities) => {
+const generateCSSMap = (utilities, staticUtilities) => {
   const res = utilities.reduce((acc, { name, value, utilities }) => {
     for (const [classNameKey, generator] of Object.entries(utilities)) {
       const className = camelCaseFromArray([classNameKey, name]);
@@ -132,7 +122,20 @@ const generateCSSMap = (utilities) => {
     return acc;
   }, {});
 
-  return res;
+  return Object.keys(staticUtilities).reduce((acc, key) => {
+    const { properties, explainer } = staticUtilities[key];
+    const className = camelCaseFromArray([key]);
+    acc = {
+      ...acc,
+      [className]: (className) => ({
+        selector: `.${className} `,
+        properties: properties.map((p) => p),
+        explainer,
+      })
+    };
+
+    return acc;
+  }, res);
 };
 
 const ensureBuffer = (input) => {
@@ -183,10 +186,10 @@ export const parseTokensToUtilities = ({
   const options = Object.assign({}, defaultOptions, _options);
   const utilities = getUtilitiesFromTokens(code, options);
 
-  const cssMap = generateCSSMap(utilities, options);
+  const cssMap = generateCSSMap(utilities, options.staticUtilities);
 
   return {
-    classNames: createAllClassNames(utilities, options),
+    classNames: Object.keys(cssMap),
     generateClassNameMap(hash = false) {
       return createClassNameMap(cssMap, { ...options, hash });
     },

@@ -2,8 +2,6 @@
 
 CLI and Vite Plugin to auto-generate atomic utility CSS from your CSS design tokens (custom properties).
 
-Only building the utility classes you're actually using 🎉🎉🎉
-
 ```css
 /* Turns this... */
 :root {
@@ -23,3 +21,10 @@ Only building the utility classes you're actually using 🎉🎉🎉
   background-color: var(--color-blue);
 }
 ```
+
+## Features
+
+- **css driven** no need to maintain your theme in a config file, you're css custom properties are the source of truth
+- **on-demand** in build only the CSS classes you’re actually using a generated
+- **typesafe** optionally build a classname map to get autocomplete on the utility classes in your editor
+- **extensible** create your own atomic css classes by creating rules on how to create them from your custom properties

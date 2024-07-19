@@ -52,6 +52,16 @@ export const defaultOptions = {
       },
     },
   },
+  staticUtilities: {
+    flex: {
+      properties: [['display', 'flex']],
+      explainer: 'The flex utility sets display: flex;',
+    },
+    grid: {
+      properties: [['display', 'grid']],
+      explainer: 'The grid utility sets display: grid;',
+    }
+  },
 };
 
 const mergeWithDefaultConfig = (config = {}) =>

@@ -375,6 +375,8 @@
 @property {string} plTable2xl Sets padding left
 @property {string} gapTable2xl Sets gap between elements in flex and grid containers
 @property {string} stackTable2xl A stack puts space between elements in a stack.
+@property {string} flex The flex utility sets display: flex;
+@property {string} grid The grid utility sets display: grid;
  */
 
 /**

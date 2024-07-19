@@ -11,7 +11,6 @@ export const extractClassNamesFromString = (code, classNames) => {
   for (const token of tokens) {
     const tok = (token.startsWith('u.') ? token.slice(2) : token);
     if (classNames.includes(tok)) {
-      console.log(tok, token);
       res.push(tok);
     }
   }
