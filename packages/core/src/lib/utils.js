@@ -9,7 +9,7 @@ export const kebabCaseFromArray = (array) => {
       return i.toString().toLowerCase();
     })
     .filter(Boolean)
-    .join('-');
+    .join('_');
 };
 
 export const camelCaseFromArray = (array) => {
@@ -30,3 +30,10 @@ export const omit = (_exclude, obj) => {
     Object.entries(obj).filter((e) => !exclude.has(e[0]))
   );
 };
+
+export const hashClassName = (input) =>
+  `u${input
+    .split('')
+    .reduce((hash, char) => (hash << 5) - hash + char.charCodeAt(0), 0)
+    .toString(36)
+    .slice(0, 8)}`;

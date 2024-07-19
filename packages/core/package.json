@@ -8,7 +8,8 @@
     "lint": "eslint ./src"
   },
   "dependencies": {
-    "lightningcss": "^1.25.1"
+    "lightningcss": "^1.25.1",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "eslint": "^8.57.0"

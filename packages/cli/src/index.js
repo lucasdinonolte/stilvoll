@@ -50,32 +50,36 @@ export default async function main(args) {
       options: config,
     });
 
-    if (config.output.css) {
+    context.logger.debug(
+      `Generated ${transformed.classNames.length} css classes`
+    );
+
+    context.logger.debug(transformed.classNames.join(', '));
+
+    if (config.output) {
       if (!flags.dryRun) {
         await writeFile(
-          config.output.css,
+          config.output,
           process.cwd(),
           transformed.getCSS(),
           context
         );
       } else {
-        context.logger.info(
-          `Dry Run, nothing was written to ${config.output.css}`
-        );
+        context.logger.info(`Dry Run, nothing was written to ${config.output}`);
       }
     }
 
-    if (config.output.classNameMap) {
+    if (config.classNameMap) {
       if (!flags.dryRun) {
         await writeFile(
-          config.output.classNameMap,
+          config.classNameMap,
           process.cwd(),
           transformed.getClassNameMap(),
           context
         );
       } else {
         context.logger.info(
-          `Dry Run, nothing was written to ${config.output.css}`
+          `Dry Run, nothing was written to ${config.classNameMap}`
         );
       }
     }

@@ -1,6 +1,6 @@
 import { transform } from 'lightningcss';
 
-import { omit } from './utils.js';
+import { hashClassName, kebabCaseFromArray, omit } from './utils.js';
 import { defaultOptions } from './options.js';
 
 /**
@@ -46,14 +46,8 @@ const isCustomProperty =
 const createClassNameMap = (utilities, options) => {
   const map = utilities.reduce((acc, { name, utilities }) => {
     Object.keys(utilities).forEach((classNameKey) => {
-      acc[classNameKey] = {
-        ...(acc[classNameKey] ?? {}),
-        [name]: options.classNameGenerator([
-          options.classNamePrefix ?? '',
-          classNameKey,
-          name,
-        ]),
-      };
+      const className = kebabCaseFromArray([classNameKey, name]);
+      acc[className] = hashClassName(className);
     });
 
     return acc;
@@ -66,15 +60,23 @@ const createClassNameMap = (utilities, options) => {
   )};`;
 };
 
+const createAllClassNames = (utilities) => {
+  return utilities
+    .map(({ name, utilities }) => {
+      return Object.keys(utilities).map((classNameKey) => {
+        return kebabCaseFromArray([classNameKey, name]);
+      });
+    })
+    .flat();
+};
+
 const generateCSSFromUtilities = (utilities, options) => {
   const css = utilities
     .map(({ name, value, utilities }) => {
       return Object.entries(utilities).map(([classNameKey, properties]) => {
-        const className = options.classNameGenerator([
-          options.classNamePrefix ?? '',
-          classNameKey,
-          name,
-        ]);
+        const className = hashClassName(
+          kebabCaseFromArray([classNameKey, name])
+        );
 
         if (Array.isArray(properties)) {
           return {
@@ -156,6 +158,7 @@ export const parseTokensToUtilities = ({
   const utilities = getUtilitiesFromTokens(code, options);
 
   return {
+    classNames: createAllClassNames(utilities, options),
     getClassNameMap() {
       return createClassNameMap(utilities, options);
     },

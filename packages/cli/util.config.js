@@ -1,9 +1,8 @@
-const config = {
+export default {
   input: ['./fixtures/input.css'],
-  output: {
-    css: './fixtures/dist/utils.css',
-    classNameMap: './fixtures/dist/utils.js',
-  },
+  output: './fixtures/dist/utils.css',
+  classNameMap: './fixtures/dist/utils.js',
+  classNamePrefix: 'u',
+  useImportant: true,
+  banner: '/* HELLO HELLO */',
 };
-
-export default config;
