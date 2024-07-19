@@ -1,4 +1,5 @@
-import { parseTokensToUtilities } from '@lucasdinonolte/token-utility-css-core';
+import { glob } from 'glob';
+import { parseTokensToUtilities, extractClassNamesFromString } from '@lucasdinonolte/token-utility-css-core';
 
 import { parseCLIFlags } from './lib/flags.js';
 import { loadConfig } from './lib/config.js';
@@ -36,6 +37,8 @@ export default async function main(args) {
   const config = await loadConfig('util.config.js', process.cwd(), context);
   if (config === null) process.exit(1);
 
+  let markupFiles = [];
+
   const performWork = async () => {
     // Step 2: Load the input file(s) into
     // a buffer
@@ -51,17 +54,36 @@ export default async function main(args) {
     });
 
     context.logger.debug(
-      `Generated ${transformed.classNames.length} css classes`
+      `Parsed tokens to ${transformed.classNames.length} potential css classes`
     );
-
     context.logger.debug(transformed.classNames.join(', '));
+
+    const classesToGenerate = [];
+
+    if (config.entries.length > 0 && !flags.watch) {
+      markupFiles = await glob(config.entries);
+      context.logger.debug('Parsing Markup');
+
+      const markup = await loadFiles(markupFiles, process.cwd(), context);
+      const classNames = extractClassNamesFromString(
+        markup.toString(),
+        transformed.classNames
+      );
+      classesToGenerate.push(...classNames);
+    }
+
+    if (classesToGenerate.length > 0) {
+      context.logger.debug(`Found ${classesToGenerate.length} class(es) to generate`);
+    } else {
+      context.logger.debug('Generating all utility classes');
+    }
 
     if (config.output) {
       if (!flags.dryRun) {
         await writeFile(
           config.output,
           process.cwd(),
-          transformed.getCSS(),
+          transformed.generateCSS(classesToGenerate),
           context
         );
       } else {
@@ -74,7 +96,7 @@ export default async function main(args) {
         await writeFile(
           config.classNameMap,
           process.cwd(),
-          transformed.getClassNameMap(),
+          transformed.generateClassNameMap(),
           context
         );
       } else {
@@ -98,6 +120,7 @@ export default async function main(args) {
   // to the input files and run the process
   // again if they change
   if (flags.watch) {
-    watchFiles(config.input, process.cwd(), performWork, context);
+    watchFiles(config.input,
+      process.cwd(), performWork, context);
   }
 }

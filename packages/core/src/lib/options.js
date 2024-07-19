@@ -4,6 +4,7 @@ const configSchema = z
   .object({
     input: z.array(z.string()),
     output: z.string(),
+    entries: z.array(z.string()),
     classNameMap: z.string().nullable(),
     useImportant: z.boolean(),
     banner: z.string().nullable(),
@@ -12,6 +13,7 @@ const configSchema = z
 
 export const defaultOptions = {
   input: [],
+  entries: [],
   output: null,
   classNameMap: null,
   useImportant: false,

@@ -1,31 +1,99 @@
 import path from 'node:path';
 
-import { parseTokensToUtilities } from '@lucasdinonolte/token-utility-css-core';
+import { parseTokensToUtilities, extractClassNamesFromString } from '@lucasdinonolte/token-utility-css-core';
 import { loadFiles, writeFile } from './lib/files.js';
 
 export default function tokenUtilityCSSPlugin({
   files: inputFiles = [],
-  output = './utils.css',
+  classNameMap = './src/utility.js',
   ...rest
 }) {
+  const virtualModuleId = 'virtual:util.css'
+  const resolvedVirtualModuleId = '\0' + virtualModuleId
+
   const files = inputFiles.map((f) => path.join(process.cwd(), f));
+
+  let transformed = null;
+  const classNames = [];
 
   const performWork = async () => {
     const code = await loadFiles(files);
-    const transformed = parseTokensToUtilities({
+    transformed = parseTokensToUtilities({
       code,
       options: rest ?? {},
     });
-    await writeFile(path.join(process.cwd(), output), transformed.getCSS());
+
+    await writeFile(classNameMap, transformed.generateClassNameMap());
   };
 
-  return {
-    name: 'token-utility-css',
+  return [{
+    // Dev plugin
+    apply: 'serve',
+    name: 'token-utility-css:parser-dev',
     buildStart: performWork,
     handleHotUpdate({ file }) {
       if (files.includes(file)) {
         performWork();
       }
     },
-  };
+  }, {
+    apply: 'serve',
+    name: 'token-utility-css:virtual-dev',
+    resolveId(id) {
+      if (id === virtualModuleId) {
+        return resolvedVirtualModuleId
+      }
+    },
+    load(id) {
+      if (id === resolvedVirtualModuleId) {
+        return {
+          code: transformed.generateCSS(),
+        }
+      }
+    },
+  },
+
+  // Build plugin
+  {
+    apply: 'build',
+    name: 'token-utility-css:parser-build',
+    enforce: 'pre',
+    buildStart: performWork,
+    transform(code) {
+      const found = extractClassNamesFromString(code, transformed.classNames);
+
+      if (found.length > 0) {
+        classNames.push(...found);
+      }
+    },
+  }, {
+    apply: 'build',
+    enforce: 'post',
+    name: 'token-utility-css:virtual-build',
+    resolveId(id) {
+      if (id === virtualModuleId) {
+        return resolvedVirtualModuleId
+      }
+    },
+    load(id) {
+      if (id === resolvedVirtualModuleId) {
+        return {
+          code: '.u____{display:none}',
+        }
+      }
+    },
+    generateBundle(_, bundle) {
+      const files = Object.keys(bundle)
+        .filter(i => i.endsWith('.css'))
+
+      for (const file of files) {
+        const chunk = bundle[file]
+        if (chunk.type === 'asset' && typeof chunk.source === 'string') {
+          const css = chunk.source.replace('.u____{display:none}', transformed.generateCSS(classNames, false, true).trim().replaceAll('\n', ''));
+          chunk.source = css;
+        }
+      }
+    },
+  },
+  ]
 }

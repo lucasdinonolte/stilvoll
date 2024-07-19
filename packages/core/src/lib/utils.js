@@ -4,6 +4,7 @@ export const capitalizeWord = (word) => {
 
 export const kebabCaseFromArray = (array) => {
   return array
+    .map(w => w.split('-')).flat()
     .map((i) => {
       if (i.toString().length === 0) return null;
       return i.toString().toLowerCase();
@@ -13,7 +14,7 @@ export const kebabCaseFromArray = (array) => {
 };
 
 export const camelCaseFromArray = (array) => {
-  return array
+  return array.map(w => w.split('-')).flat()
     .map((i, index) => {
       if (index === 0) {
         return i.toString().toLowerCase();
@@ -29,6 +30,10 @@ export const omit = (_exclude, obj) => {
   return Object.fromEntries(
     Object.entries(obj).filter((e) => !exclude.has(e[0]))
   );
+};
+
+export const uniqueArray = (array) => {
+  return [...new Set(array)];
 };
 
 export const hashClassName = (input) =>
