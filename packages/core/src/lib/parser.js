@@ -43,22 +43,19 @@ const isCustomProperty =
       return res;
     };
 
-const createClassNameMap = (utilities, options) => {
-  const map = utilities.reduce((acc, { name, utilities }) => {
-    Object.keys(utilities).forEach((classNameKey) => {
-      const className = camelCaseFromArray([classNameKey, name]);
-      acc[className] = options.hash ? hashClassName(className) : className;
-    });
+const createClassNameMap = (cssMap, options) => {
+  const map = Object.keys(cssMap).map(className => {
+    const { explainer } = cssMap[className](className);
 
-    return acc;
-  }, {});
+    return `@property {string} ${className} ${explainer ? explainer : ''}`;
+  });
 
   return `${options.banner}
 /* UTILS_SKIP */
 
 /**
  * @typedef {Object} UtilityMap
-${Object.keys(map).map((key) => ` * @property {string} ${key}`).join('\n')}
+${map.join('\n')}
  */
 
 /**
@@ -104,24 +101,31 @@ const generateCSS = (cssMap, _classNames = [], options) => {
 
 const generateCSSMap = (utilities) => {
   const res = utilities.reduce((acc, { name, value, utilities }) => {
-    for (const [classNameKey, properties] of Object.entries(utilities)) {
+    for (const [classNameKey, generator] of Object.entries(utilities)) {
       const className = camelCaseFromArray([classNameKey, name]);
 
-      if (Array.isArray(properties)) {
+      if (typeof generator === 'function') {
+        acc = {
+          ...acc,
+          [className]: (className) => generator({ className, value }),
+        };
+      } else if (Array.isArray(generator)) {
         acc = {
           ...acc,
           [className]: (className) => ({
             selector: `.${className} `,
-            properties: properties.map((p) => [p, value]),
-          })
+            properties: generator.map((p) => [p, value]),
+          }),
         }
-      }
-
-      if (typeof properties === 'function') {
+      } else if (typeof generator === 'object') {
         acc = {
           ...acc,
-          [className]: (className) => properties({ className, value }),
-        };
+          [className]: (className) => ({
+            selector: `.${className} `,
+            properties: generator.properties.map((p) => [p, value]),
+            explainer: generator.explainer,
+          })
+        }
       }
     }
 
@@ -178,12 +182,13 @@ export const parseTokensToUtilities = ({
 } = {}) => {
   const options = Object.assign({}, defaultOptions, _options);
   const utilities = getUtilitiesFromTokens(code, options);
+
   const cssMap = generateCSSMap(utilities, options);
 
   return {
     classNames: createAllClassNames(utilities, options),
     generateClassNameMap(hash = false) {
-      return createClassNameMap(utilities, { ...options, hash });
+      return createClassNameMap(cssMap, { ...options, hash });
     },
     generateCSS(classNames = [], hash = false, skipComment = false) {
       return generateCSS(cssMap, classNames, { ...options, hash, skipComment });

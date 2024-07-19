@@ -9,14 +9,6 @@ export default defineConfig({
     tokenUtilityCSS({
       files: ['./src/index.css'],
       output: './src/styles/utils.css',
-      utilities: {
-        color: {
-          customPropertyRegex: /^--color-/,
-          utilities: {
-            c: ['color'],
-          },
-        },
-      },
     }),
   ],
 });

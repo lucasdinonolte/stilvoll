@@ -3,80 +3,378 @@
 
 /**
  * @typedef {Object} UtilityMap
- * @property {string} cTrueBlackRgb
- * @property {string} cTrueBlack
- * @property {string} cBlackRgb
- * @property {string} cBlack
- * @property {string} cGreyDarkRgb
- * @property {string} cGreyDark
- * @property {string} cGreyMidRgb
- * @property {string} cGreyMid
- * @property {string} cGreyRgb
- * @property {string} cGrey
- * @property {string} cGreenRgb
- * @property {string} cGreen
- * @property {string} cGreenLimeRgb
- * @property {string} cGreenLime
- * @property {string} cGreenLimeLightRgb
- * @property {string} cGreenLimeLight
- * @property {string} cGreenLightRgb
- * @property {string} cGreenLight
- * @property {string} cGreenLightestRgb
- * @property {string} cGreenLightest
- * @property {string} cGreyGreenLightRgb
- * @property {string} cGreyGreenLight
- * @property {string} cGreyLightRgb
- * @property {string} cGreyLight
- * @property {string} cGreyLightNeutralRgb
- * @property {string} cGreyLightNeutral
- * @property {string} cWhiteRgb
- * @property {string} cWhite
- * @property {string} cSkillMatchGreenDarkRgb
- * @property {string} cSkillMatchGreenDark
- * @property {string} cSkillMatchGreenRgb
- * @property {string} cSkillMatchGreen
- * @property {string} cSkillMatchGreenLightRgb
- * @property {string} cSkillMatchGreenLight
- * @property {string} cYellowRgb
- * @property {string} cYellow
- * @property {string} cPurpleRgb
- * @property {string} cPurple
- * @property {string} cRedRgb
- * @property {string} cRed
- * @property {string} cGreenAlpha40
- * @property {string} cGreenAlpha5
- * @property {string} cBlackAlpha10
- * @property {string} cGrayGmacLight1Rgb
- * @property {string} cGrayGmacLight2Rgb
- * @property {string} cGrayGmacLight3Rgb
- * @property {string} cGrayGmacLight1
- * @property {string} cGrayGmacLight2
- * @property {string} cGrayGmacLight3
- * @property {string} cGmacBlackRgb
- * @property {string} cGmacBlack
- * @property {string} cGmacBlackDarkRgb
- * @property {string} cGmacBlackDark
- * @property {string} cGmacWhiteRgb
- * @property {string} cGmacWhite
- * @property {string} cGreenGmacRgb
- * @property {string} cGreenGmac
- * @property {string} cCyanGmacRgb
- * @property {string} cCyanGmac
- * @property {string} cRedGmacRgb
- * @property {string} cRedGmac
- * @property {string} cLilacGmacRgb
- * @property {string} cLilacGmac
- * @property {string} cSteelBlueGmacRgb
- * @property {string} cSteelBlueGmac
- * @property {string} cPeriwinkleGmacRgb
- * @property {string} cPeriwinkleGmac
- * @property {string} cGrayGmacRgb
- * @property {string} cGrayGmac
- * @property {string} cGrayGmacAlpha90
- * @property {string} cGrayGmacAlpha20
- * @property {string} cGrayGmacAlpha15
- * @property {string} cBorderDefault
- * @property {string} cInputBorder
+@property {string} colorTrueBlackRgb Sets text color
+@property {string} backgroundTrueBlackRgb Sets background color
+@property {string} colorTrueBlack Sets text color
+@property {string} backgroundTrueBlack Sets background color
+@property {string} colorBlackRgb Sets text color
+@property {string} backgroundBlackRgb Sets background color
+@property {string} colorBlack Sets text color
+@property {string} backgroundBlack Sets background color
+@property {string} colorGreyDarkRgb Sets text color
+@property {string} backgroundGreyDarkRgb Sets background color
+@property {string} colorGreyDark Sets text color
+@property {string} backgroundGreyDark Sets background color
+@property {string} colorGreyMidRgb Sets text color
+@property {string} backgroundGreyMidRgb Sets background color
+@property {string} colorGreyMid Sets text color
+@property {string} backgroundGreyMid Sets background color
+@property {string} colorGreyRgb Sets text color
+@property {string} backgroundGreyRgb Sets background color
+@property {string} colorGrey Sets text color
+@property {string} backgroundGrey Sets background color
+@property {string} colorGreenRgb Sets text color
+@property {string} backgroundGreenRgb Sets background color
+@property {string} colorGreen Sets text color
+@property {string} backgroundGreen Sets background color
+@property {string} colorGreenLimeRgb Sets text color
+@property {string} backgroundGreenLimeRgb Sets background color
+@property {string} colorGreenLime Sets text color
+@property {string} backgroundGreenLime Sets background color
+@property {string} colorGreenLimeLightRgb Sets text color
+@property {string} backgroundGreenLimeLightRgb Sets background color
+@property {string} colorGreenLimeLight Sets text color
+@property {string} backgroundGreenLimeLight Sets background color
+@property {string} colorGreenLightRgb Sets text color
+@property {string} backgroundGreenLightRgb Sets background color
+@property {string} colorGreenLight Sets text color
+@property {string} backgroundGreenLight Sets background color
+@property {string} colorGreenLightestRgb Sets text color
+@property {string} backgroundGreenLightestRgb Sets background color
+@property {string} colorGreenLightest Sets text color
+@property {string} backgroundGreenLightest Sets background color
+@property {string} colorGreyGreenLightRgb Sets text color
+@property {string} backgroundGreyGreenLightRgb Sets background color
+@property {string} colorGreyGreenLight Sets text color
+@property {string} backgroundGreyGreenLight Sets background color
+@property {string} colorGreyLightRgb Sets text color
+@property {string} backgroundGreyLightRgb Sets background color
+@property {string} colorGreyLight Sets text color
+@property {string} backgroundGreyLight Sets background color
+@property {string} colorGreyLightNeutralRgb Sets text color
+@property {string} backgroundGreyLightNeutralRgb Sets background color
+@property {string} colorGreyLightNeutral Sets text color
+@property {string} backgroundGreyLightNeutral Sets background color
+@property {string} colorWhiteRgb Sets text color
+@property {string} backgroundWhiteRgb Sets background color
+@property {string} colorWhite Sets text color
+@property {string} backgroundWhite Sets background color
+@property {string} colorSkillMatchGreenDarkRgb Sets text color
+@property {string} backgroundSkillMatchGreenDarkRgb Sets background color
+@property {string} colorSkillMatchGreenDark Sets text color
+@property {string} backgroundSkillMatchGreenDark Sets background color
+@property {string} colorSkillMatchGreenRgb Sets text color
+@property {string} backgroundSkillMatchGreenRgb Sets background color
+@property {string} colorSkillMatchGreen Sets text color
+@property {string} backgroundSkillMatchGreen Sets background color
+@property {string} colorSkillMatchGreenLightRgb Sets text color
+@property {string} backgroundSkillMatchGreenLightRgb Sets background color
+@property {string} colorSkillMatchGreenLight Sets text color
+@property {string} backgroundSkillMatchGreenLight Sets background color
+@property {string} colorYellowRgb Sets text color
+@property {string} backgroundYellowRgb Sets background color
+@property {string} colorYellow Sets text color
+@property {string} backgroundYellow Sets background color
+@property {string} colorPurpleRgb Sets text color
+@property {string} backgroundPurpleRgb Sets background color
+@property {string} colorPurple Sets text color
+@property {string} backgroundPurple Sets background color
+@property {string} colorRedRgb Sets text color
+@property {string} backgroundRedRgb Sets background color
+@property {string} colorRed Sets text color
+@property {string} backgroundRed Sets background color
+@property {string} colorGreenAlpha40 Sets text color
+@property {string} backgroundGreenAlpha40 Sets background color
+@property {string} colorGreenAlpha5 Sets text color
+@property {string} backgroundGreenAlpha5 Sets background color
+@property {string} colorBlackAlpha10 Sets text color
+@property {string} backgroundBlackAlpha10 Sets background color
+@property {string} colorGrayGmacLight1Rgb Sets text color
+@property {string} backgroundGrayGmacLight1Rgb Sets background color
+@property {string} colorGrayGmacLight2Rgb Sets text color
+@property {string} backgroundGrayGmacLight2Rgb Sets background color
+@property {string} colorGrayGmacLight3Rgb Sets text color
+@property {string} backgroundGrayGmacLight3Rgb Sets background color
+@property {string} colorGrayGmacLight1 Sets text color
+@property {string} backgroundGrayGmacLight1 Sets background color
+@property {string} colorGrayGmacLight2 Sets text color
+@property {string} backgroundGrayGmacLight2 Sets background color
+@property {string} colorGrayGmacLight3 Sets text color
+@property {string} backgroundGrayGmacLight3 Sets background color
+@property {string} colorGmacBlackRgb Sets text color
+@property {string} backgroundGmacBlackRgb Sets background color
+@property {string} colorGmacBlack Sets text color
+@property {string} backgroundGmacBlack Sets background color
+@property {string} colorGmacBlackDarkRgb Sets text color
+@property {string} backgroundGmacBlackDarkRgb Sets background color
+@property {string} colorGmacBlackDark Sets text color
+@property {string} backgroundGmacBlackDark Sets background color
+@property {string} colorGmacWhiteRgb Sets text color
+@property {string} backgroundGmacWhiteRgb Sets background color
+@property {string} colorGmacWhite Sets text color
+@property {string} backgroundGmacWhite Sets background color
+@property {string} colorGreenGmacRgb Sets text color
+@property {string} backgroundGreenGmacRgb Sets background color
+@property {string} colorGreenGmac Sets text color
+@property {string} backgroundGreenGmac Sets background color
+@property {string} colorCyanGmacRgb Sets text color
+@property {string} backgroundCyanGmacRgb Sets background color
+@property {string} colorCyanGmac Sets text color
+@property {string} backgroundCyanGmac Sets background color
+@property {string} colorRedGmacRgb Sets text color
+@property {string} backgroundRedGmacRgb Sets background color
+@property {string} colorRedGmac Sets text color
+@property {string} backgroundRedGmac Sets background color
+@property {string} colorLilacGmacRgb Sets text color
+@property {string} backgroundLilacGmacRgb Sets background color
+@property {string} colorLilacGmac Sets text color
+@property {string} backgroundLilacGmac Sets background color
+@property {string} colorSteelBlueGmacRgb Sets text color
+@property {string} backgroundSteelBlueGmacRgb Sets background color
+@property {string} colorSteelBlueGmac Sets text color
+@property {string} backgroundSteelBlueGmac Sets background color
+@property {string} colorPeriwinkleGmacRgb Sets text color
+@property {string} backgroundPeriwinkleGmacRgb Sets background color
+@property {string} colorPeriwinkleGmac Sets text color
+@property {string} backgroundPeriwinkleGmac Sets background color
+@property {string} colorGrayGmacRgb Sets text color
+@property {string} backgroundGrayGmacRgb Sets background color
+@property {string} colorGrayGmac Sets text color
+@property {string} backgroundGrayGmac Sets background color
+@property {string} colorGrayGmacAlpha90 Sets text color
+@property {string} backgroundGrayGmacAlpha90 Sets background color
+@property {string} colorGrayGmacAlpha20 Sets text color
+@property {string} backgroundGrayGmacAlpha20 Sets background color
+@property {string} colorGrayGmacAlpha15 Sets text color
+@property {string} backgroundGrayGmacAlpha15 Sets background color
+@property {string} colorBorderDefault Sets text color
+@property {string} backgroundBorderDefault Sets background color
+@property {string} colorInputBorder Sets text color
+@property {string} backgroundInputBorder Sets background color
+@property {string} m3xs Sets margin on all directions
+@property {string} p3xs Sets padding on all directions
+@property {string} mx3xs Sets margin left and right
+@property {string} my3xs Sets margin top and bottom
+@property {string} px3xs Sets padding left and right
+@property {string} py3xs Sets padding top and bottom
+@property {string} mt3xs Sets margin top
+@property {string} mr3xs Sets margin right
+@property {string} mb3xs set margin bottom
+@property {string} ml3xs Sets margin left
+@property {string} pt3xs Sets padding top
+@property {string} pr3xs Sets padding right
+@property {string} pb3xs Sets padding bottom
+@property {string} pl3xs Sets padding left
+@property {string} gap3xs Sets gap between elements in flex and grid containers
+@property {string} stack3xs A stack puts space between elements in a stack.
+@property {string} m2xs Sets margin on all directions
+@property {string} p2xs Sets padding on all directions
+@property {string} mx2xs Sets margin left and right
+@property {string} my2xs Sets margin top and bottom
+@property {string} px2xs Sets padding left and right
+@property {string} py2xs Sets padding top and bottom
+@property {string} mt2xs Sets margin top
+@property {string} mr2xs Sets margin right
+@property {string} mb2xs set margin bottom
+@property {string} ml2xs Sets margin left
+@property {string} pt2xs Sets padding top
+@property {string} pr2xs Sets padding right
+@property {string} pb2xs Sets padding bottom
+@property {string} pl2xs Sets padding left
+@property {string} gap2xs Sets gap between elements in flex and grid containers
+@property {string} stack2xs A stack puts space between elements in a stack.
+@property {string} mXs Sets margin on all directions
+@property {string} pXs Sets padding on all directions
+@property {string} mxXs Sets margin left and right
+@property {string} myXs Sets margin top and bottom
+@property {string} pxXs Sets padding left and right
+@property {string} pyXs Sets padding top and bottom
+@property {string} mtXs Sets margin top
+@property {string} mrXs Sets margin right
+@property {string} mbXs set margin bottom
+@property {string} mlXs Sets margin left
+@property {string} ptXs Sets padding top
+@property {string} prXs Sets padding right
+@property {string} pbXs Sets padding bottom
+@property {string} plXs Sets padding left
+@property {string} gapXs Sets gap between elements in flex and grid containers
+@property {string} stackXs A stack puts space between elements in a stack.
+@property {string} mS Sets margin on all directions
+@property {string} pS Sets padding on all directions
+@property {string} mxS Sets margin left and right
+@property {string} myS Sets margin top and bottom
+@property {string} pxS Sets padding left and right
+@property {string} pyS Sets padding top and bottom
+@property {string} mtS Sets margin top
+@property {string} mrS Sets margin right
+@property {string} mbS set margin bottom
+@property {string} mlS Sets margin left
+@property {string} ptS Sets padding top
+@property {string} prS Sets padding right
+@property {string} pbS Sets padding bottom
+@property {string} plS Sets padding left
+@property {string} gapS Sets gap between elements in flex and grid containers
+@property {string} stackS A stack puts space between elements in a stack.
+@property {string} mM Sets margin on all directions
+@property {string} pM Sets padding on all directions
+@property {string} mxM Sets margin left and right
+@property {string} myM Sets margin top and bottom
+@property {string} pxM Sets padding left and right
+@property {string} pyM Sets padding top and bottom
+@property {string} mtM Sets margin top
+@property {string} mrM Sets margin right
+@property {string} mbM set margin bottom
+@property {string} mlM Sets margin left
+@property {string} ptM Sets padding top
+@property {string} prM Sets padding right
+@property {string} pbM Sets padding bottom
+@property {string} plM Sets padding left
+@property {string} gapM Sets gap between elements in flex and grid containers
+@property {string} stackM A stack puts space between elements in a stack.
+@property {string} mL Sets margin on all directions
+@property {string} pL Sets padding on all directions
+@property {string} mxL Sets margin left and right
+@property {string} myL Sets margin top and bottom
+@property {string} pxL Sets padding left and right
+@property {string} pyL Sets padding top and bottom
+@property {string} mtL Sets margin top
+@property {string} mrL Sets margin right
+@property {string} mbL set margin bottom
+@property {string} mlL Sets margin left
+@property {string} ptL Sets padding top
+@property {string} prL Sets padding right
+@property {string} pbL Sets padding bottom
+@property {string} plL Sets padding left
+@property {string} gapL Sets gap between elements in flex and grid containers
+@property {string} stackL A stack puts space between elements in a stack.
+@property {string} mXl Sets margin on all directions
+@property {string} pXl Sets padding on all directions
+@property {string} mxXl Sets margin left and right
+@property {string} myXl Sets margin top and bottom
+@property {string} pxXl Sets padding left and right
+@property {string} pyXl Sets padding top and bottom
+@property {string} mtXl Sets margin top
+@property {string} mrXl Sets margin right
+@property {string} mbXl set margin bottom
+@property {string} mlXl Sets margin left
+@property {string} ptXl Sets padding top
+@property {string} prXl Sets padding right
+@property {string} pbXl Sets padding bottom
+@property {string} plXl Sets padding left
+@property {string} gapXl Sets gap between elements in flex and grid containers
+@property {string} stackXl A stack puts space between elements in a stack.
+@property {string} m2xl Sets margin on all directions
+@property {string} p2xl Sets padding on all directions
+@property {string} mx2xl Sets margin left and right
+@property {string} my2xl Sets margin top and bottom
+@property {string} px2xl Sets padding left and right
+@property {string} py2xl Sets padding top and bottom
+@property {string} mt2xl Sets margin top
+@property {string} mr2xl Sets margin right
+@property {string} mb2xl set margin bottom
+@property {string} ml2xl Sets margin left
+@property {string} pt2xl Sets padding top
+@property {string} pr2xl Sets padding right
+@property {string} pb2xl Sets padding bottom
+@property {string} pl2xl Sets padding left
+@property {string} gap2xl Sets gap between elements in flex and grid containers
+@property {string} stack2xl A stack puts space between elements in a stack.
+@property {string} m3xl Sets margin on all directions
+@property {string} p3xl Sets padding on all directions
+@property {string} mx3xl Sets margin left and right
+@property {string} my3xl Sets margin top and bottom
+@property {string} px3xl Sets padding left and right
+@property {string} py3xl Sets padding top and bottom
+@property {string} mt3xl Sets margin top
+@property {string} mr3xl Sets margin right
+@property {string} mb3xl set margin bottom
+@property {string} ml3xl Sets margin left
+@property {string} pt3xl Sets padding top
+@property {string} pr3xl Sets padding right
+@property {string} pb3xl Sets padding bottom
+@property {string} pl3xl Sets padding left
+@property {string} gap3xl Sets gap between elements in flex and grid containers
+@property {string} stack3xl A stack puts space between elements in a stack.
+@property {string} mTableS Sets margin on all directions
+@property {string} pTableS Sets padding on all directions
+@property {string} mxTableS Sets margin left and right
+@property {string} myTableS Sets margin top and bottom
+@property {string} pxTableS Sets padding left and right
+@property {string} pyTableS Sets padding top and bottom
+@property {string} mtTableS Sets margin top
+@property {string} mrTableS Sets margin right
+@property {string} mbTableS set margin bottom
+@property {string} mlTableS Sets margin left
+@property {string} ptTableS Sets padding top
+@property {string} prTableS Sets padding right
+@property {string} pbTableS Sets padding bottom
+@property {string} plTableS Sets padding left
+@property {string} gapTableS Sets gap between elements in flex and grid containers
+@property {string} stackTableS A stack puts space between elements in a stack.
+@property {string} mTableM Sets margin on all directions
+@property {string} pTableM Sets padding on all directions
+@property {string} mxTableM Sets margin left and right
+@property {string} myTableM Sets margin top and bottom
+@property {string} pxTableM Sets padding left and right
+@property {string} pyTableM Sets padding top and bottom
+@property {string} mtTableM Sets margin top
+@property {string} mrTableM Sets margin right
+@property {string} mbTableM set margin bottom
+@property {string} mlTableM Sets margin left
+@property {string} ptTableM Sets padding top
+@property {string} prTableM Sets padding right
+@property {string} pbTableM Sets padding bottom
+@property {string} plTableM Sets padding left
+@property {string} gapTableM Sets gap between elements in flex and grid containers
+@property {string} stackTableM A stack puts space between elements in a stack.
+@property {string} mTableL Sets margin on all directions
+@property {string} pTableL Sets padding on all directions
+@property {string} mxTableL Sets margin left and right
+@property {string} myTableL Sets margin top and bottom
+@property {string} pxTableL Sets padding left and right
+@property {string} pyTableL Sets padding top and bottom
+@property {string} mtTableL Sets margin top
+@property {string} mrTableL Sets margin right
+@property {string} mbTableL set margin bottom
+@property {string} mlTableL Sets margin left
+@property {string} ptTableL Sets padding top
+@property {string} prTableL Sets padding right
+@property {string} pbTableL Sets padding bottom
+@property {string} plTableL Sets padding left
+@property {string} gapTableL Sets gap between elements in flex and grid containers
+@property {string} stackTableL A stack puts space between elements in a stack.
+@property {string} mTableXl Sets margin on all directions
+@property {string} pTableXl Sets padding on all directions
+@property {string} mxTableXl Sets margin left and right
+@property {string} myTableXl Sets margin top and bottom
+@property {string} pxTableXl Sets padding left and right
+@property {string} pyTableXl Sets padding top and bottom
+@property {string} mtTableXl Sets margin top
+@property {string} mrTableXl Sets margin right
+@property {string} mbTableXl set margin bottom
+@property {string} mlTableXl Sets margin left
+@property {string} ptTableXl Sets padding top
+@property {string} prTableXl Sets padding right
+@property {string} pbTableXl Sets padding bottom
+@property {string} plTableXl Sets padding left
+@property {string} gapTableXl Sets gap between elements in flex and grid containers
+@property {string} stackTableXl A stack puts space between elements in a stack.
+@property {string} mTable2xl Sets margin on all directions
+@property {string} pTable2xl Sets padding on all directions
+@property {string} mxTable2xl Sets margin left and right
+@property {string} myTable2xl Sets margin top and bottom
+@property {string} pxTable2xl Sets padding left and right
+@property {string} pyTable2xl Sets padding top and bottom
+@property {string} mtTable2xl Sets margin top
+@property {string} mrTable2xl Sets margin right
+@property {string} mbTable2xl set margin bottom
+@property {string} mlTable2xl Sets margin left
+@property {string} ptTable2xl Sets padding top
+@property {string} prTable2xl Sets padding right
+@property {string} pbTable2xl Sets padding bottom
+@property {string} plTable2xl Sets padding left
+@property {string} gapTable2xl Sets gap between elements in flex and grid containers
+@property {string} stackTable2xl A stack puts space between elements in a stack.
  */
 
 /**
