@@ -18,20 +18,20 @@ export const camelCaseFromArray = (array) => {
   return array
     .map((w) => w.split('-'))
     .flat()
-      .map((i, index) => {
-        if (index === 0) {
-          return i.toString().toLowerCase();
-        } else {
-          return capitalizeWord(i.toString().toLowerCase());
-        }
-      })
-      .join('');
+    .map((i, index) => {
+      if (index === 0) {
+        return i.toString().toLowerCase();
+      } else {
+        return capitalizeWord(i.toString().toLowerCase());
+      }
+    })
+    .join('');
 };
 
 export const omit = (_exclude, obj) => {
   const exclude = new Set(_exclude);
   return Object.fromEntries(
-    Object.entries(obj).filter((e) => !exclude.has(e[0]))
+    Object.entries(obj).filter((e) => !exclude.has(e[0])),
   );
 };
 

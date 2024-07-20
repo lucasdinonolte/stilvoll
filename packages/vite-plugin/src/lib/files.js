@@ -4,7 +4,7 @@ export const loadFiles = async (files = []) => {
   const buffers = await Promise.all(
     files.map((file) => {
       return fs.readFile(file);
-    })
+    }),
   );
 
   return Buffer.concat(buffers);

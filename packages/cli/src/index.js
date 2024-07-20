@@ -5,6 +5,8 @@ import {
   extractClassNamesFromString,
 } from '@stilvoll/core';
 
+import { CONFIG_FILE_NAME } from './constants.js';
+
 import { parseCLIFlags } from './lib/flags.js';
 import { loadConfig } from './lib/config.js';
 import { loadPkg, loadFiles, watchFiles, writeFile } from './lib/files.js';
@@ -19,7 +21,7 @@ export default async function main(args) {
       version: ['--version', '-v'],
       watch: ['--watch', '-w'],
     },
-    args
+    args,
   );
 
   const context = {
@@ -38,7 +40,7 @@ export default async function main(args) {
   }
 
   // Step 1: Look for and load config
-  const config = await loadConfig('stilvoll.config.js', process.cwd(), context);
+  const config = await loadConfig(CONFIG_FILE_NAME, process.cwd(), context);
   if (config === null) process.exit(1);
 
   let markupFiles = [];
@@ -58,7 +60,7 @@ export default async function main(args) {
     });
 
     context.logger.debug(
-      `Parsed tokens to ${transformed.classNames.length} potential css classes`
+      `Parsed tokens to ${transformed.classNames.length} potential css classes`,
     );
     context.logger.debug(transformed.classNames.join(', '));
 
@@ -71,14 +73,14 @@ export default async function main(args) {
       const markup = await loadFiles(markupFiles, process.cwd(), context);
       const classNames = extractClassNamesFromString(
         markup.toString(),
-        transformed.classNames
+        transformed.classNames,
       );
       classesToGenerate.push(...classNames);
     }
 
     if (classesToGenerate.length > 0) {
       context.logger.debug(
-        `Found ${classesToGenerate.length} class(es) to generate`
+        `Found ${classesToGenerate.length} class(es) to generate`,
       );
     } else {
       context.logger.debug('Generating all utility classes');
@@ -90,7 +92,7 @@ export default async function main(args) {
           config.output,
           process.cwd(),
           transformed.generateCSS(classesToGenerate),
-          context
+          context,
         );
       } else {
         context.logger.info(`Dry Run, nothing was written to ${config.output}`);
@@ -103,11 +105,11 @@ export default async function main(args) {
           path.relative(process.cwd(), config.typeDefinitions),
           process.cwd(),
           transformed.generateTypeDefinitions(),
-          context
+          context,
         );
       } else {
         context.logger.info(
-          `Dry Run, nothing was written to ${config.classNameMap}`
+          `Dry Run, nothing was written to ${config.classNameMap}`,
         );
       }
     }
@@ -115,7 +117,7 @@ export default async function main(args) {
     if (!flags.dryRun) {
       let elapsed = performance.now() - start;
       context.logger.success(
-        `Generated utility CSS in ${roundWithPrecision(elapsed, 4)}ms`
+        `Generated utility CSS in ${roundWithPrecision(elapsed, 4)}ms`,
       );
     }
   };
@@ -126,6 +128,9 @@ export default async function main(args) {
   // to the input files and run the process
   // again if they change
   if (flags.watch) {
+    context.logger.info(
+      'Running in watch mode. Will re-compile on changes to your css',
+    );
     watchFiles(config.input, process.cwd(), performWork, context);
   }
 }

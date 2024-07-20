@@ -1,11 +1,12 @@
 {
   "singleQuote": true,
   "trailingComma": "all",
+  "printWidth": 80,
   "tabWidth": 2,
   "useTabs": false,
   "overrides": [
     {
-      "files": ["*.css", "*.scss", "*.mdx"],
+      "files": ["*.css", "*.mdx"],
       "options": {
         "singleQuote": false
       }

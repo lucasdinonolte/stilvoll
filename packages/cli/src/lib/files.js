@@ -9,7 +9,7 @@ export const loadPkg = async () => {
 
   const pkg = await fs.readFile(
     path.join(__dirname, '../../', 'package.json'),
-    'utf8'
+    'utf8',
   );
   return JSON.parse(pkg);
 };
@@ -20,7 +20,7 @@ export const loadFiles = async (files = [], rootDir, { logger }) => {
       const file = path.join(rootDir, f);
       logger.debug(`Loading input file ${f}`);
       return fs.readFile(file);
-    })
+    }),
   );
 
   return Buffer.concat(buffers);
@@ -42,7 +42,7 @@ export const watchFiles = (files, rootDir, callback, { logger }) => {
   for (const file of filePaths) {
     watchFile(file, (current, previous) => {
       logger.debug(
-        `Change detected to ${file}. ${current.mtime} ${previous.mtime}`
+        `Change detected to ${file}. ${current.mtime} ${previous.mtime}`,
       );
       if (current.mtime !== previous.mtime) {
         logger.info(`${file} changed. Rerunning`);

@@ -1,6 +1,6 @@
 const handler = {
   path: [],
-  get: function(_, prop) {
+  get: function (_, prop) {
     return prop;
   },
 };

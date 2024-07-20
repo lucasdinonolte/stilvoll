@@ -27,26 +27,26 @@ const isRootElement = (_selectors) => {
  */
 const isCustomProperty =
   (utilities) =>
-    ({ property, value }) => {
-      if (property !== 'custom') return null;
+  ({ property, value }) => {
+    if (property !== 'custom') return null;
 
-      const res = Object.entries(utilities)
-        .map(([key, { customPropertyRegex, utilities }]) => {
-          if (value?.name?.match(customPropertyRegex)) {
-            return {
-              key: `${key}${value.name}`,
-              category: key,
-              name: value.name.replace(customPropertyRegex, ''),
-              utilities,
-              value: `var(${value.name})`,
-            };
-          }
-          return null;
-        })
-        .filter(Boolean);
+    const res = Object.entries(utilities)
+      .map(([key, { customPropertyRegex, utilities }]) => {
+        if (value?.name?.match(customPropertyRegex)) {
+          return {
+            key: `${key}${value.name}`,
+            category: key,
+            name: value.name.replace(customPropertyRegex, ''),
+            utilities,
+            value: `var(${value.name})`,
+          };
+        }
+        return null;
+      })
+      .filter(Boolean);
 
-      return res;
-    };
+    return res;
+  };
 
 const generateTypeDefinitions = (cssMap) => {
   const map = Object.keys(cssMap).map((className) => {
@@ -56,8 +56,9 @@ const generateTypeDefinitions = (cssMap) => {
       .map(([attribute, value]) => `${attribute}: ${value};`)
       .join('\n  ');
 
-    return `/** ${explainer ?? ''
-      }\n\n\`\`\`css\n${selector}\n{\n  ${propertiesString}\n}\n\`\`\`*/\n  ${className}: string;`;
+    return `/** ${
+      explainer ?? ''
+    }\n\n\`\`\`css\n${selector}\n{\n  ${propertiesString}\n}\n\`\`\`*/\n  ${className}: string;`;
   });
 
   return `type UtilityMap = {
@@ -76,13 +77,14 @@ const generateCSS = (cssMap, _classNames = [], options) => {
   const css = classNames
     .map((className) => {
       const { selector, properties } = cssMap[className](
-        options.hash ? hashClassName(className) : className
+        options.hash ? hashClassName(className) : className,
       );
       const propertiesString = properties
         .map(
           ([attribute, value]) =>
-            `${attribute}: ${value}${options.useImportant ? ' !important' : ''
-            };`
+            `${attribute}: ${value}${
+              options.useImportant ? ' !important' : ''
+            };`,
         )
         .join('\n  ');
 
@@ -162,7 +164,7 @@ const getUtilitiesFromTokens = (code, options) => {
             ...declarations.declarations
               .map(isCustomProperty(options.utilities))
               .filter(Boolean)
-              .flat()
+              .flat(),
           );
         }
       },
@@ -173,7 +175,7 @@ const getUtilitiesFromTokens = (code, options) => {
     res.reduce((acc, cur) => {
       acc[cur.key] = omit(['key'], cur);
       return acc;
-    }, {})
+    }, {}),
   );
 };
 

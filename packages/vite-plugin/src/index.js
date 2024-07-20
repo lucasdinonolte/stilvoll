@@ -104,7 +104,7 @@ export default function tokenUtilityCSSPlugin(_options) {
               transformed
                 .generateCSS(classNames, false, true)
                 .trim()
-                .replaceAll('\n', '')
+                .replaceAll('\n', ''),
             );
             chunk.source = css;
           }
