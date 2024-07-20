@@ -38,7 +38,7 @@ export default async function main(args) {
   }
 
   // Step 1: Look for and load config
-  const config = await loadConfig('util.config.js', process.cwd(), context);
+  const config = await loadConfig('stilvoll.config.js', process.cwd(), context);
   if (config === null) process.exit(1);
 
   let markupFiles = [];

@@ -1,0 +1,13 @@
+{
+  "name": "cli-playground",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "mkdir -p ./dist && stilvoll --verbose"
+  },
+  "dependencies": {
+    "stilvoll": "*",
+    "@stilvoll/cli": "0.0.2"
+  }
+}

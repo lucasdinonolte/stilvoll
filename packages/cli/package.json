@@ -5,7 +5,7 @@
   "license": "MIT",
   "main": "./src/index.js",
   "bin": {
-    "util-css": "bin/cli.js"
+    "stilvoll": "bin/cli.js"
   },
   "scripts": {
     "lint": "eslint ./src"
