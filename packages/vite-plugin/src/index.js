@@ -1,15 +1,21 @@
 import path from 'node:path';
 
-import { parseTokensToUtilities, extractClassNamesFromString } from '@lucasdinonolte/token-utility-css-core';
+import {
+  parseTokensToUtilities,
+  extractClassNamesFromString,
+  validateConfig,
+} from '@stilvoll/core';
 import { loadFiles, writeFile } from './lib/files.js';
 
-export default function tokenUtilityCSSPlugin({
-  files: inputFiles = [],
-  classNameMap = './src/utility.js',
-  ...rest
-}) {
-  const virtualModuleId = 'virtual:util.css'
-  const resolvedVirtualModuleId = '\0' + virtualModuleId
+export default function tokenUtilityCSSPlugin(_options) {
+  const {
+    files: inputFiles,
+    typeDefinitions,
+    ...rest
+  } = validateConfig(_options);
+
+  const virtualModuleId = 'virtual:util.css';
+  const resolvedVirtualModuleId = '\0' + virtualModuleId;
 
   const files = inputFiles.map((f) => path.join(process.cwd(), f));
 
@@ -23,77 +29,87 @@ export default function tokenUtilityCSSPlugin({
       options: rest ?? {},
     });
 
-    await writeFile(classNameMap, transformed.generateClassNameMap());
+    if (typeDefinitions !== false) {
+      await writeFile(typeDefinitions, transformed.generateTypeDefinitions());
+    }
   };
 
-  return [{
-    // Dev plugin
-    apply: 'serve',
-    name: 'token-utility-css:parser-dev',
-    buildStart: performWork,
-    handleHotUpdate({ file }) {
-      if (files.includes(file)) {
-        performWork();
-      }
-    },
-  }, {
-    apply: 'serve',
-    name: 'token-utility-css:virtual-dev',
-    resolveId(id) {
-      if (id === virtualModuleId) {
-        return resolvedVirtualModuleId
-      }
-    },
-    load(id) {
-      if (id === resolvedVirtualModuleId) {
-        return {
-          code: transformed.generateCSS(),
+  return [
+    {
+      // Dev plugin
+      apply: 'serve',
+      name: 'token-utility-css:parser-dev',
+      buildStart: performWork,
+      handleHotUpdate({ file }) {
+        if (files.includes(file)) {
+          performWork();
         }
-      }
+      },
     },
-  },
-
-  // Build plugin
-  {
-    apply: 'build',
-    name: 'token-utility-css:parser-build',
-    enforce: 'pre',
-    buildStart: performWork,
-    transform(code) {
-      const found = extractClassNamesFromString(code, transformed.classNames);
-
-      if (found.length > 0) {
-        classNames.push(...found);
-      }
-    },
-  }, {
-    apply: 'build',
-    enforce: 'post',
-    name: 'token-utility-css:virtual-build',
-    resolveId(id) {
-      if (id === virtualModuleId) {
-        return resolvedVirtualModuleId
-      }
-    },
-    load(id) {
-      if (id === resolvedVirtualModuleId) {
-        return {
-          code: '.u____{display:none}',
+    {
+      apply: 'serve',
+      name: 'token-utility-css:virtual-dev',
+      resolveId(id) {
+        if (id === virtualModuleId) {
+          return resolvedVirtualModuleId;
         }
-      }
-    },
-    generateBundle(_, bundle) {
-      const files = Object.keys(bundle)
-        .filter(i => i.endsWith('.css'))
-
-      for (const file of files) {
-        const chunk = bundle[file]
-        if (chunk.type === 'asset' && typeof chunk.source === 'string') {
-          const css = chunk.source.replace('.u____{display:none}', transformed.generateCSS(classNames, false, true).trim().replaceAll('\n', ''));
-          chunk.source = css;
+      },
+      load(id) {
+        if (id === resolvedVirtualModuleId) {
+          return {
+            code: transformed.generateCSS(),
+          };
         }
-      }
+      },
     },
-  },
-  ]
+
+    // Build plugin
+    {
+      apply: 'build',
+      name: 'token-utility-css:parser-build',
+      enforce: 'pre',
+      buildStart: performWork,
+      transform(code) {
+        const found = extractClassNamesFromString(code, transformed.classNames);
+
+        if (found.length > 0) {
+          classNames.push(...found);
+        }
+      },
+    },
+    {
+      apply: 'build',
+      enforce: 'post',
+      name: 'token-utility-css:virtual-build',
+      resolveId(id) {
+        if (id === virtualModuleId) {
+          return resolvedVirtualModuleId;
+        }
+      },
+      load(id) {
+        if (id === resolvedVirtualModuleId) {
+          return {
+            code: '.u____{display:none}',
+          };
+        }
+      },
+      generateBundle(_, bundle) {
+        const files = Object.keys(bundle).filter((i) => i.endsWith('.css'));
+
+        for (const file of files) {
+          const chunk = bundle[file];
+          if (chunk.type === 'asset' && typeof chunk.source === 'string') {
+            const css = chunk.source.replace(
+              '.u____{display:none}',
+              transformed
+                .generateCSS(classNames, false, true)
+                .trim()
+                .replaceAll('\n', '')
+            );
+            chunk.source = css;
+          }
+        }
+      },
+    },
+  ];
 }

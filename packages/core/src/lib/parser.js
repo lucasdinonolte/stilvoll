@@ -1,6 +1,11 @@
 import { transform } from 'lightningcss';
 
-import { camelCaseFromArray, hashClassName, omit, uniqueArray } from './utils.js';
+import {
+  camelCaseFromArray,
+  hashClassName,
+  omit,
+  uniqueArray,
+} from './utils.js';
 import { defaultOptions } from './options.js';
 
 /**
@@ -43,37 +48,36 @@ const isCustomProperty =
       return res;
     };
 
-const createClassNameMap = (cssMap, options) => {
-  const map = Object.keys(cssMap).map(className => {
-    const { explainer } = cssMap[className](className);
+const generateTypeDefinitions = (cssMap) => {
+  const map = Object.keys(cssMap).map((className) => {
+    const { explainer, properties, selector } = cssMap[className](className);
 
-    return `@property {string} ${className} ${explainer ? explainer : ''}`;
+    const propertiesString = properties
+      .map(([attribute, value]) => `${attribute}: ${value};`)
+      .join('\n  ');
+
+    return `/** ${explainer ?? ''
+      }\n\n\`\`\`css\n${selector}\n{\n  ${propertiesString}\n}\n\`\`\`*/\n  ${className}: string;`;
   });
 
-  return `${options.banner}
-/* UTILS_SKIP */
+  return `type UtilityMap = {
+  ${map.join('\n  ')}
+}
 
-/**
- * @typedef {Object} UtilityMap
-${map.join('\n')}
- */
-
-/**
- * @type {UtilityMap}
- */
-export const u = new Proxy({}, {
-  get: (_, prop) => {
-    return prop;
-  }
-});`;
+declare const u: UtilityMap;
+export { u };
+`;
 };
 
 const generateCSS = (cssMap, _classNames = [], options) => {
-  const classNames = _classNames.length === 0 ? Object.keys(cssMap) : uniqueArray(_classNames);
+  const classNames =
+    _classNames.length === 0 ? Object.keys(cssMap) : uniqueArray(_classNames);
 
   const css = classNames
     .map((className) => {
-      const { selector, properties } = cssMap[className](options.hash ? hashClassName(className) : className);
+      const { selector, properties } = cssMap[className](
+        options.hash ? hashClassName(className) : className
+      );
       const propertiesString = properties
         .map(
           ([attribute, value]) =>
@@ -83,7 +87,8 @@ const generateCSS = (cssMap, _classNames = [], options) => {
         .join('\n  ');
 
       return `${selector}{\n ${propertiesString}\n}`;
-    }).join('\n');
+    })
+    .join('\n');
 
   if (options.skipComment) return css;
   return `/* ${new Date().toISOString()} */\n${options.banner}\n\n${css}`;
@@ -92,7 +97,7 @@ const generateCSS = (cssMap, _classNames = [], options) => {
 const generateCSSMap = (utilities, staticUtilities) => {
   const res = utilities.reduce((acc, { name, value, utilities }) => {
     for (const [classNameKey, generator] of Object.entries(utilities)) {
-      const className = camelCaseFromArray([classNameKey, name]);
+      const className = camelCaseFromArray([classNameKey, '_', name]);
 
       if (typeof generator === 'function') {
         acc = {
@@ -106,7 +111,7 @@ const generateCSSMap = (utilities, staticUtilities) => {
             selector: `.${className} `,
             properties: generator.map((p) => [p, value]),
           }),
-        }
+        };
       } else if (typeof generator === 'object') {
         acc = {
           ...acc,
@@ -114,8 +119,8 @@ const generateCSSMap = (utilities, staticUtilities) => {
             selector: `.${className} `,
             properties: generator.properties.map((p) => [p, value]),
             explainer: generator.explainer,
-          })
-        }
+          }),
+        };
       }
     }
 
@@ -131,7 +136,7 @@ const generateCSSMap = (utilities, staticUtilities) => {
         selector: `.${className} `,
         properties: properties.map((p) => p),
         explainer,
-      })
+      }),
     };
 
     return acc;
@@ -190,11 +195,11 @@ export const parseTokensToUtilities = ({
 
   return {
     classNames: Object.keys(cssMap),
-    generateClassNameMap(hash = false) {
-      return createClassNameMap(cssMap, { ...options, hash });
+    generateTypeDefinitions(hash = false) {
+      return generateTypeDefinitions(cssMap, { ...options, hash });
     },
     generateCSS(classNames = [], hash = false, skipComment = false) {
       return generateCSS(cssMap, classNames, { ...options, hash, skipComment });
-    }
+    },
   };
 };

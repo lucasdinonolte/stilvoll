@@ -1,6 +1,15 @@
 {
-  "name": "token-utility-css",
+  "name": "stilvoll-mono-repo",
   "workspaces": [
-    "packages/*"
-  ]
+    "packages/*",
+    "examples/*"
+  ],
+  "scripts": {
+    "changeset": "changeset",
+    "version": "changeset version",
+    "publish": "changeset publish"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.27.7"
+  }
 }

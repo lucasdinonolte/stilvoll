@@ -1,13 +1,15 @@
 {
-  "name": "@lucasdinonolte/token-utility-css-core",
-  "version": "0.0.1",
+  "name": "@stilvoll/core",
+  "version": "0.0.2",
   "type": "module",
   "license": "MIT",
   "main": "./src/index.js",
+  "types": "./src/index.d.ts",
   "scripts": {
     "lint": "eslint ./src"
   },
   "dependencies": {
+    "stilvoll": "*",
     "lightningcss": "^1.25.1",
     "zod": "^3.23.8"
   },

@@ -1,6 +1,6 @@
 {
-  "name": "@lucasdinonolte/token-utility-css-vite-plugin",
-  "version": "0.0.1",
+  "name": "@stilvoll/vite-plugin",
+  "version": "0.0.2",
   "type": "module",
   "license": "MIT",
   "main": "./src/index.js",
@@ -8,12 +8,12 @@
     "lint": "eslint ./src"
   },
   "dependencies": {
-    "@lucasdinonolte/token-utility-css-core": "0.0.1"
+    "@stilvoll/core": "0.0.2"
   },
   "devDependencies": {
     "eslint": "^8.57.0"
   },
   "peerDependencies": {
-    "vite": "^5.0.0"
+    "stilvoll": "*"
   }
 }

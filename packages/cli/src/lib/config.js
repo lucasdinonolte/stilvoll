@@ -1,7 +1,7 @@
 import path from 'node:path';
 import fs from 'node:fs/promises';
 
-import { validateConfig } from '@lucasdinonolte/token-utility-css-core';
+import { validateConfig } from '@stilvoll/core';
 
 export const loadConfig = async (configFileName, rootDir, { logger }) => {
   const configFilePath = path.join(rootDir, configFileName);

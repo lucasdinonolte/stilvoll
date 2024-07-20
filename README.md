@@ -1,4 +1,4 @@
-# Token to Utility CSS
+# Stilvoll
 
 CLI and Vite Plugin to auto-generate atomic utility CSS from your CSS design tokens (custom properties).
 

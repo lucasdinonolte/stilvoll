@@ -1,5 +1,9 @@
 import { glob } from 'glob';
-import { parseTokensToUtilities, extractClassNamesFromString } from '@lucasdinonolte/token-utility-css-core';
+import path from 'node:path';
+import {
+  parseTokensToUtilities,
+  extractClassNamesFromString,
+} from '@stilvoll/core';
 
 import { parseCLIFlags } from './lib/flags.js';
 import { loadConfig } from './lib/config.js';
@@ -25,7 +29,7 @@ export default async function main(args) {
   // If version flag
   if (flags.version) {
     const pkg = await loadPkg();
-    context.logger.log(pkg.version);
+    context.logger.log(`${pkg.name} v${pkg.version}`);
     process.exit(0);
   }
 
@@ -73,7 +77,9 @@ export default async function main(args) {
     }
 
     if (classesToGenerate.length > 0) {
-      context.logger.debug(`Found ${classesToGenerate.length} class(es) to generate`);
+      context.logger.debug(
+        `Found ${classesToGenerate.length} class(es) to generate`
+      );
     } else {
       context.logger.debug('Generating all utility classes');
     }
@@ -91,12 +97,12 @@ export default async function main(args) {
       }
     }
 
-    if (config.classNameMap) {
+    if (config.typeDefinitions !== false) {
       if (!flags.dryRun) {
         await writeFile(
-          config.classNameMap,
+          path.relative(process.cwd(), config.typeDefinitions),
           process.cwd(),
-          transformed.generateClassNameMap(),
+          transformed.generateTypeDefinitions(),
           context
         );
       } else {
@@ -120,7 +126,6 @@ export default async function main(args) {
   // to the input files and run the process
   // again if they change
   if (flags.watch) {
-    watchFiles(config.input,
-      process.cwd(), performWork, context);
+    watchFiles(config.input, process.cwd(), performWork, context);
   }
 }
