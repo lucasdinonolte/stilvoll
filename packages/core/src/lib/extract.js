@@ -9,11 +9,11 @@ export const extractClassNamesFromString = (code, classNames) => {
   }
 
   for (const token of tokens) {
-    const tok = (token.startsWith('u.') ? token.slice(2) : token);
+    const tok = token.startsWith('u.') ? token.slice(2) : token;
     if (classNames.includes(tok)) {
       res.push(tok);
     }
   }
 
   return res;
-}
+};

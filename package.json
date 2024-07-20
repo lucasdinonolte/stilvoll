@@ -7,9 +7,14 @@
   "scripts": {
     "changeset": "changeset",
     "version": "changeset version",
-    "publish": "changeset publish"
+    "publish": "changeset publish",
+    "format": "prettier . --check",
+    "format:fix": "prettier . --write"
   },
   "dependencies": {
     "@changesets/cli": "^2.27.7"
+  },
+  "devDependencies": {
+    "prettier": "^3.3.3"
   }
 }
