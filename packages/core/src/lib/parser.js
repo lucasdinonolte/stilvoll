@@ -23,22 +23,33 @@ const isRootElement = (_selectors) => {
 };
 
 /**
+ * Extracts custom properties, turning them into
+ * a unified shape.
+ */
+const extractCustomProperties = ({ property, value }) => {
+  if (property !== 'custom') return null;
+
+  return {
+    key: value.name,
+    value: `var(${value.name})`,
+  };
+};
+
+/**
  * Checks if a value is a custom property
  */
-const isCustomProperty =
+const generateUtilities =
   (utilities) =>
-    ({ property, value }) => {
-      if (property !== 'custom') return null;
-
+    ({ key, value }) => {
       const res = Object.entries(utilities)
-        .map(([key, { customPropertyRegex, utilities }]) => {
-          if (value?.name?.match(customPropertyRegex)) {
+        .map(([utilKey, { customPropertyRegex, utilities }]) => {
+          if (key.match(customPropertyRegex)) {
             return {
-              key: `${key}${value.name}`,
-              category: key,
-              name: value.name.replace(customPropertyRegex, ''),
+              key: `${utilKey}${key}`,
+              category: utilKey,
+              name: key.replace(customPropertyRegex, ''),
               utilities,
-              value: `var(${value.name})`,
+              value,
             };
           }
           return null;
@@ -224,7 +235,7 @@ const parseCustomMedia = (prelude) => {
 };
 
 const parseInputCSS = (code, options) => {
-  const res = [];
+  const customProperties = [];
   const breakpoints = {};
 
   const hasBreakpointsDefined = Object.keys(options.breakpoints).length > 0;
@@ -243,9 +254,9 @@ const parseInputCSS = (code, options) => {
         }
 
         if (isRootElement(selectors)) {
-          res.push(
+          customProperties.push(
             ...declarations.declarations
-              .map(isCustomProperty(options.utilities))
+              .map(extractCustomProperties)
               .filter(Boolean)
               .flat(),
           );
@@ -254,9 +265,19 @@ const parseInputCSS = (code, options) => {
     },
   });
 
+  const tokens = [
+    ...customProperties,
+    ...Object.entries(options.additionalTokens).map(([key, value]) => ({
+      key,
+      value,
+    })),
+  ];
+
+  const utilities = tokens.map(generateUtilities(options.utilities)).flat();
+
   return {
     utilities: Object.values(
-      res.reduce((acc, cur) => {
+      utilities.reduce((acc, cur) => {
         acc[cur.key] = omit(['key'], cur);
         return acc;
       }, {}),
