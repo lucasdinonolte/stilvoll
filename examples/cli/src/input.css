@@ -4,8 +4,10 @@
   /* Prototype Colors */
 
   --color-black-rgb: 32, 36, 32;
+  /* stilvoll:ignore:start */
   --color-green: rgb(var(--color-green-rgb));
   --color-white: rgb(var(--color-white-rgb));
+  /* stilvoll:ignore:end */
 
   --space-xl: 100px;
   --space-l: 10px;

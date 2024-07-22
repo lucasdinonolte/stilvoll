@@ -11,6 +11,18 @@ export const kebabCaseFromArray = (array) => {
       return i.toString().toLowerCase();
     })
     .filter(Boolean)
+    .join('-');
+};
+
+export const snakeCaseFromArray = (array) => {
+  return array
+    .map((w) => w.replaceAll('_', '-').split('-'))
+    .flat()
+    .map((i) => {
+      if (i.toString().length === 0) return null;
+      return i.toString().toLowerCase();
+    })
+    .filter(Boolean)
     .join('_');
 };
 

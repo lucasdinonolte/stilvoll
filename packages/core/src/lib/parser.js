@@ -1,7 +1,7 @@
 import { transform } from 'lightningcss';
 
 import {
-  camelCaseFromArray,
+  snakeCaseFromArray,
   hashClassName,
   omit,
   uniqueArray,
@@ -27,26 +27,26 @@ const isRootElement = (_selectors) => {
  */
 const isCustomProperty =
   (utilities) =>
-  ({ property, value }) => {
-    if (property !== 'custom') return null;
+    ({ property, value }) => {
+      if (property !== 'custom') return null;
 
-    const res = Object.entries(utilities)
-      .map(([key, { customPropertyRegex, utilities }]) => {
-        if (value?.name?.match(customPropertyRegex)) {
-          return {
-            key: `${key}${value.name}`,
-            category: key,
-            name: value.name.replace(customPropertyRegex, ''),
-            utilities,
-            value: `var(${value.name})`,
-          };
-        }
-        return null;
-      })
-      .filter(Boolean);
+      const res = Object.entries(utilities)
+        .map(([key, { customPropertyRegex, utilities }]) => {
+          if (value?.name?.match(customPropertyRegex)) {
+            return {
+              key: `${key}${value.name}`,
+              category: key,
+              name: value.name.replace(customPropertyRegex, ''),
+              utilities,
+              value: `var(${value.name})`,
+            };
+          }
+          return null;
+        })
+        .filter(Boolean);
 
-    return res;
-  };
+      return res;
+    };
 
 const generateTypeDefinitions = (cssMap) => {
   const map = Object.keys(cssMap).map((className) => {
@@ -56,9 +56,8 @@ const generateTypeDefinitions = (cssMap) => {
       .map(([attribute, value]) => `${attribute}: ${value};`)
       .join('\n  ');
 
-    return `/** ${
-      explainer ?? ''
-    }\n\n\`\`\`css\n${selector}\n{\n  ${propertiesString}\n}\n\`\`\`*/\n  ${className}: string;`;
+    return `/** ${explainer ?? ''
+      }\n\n\`\`\`css\n${selector}\n{\n  ${propertiesString}\n}\n\`\`\`*/\n  ${className}: string;`;
   });
 
   return `type UtilityMap = {
@@ -74,55 +73,84 @@ const generateCSS = (cssMap, _classNames = [], options) => {
   const classNames =
     _classNames.length === 0 ? Object.keys(cssMap) : uniqueArray(_classNames);
 
+  const mediaQueries = new Map();
+
   const css = classNames
     .map((className) => {
-      const { selector, properties } = cssMap[className](
+      const { selector, properties, media } = cssMap[className](
         options.hash ? hashClassName(className) : className,
       );
+
       const propertiesString = properties
         .map(
           ([attribute, value]) =>
-            `${attribute}: ${value}${
-              options.useImportant ? ' !important' : ''
+            `${attribute}: ${value}${options.useImportant ? ' !important' : ''
             };`,
         )
         .join('\n  ');
 
-      return `${selector}{\n ${propertiesString}\n}`;
+      if (media) {
+        mediaQueries.set(media, [
+          ...(mediaQueries.get(media) ?? []),
+          `${selector}{\n${propertiesString}\n}`,
+        ]);
+        return null;
+      } else {
+        return `${selector}{\n${propertiesString}\n}`;
+      }
+    })
+    .filter(Boolean)
+    .join('\n');
+
+  const mediaQueryCSS = [...mediaQueries.entries()]
+    .map(([media, rules]) => {
+      return `${media} {\n${rules.join('\n')}\n}`;
     })
     .join('\n');
 
   if (options.skipComment) return css;
-  return `/* ${new Date().toISOString()} */\n${options.banner}\n\n${css}`;
+  return `/* ${new Date().toISOString()} */\n${options.banner}\n\n${css}\n\n${mediaQueryCSS}`;
 };
 
-const generateCSSMap = (utilities, staticUtilities) => {
+/**
+ * Generates a map of all possible CSS classes the current
+ * input CSS can generate.
+ */
+const generateCSSMap = ({ utilities, staticUtilities, breakpoints }) => {
+  const breakpointKeys = [null, ...Object.keys(breakpoints)];
+
   const res = utilities.reduce((acc, { name, value, utilities }) => {
     for (const [classNameKey, generator] of Object.entries(utilities)) {
-      const className = camelCaseFromArray([classNameKey, '_', name]);
+      for (const breakpoint of breakpointKeys) {
+        const className = snakeCaseFromArray(
+          [breakpoint, classNameKey, '_', name].filter(Boolean),
+        );
 
-      if (typeof generator === 'function') {
-        acc = {
-          ...acc,
-          [className]: (className) => generator({ className, value }),
-        };
-      } else if (Array.isArray(generator)) {
-        acc = {
-          ...acc,
-          [className]: (className) => ({
-            selector: `.${className} `,
-            properties: generator.map((p) => [p, value]),
-          }),
-        };
-      } else if (typeof generator === 'object') {
-        acc = {
-          ...acc,
-          [className]: (className) => ({
-            selector: `.${className} `,
-            properties: generator.properties.map((p) => [p, value]),
-            explainer: generator.explainer,
-          }),
-        };
+        if (typeof generator === 'function') {
+          acc = {
+            ...acc,
+            [className]: (className) => generator({ className, value }),
+          };
+        } else if (Array.isArray(generator)) {
+          acc = {
+            ...acc,
+            [className]: (className) => ({
+              selector: `.${className} `,
+              properties: generator.map((p) => [p, value]),
+              media: breakpoints[breakpoint],
+            }),
+          };
+        } else if (typeof generator === 'object') {
+          acc = {
+            ...acc,
+            [className]: (className) => ({
+              selector: `.${className} `,
+              properties: generator.properties.map((p) => [p, value]),
+              explainer: generator.explainer,
+              media: breakpoints[breakpoint],
+            }),
+          };
+        }
       }
     }
 
@@ -131,15 +159,18 @@ const generateCSSMap = (utilities, staticUtilities) => {
 
   return Object.keys(staticUtilities).reduce((acc, key) => {
     const { properties, explainer } = staticUtilities[key];
-    const className = camelCaseFromArray([key]);
-    acc = {
-      ...acc,
-      [className]: (className) => ({
-        selector: `.${className} `,
-        properties: properties.map((p) => p),
-        explainer,
-      }),
-    };
+    for (const breakpoint of breakpointKeys) {
+      const className = snakeCaseFromArray([breakpoint, key].filter(Boolean));
+      acc = {
+        ...acc,
+        [className]: (className) => ({
+          selector: `.${className} `,
+          properties: properties.map((p) => p),
+          explainer,
+          media: breakpoints[breakpoint],
+        }),
+      };
+    }
 
     return acc;
   }, res);
@@ -150,14 +181,66 @@ const ensureBuffer = (input) => {
   return input;
 };
 
-const getUtilitiesFromTokens = (code, options) => {
+const parseCustomMedia = (prelude) => {
+  const name = prelude.find((p) => p.type === 'dashed-ident').value?.slice(2);
+  const query = prelude
+    .filter((p) => p.value !== name)
+    .map((p) => {
+      if (p.type === 'token') {
+        switch (p.value.type) {
+          case 'white-space': {
+            return p.value.value;
+          }
+          case 'ident': {
+            return p.value.value;
+          }
+          case 'parenthesis-block': {
+            return '(';
+          }
+          case 'close-parenthesis': {
+            return ')';
+          }
+          case 'colon': {
+            return ':';
+          }
+          case 'semicolon': {
+            return ';';
+          }
+        }
+      }
+
+      switch (p.type) {
+        case 'length': {
+          return `${p.value.value}${p.value.unit}`;
+        }
+      }
+
+      return '';
+    })
+    .join('')
+    .trim();
+
+  return [name, `@media ${query}`];
+};
+
+const parseInputCSS = (code, options) => {
   const res = [];
+  const breakpoints = {};
+
+  const hasBreakpointsDefined = Object.keys(options.breakpoints).length > 0;
 
   transform({
     code: ensureBuffer(code),
     visitor: {
       Rule({ value }) {
         const { selectors, declarations } = value;
+
+        // Either we have breakpoints defined in the config
+        // or we try to find them in the CSS
+        if (value.name === 'custom-media' && !hasBreakpointsDefined) {
+          const [name, mediaQuery] = parseCustomMedia(value.prelude);
+          breakpoints[name] = mediaQuery;
+        }
 
         if (isRootElement(selectors)) {
           res.push(
@@ -171,12 +254,23 @@ const getUtilitiesFromTokens = (code, options) => {
     },
   });
 
-  return Object.values(
-    res.reduce((acc, cur) => {
-      acc[cur.key] = omit(['key'], cur);
-      return acc;
-    }, {}),
-  );
+  return {
+    utilities: Object.values(
+      res.reduce((acc, cur) => {
+        acc[cur.key] = omit(['key'], cur);
+        return acc;
+      }, {}),
+    ),
+    breakpoints: hasBreakpointsDefined
+      ? Object.entries(options.breakpoints).reduce(
+        (acc, [key, value]) => ({
+          ...acc,
+          [key]: `@media screen and (min-width: ${value}px)`,
+        }),
+        {},
+      )
+      : breakpoints,
+  };
 };
 
 /**
@@ -191,9 +285,13 @@ export const parseTokensToUtilities = ({
   options: _options = {},
 } = {}) => {
   const options = Object.assign({}, defaultOptions, _options);
-  const utilities = getUtilitiesFromTokens(code, options);
+  const { utilities, breakpoints } = parseInputCSS(code, options);
 
-  const cssMap = generateCSSMap(utilities, options.staticUtilities);
+  const cssMap = generateCSSMap({
+    utilities,
+    staticUtilities: options.staticUtilities,
+    breakpoints,
+  });
 
   return {
     classNames: Object.keys(cssMap),
