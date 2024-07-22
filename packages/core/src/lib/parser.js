@@ -140,7 +140,10 @@ const generateCSSMap = ({ utilities, staticUtilities, breakpoints }) => {
         if (typeof generator === 'function') {
           acc = {
             ...acc,
-            [className]: (className) => generator({ className, value }),
+            [className]: (className) => ({
+              ...generator({ className, value }),
+              media: breakpoints[breakpoint],
+            }),
           };
         } else if (Array.isArray(generator)) {
           acc = {
