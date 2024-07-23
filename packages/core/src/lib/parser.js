@@ -23,6 +23,11 @@ const isRootElement = (_selectors) => {
 };
 
 /**
+ * Minifies a string of CSS
+ */
+export const minify = (input) => input.replace(/\s+/g, ' ').trim();
+
+/**
  * Extracts custom properties, turning them into
  * a unified shape.
  */
@@ -152,8 +157,10 @@ const generateCSS = (cssMap, _classNames = [], options) => {
     })
     .join('\n');
 
-  if (options.skipComment) return css;
-  return `/* ${new Date().toISOString()} */\n${options.banner}\n\n${css}\n\n${mediaQueryCSS}`;
+  if (options.skipComment) return minify(css);
+  return minify(
+    `/* ${new Date().toISOString()} */\n${options.banner}\n\n${css}\n\n${mediaQueryCSS}`,
+  );
 };
 
 /**
