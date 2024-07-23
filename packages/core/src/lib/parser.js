@@ -47,8 +47,20 @@ const generateUtilities = (utils, customProperties) => {
       ]) => {
         const res = [];
 
-        customProperties.forEach(({ key, value }) => {
-          if (key.match(customPropertyRegex)) {
+        if (customPropertyRegex) {
+          customProperties.forEach(({ key, value }) => {
+            if (key.match(customPropertyRegex)) {
+              res.push({
+                key: `${utilKey}${key}`,
+                category: utilKey,
+                name: key.replace(customPropertyRegex, ''),
+                utilities,
+                value,
+              });
+            }
+          });
+
+          Object.entries(additionalValues).forEach(([key, value]) => {
             res.push({
               key: `${utilKey}${key}`,
               category: utilKey,
@@ -56,18 +68,16 @@ const generateUtilities = (utils, customProperties) => {
               utilities,
               value,
             });
-          }
-        });
-
-        Object.entries(additionalValues).forEach(([key, value]) => {
-          res.push({
-            key: `${utilKey}${key}`,
-            category: utilKey,
-            name: key.replace(customPropertyRegex, ''),
-            utilities,
-            value,
           });
-        });
+        } else {
+          // This is a "static" utility
+          res.push({
+            key: utilKey,
+            category: utilKey,
+            name: '',
+            utilities,
+          });
+        }
 
         return res;
       },
@@ -150,10 +160,10 @@ const generateCSS = (cssMap, _classNames = [], options) => {
  * Generates a map of all possible CSS classes the current
  * input CSS can generate.
  */
-const generateCSSMap = ({ utilities, staticUtilities, breakpoints }) => {
+const generateCSSMap = ({ utilities, breakpoints }) => {
   const breakpointKeys = [null, ...Object.keys(breakpoints)];
 
-  const res = utilities.reduce((acc, { name, value, utilities }) => {
+  return utilities.reduce((acc, { name, value, utilities }) => {
     for (const [classNameKey, generator] of Object.entries(utilities)) {
       for (const breakpoint of breakpointKeys) {
         const className = snakeCaseFromArray(
@@ -173,7 +183,9 @@ const generateCSSMap = ({ utilities, staticUtilities, breakpoints }) => {
             ...acc,
             [className]: (className) => ({
               selector: `.${className} `,
-              properties: generator.map((p) => [p, value]),
+              properties: generator.map((p) => {
+                return value != null ? [p, value] : [p[0], p[1]];
+              }),
               media: breakpoints[breakpoint],
             }),
           };
@@ -182,7 +194,9 @@ const generateCSSMap = ({ utilities, staticUtilities, breakpoints }) => {
             ...acc,
             [className]: (className) => ({
               selector: `.${className} `,
-              properties: generator.properties.map((p) => [p, value]),
+              properties: generator.properties.map((p) => {
+                return value != null ? [p, value] : [p[0], p[1]];
+              }),
               explainer: generator.explainer,
               media: breakpoints[breakpoint],
             }),
@@ -193,52 +207,6 @@ const generateCSSMap = ({ utilities, staticUtilities, breakpoints }) => {
 
     return acc;
   }, {});
-
-  return Object.keys(staticUtilities).reduce((acc, key) => {
-    const staticUtil = staticUtilities[key];
-
-    for (const breakpoint of breakpointKeys) {
-      const className = snakeCaseFromArray([breakpoint, key].filter(Boolean));
-
-      if (typeof staticUtil === 'function') {
-        acc = {
-          ...acc,
-          [className]: (className) => ({
-            ...staticUtil({ className }),
-            media: breakpoints[breakpoint],
-          }),
-        };
-      } else if (Array.isArray(staticUtil)) {
-        acc = {
-          ...acc,
-          [className]: (className) => ({
-            selector: `.${className} `,
-            properties: staticUtil.map(([attribute, value]) => [
-              attribute,
-              value,
-            ]),
-            media: breakpoints[breakpoint],
-          }),
-        };
-      } else if (typeof staticUtil === 'object') {
-        const { properties, explainer } = staticUtil;
-        acc = {
-          ...acc,
-          [className]: (className) => ({
-            selector: `.${className} `,
-            properties: properties.map(([attribute, value]) => [
-              attribute,
-              value,
-            ]),
-            explainer: explainer,
-            media: breakpoints[breakpoint],
-          }),
-        };
-      }
-    }
-
-    return acc;
-  }, res);
 };
 
 const ensureBuffer = (input) => {
@@ -356,7 +324,6 @@ export const parseTokensToUtilities = ({
 
   const cssMap = generateCSSMap({
     utilities,
-    staticUtilities: options.staticUtilities,
     breakpoints,
   });
 

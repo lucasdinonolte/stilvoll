@@ -9,10 +9,10 @@ export const grid = (settings) => ({
         },
       },
     },
-  },
-  staticUtilities: {
-    row: ({ className }) => ({
-      css: `.${className} {
+    grid: {
+      utilities: {
+        row: ({ className }) => ({
+          css: `.${className} {
   display: flex;
   flex-wrap: wrap;
   margin-right: calc(-0.5 * var(--grid-gutter, 0));
@@ -27,29 +27,31 @@ export const grid = (settings) => ({
   padding-right: calc(0.5 * var(--grid-gutter, 0));
   padding-left: calc(0.5 * var(--grid-gutter, 0));
 }`,
-    }),
-    ...Array.from({ length: settings.columns }, (_, i) => i + 1).reduce(
-      (acc, i) => ({
-        ...acc,
-        [`col-${i}`]: ({ className }) => ({
-          css: `.${className} {
+        }),
+        ...Array.from({ length: settings.columns }, (_, i) => i + 1).reduce(
+          (acc, i) => ({
+            ...acc,
+            [`col-${i}`]: ({ className }) => ({
+              css: `.${className} {
   flex: 0 0 auto;
   width: calc((100% / ${settings.columns}) * ${i});
 }`,
-        }),
-      }),
-      {},
-    ),
-    ...Array.from({ length: settings.columns }, (_, i) => i + 1).reduce(
-      (acc, i) => ({
-        ...acc,
-        [`push-${i}`]: ({ className }) => ({
-          css: `.${className} {
+            }),
+          }),
+          {},
+        ),
+        ...Array.from({ length: settings.columns }, (_, i) => i + 1).reduce(
+          (acc, i) => ({
+            ...acc,
+            [`push-${i}`]: ({ className }) => ({
+              css: `.${className} {
   margin-left: calc((100% / ${settings.columns}) * ${i});
 }`,
-        }),
-      }),
-      {},
-    ),
+            }),
+          }),
+          {},
+        ),
+      },
+    },
   },
 });
