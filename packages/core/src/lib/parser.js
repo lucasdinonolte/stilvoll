@@ -38,26 +38,42 @@ const extractCustomProperties = ({ property, value }) => {
 /**
  * Checks if a value is a custom property
  */
-const generateUtilities =
-  (utilities) =>
-    ({ key, value }) => {
-      const res = Object.entries(utilities)
-        .map(([utilKey, { customPropertyRegex, utilities }]) => {
+const generateUtilities = (utils, customProperties) => {
+  return Object.entries(utils)
+    .map(
+      ([
+        utilKey,
+        { customPropertyRegex, utilities, additionalValues = {} },
+      ]) => {
+        const res = [];
+
+        customProperties.forEach(({ key, value }) => {
           if (key.match(customPropertyRegex)) {
-            return {
+            res.push({
               key: `${utilKey}${key}`,
               category: utilKey,
               name: key.replace(customPropertyRegex, ''),
               utilities,
               value,
-            };
+            });
           }
-          return null;
-        })
-        .filter(Boolean);
+        });
 
-      return res;
-    };
+        Object.entries(additionalValues).forEach(([key, value]) => {
+          res.push({
+            key: `${utilKey}${key}`,
+            category: utilKey,
+            name: key.replace(customPropertyRegex, ''),
+            utilities,
+            value,
+          });
+        });
+
+        return res;
+      },
+    )
+    .flat();
+};
 
 const generateTypeDefinitions = (cssMap) => {
   const map = Object.keys(cssMap).map((className) => {
@@ -268,15 +284,7 @@ const parseInputCSS = (code, options) => {
     },
   });
 
-  const tokens = [
-    ...customProperties,
-    ...Object.entries(options.additionalTokens).map(([key, value]) => ({
-      key,
-      value,
-    })),
-  ];
-
-  const utilities = tokens.map(generateUtilities(options.utilities)).flat();
+  const utilities = generateUtilities(options.utilities, customProperties);
 
   return {
     utilities: Object.values(

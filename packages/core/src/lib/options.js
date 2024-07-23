@@ -15,7 +15,6 @@ const configSchema = z
     useImportant: z.boolean(),
     banner: z.string().nullable(),
     breakpoints: z.record(z.number()),
-    additionalTokens: z.record(z.union([z.string(), z.number()])),
   })
   .passthrough();
 

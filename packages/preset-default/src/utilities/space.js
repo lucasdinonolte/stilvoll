@@ -2,10 +2,6 @@
  * Utilities for controlling spacing.
  */
 export const space = () => ({
-  additionalTokens: {
-    '--space-none': '0px',
-    '--space-px': '1px',
-  },
   utilities: {
     margin: {
       customPropertyRegex: /^--space-/,
@@ -27,8 +23,10 @@ export const space = () => ({
           explainer: 'Sets margin top and bottom',
         },
       },
-      additionalTokens: {
-        '--space-auto': 'auto',
+      additionalValues: {
+        auto: 'auto',
+        none: 0,
+        px: '1px',
       },
     },
     padding: {
@@ -54,6 +52,10 @@ export const space = () => ({
         },
         pl: { properties: ['padding-left'], explainer: 'Sets padding left' },
       },
+      additionalValues: {
+        none: 0,
+        px: '1px',
+      },
     },
     gap: {
       customPropertyRegex: /^--space-/,
@@ -68,6 +70,10 @@ export const space = () => ({
         'gap-y': {
           properties: ['row-gap'],
         },
+      },
+      additionalValues: {
+        none: 0,
+        px: '1px',
       },
     },
     stack: {
