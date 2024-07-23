@@ -102,10 +102,12 @@ const generateTypeDefinitions = (cssMap) => {
         .join('\n  ');
 
     return `/** ${explainer ?? ''
-      }\n\n\`\`\`css\n${selector}\n{\n  ${propertiesString}\n}\n\`\`\`*/\n  ${className}: string;`;
+      }\n\n\`\`\`css\n${selector}\n{\n  ${propertiesString}\n}\n\`\`\`*/\n  ${className}: Property;`;
   });
 
-  return `type UtilityMap = {
+  return `type Property = UtilityMap & string;
+
+type UtilityMap = {
   ${map.join('\n  ')}
 }
 

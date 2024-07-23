@@ -4,6 +4,7 @@ import {
   parseTokensToUtilities,
   extractClassNamesFromString,
   validateConfig,
+  hashClassName,
 } from '@stilvoll/core';
 import { loadFiles, writeFile } from './lib/files.js';
 
@@ -70,10 +71,27 @@ export default function tokenUtilityCSSPlugin(_options) {
       enforce: 'pre',
       buildStart: performWork,
       transform(code) {
-        const found = extractClassNamesFromString(code, transformed.classNames);
+        const found = extractClassNamesFromString({
+          code,
+          classNames: transformed.classNames,
+          objectTokensOnly: true,
+        });
 
         if (found.length > 0) {
-          classNames.push(...found);
+          classNames.push(...found.map(({ classNames }) => classNames).flat());
+
+          return {
+            code: found.reduce((prev, cur) => {
+              if (cur.isObjectToken) {
+                return prev.replaceAll(
+                  cur.token,
+                  `"${cur.classNames.map(hashClassName).join(' ')}"`,
+                );
+              } else {
+                return prev;
+              }
+            }, code),
+          };
         }
       },
     },
@@ -102,7 +120,7 @@ export default function tokenUtilityCSSPlugin(_options) {
             const css = chunk.source.replace(
               '.u____{display:none}',
               transformed
-                .generateCSS(classNames, false, true)
+                .generateCSS(classNames, true, true)
                 .trim()
                 .replaceAll('\n', ''),
             );

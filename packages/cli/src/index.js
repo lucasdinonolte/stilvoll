@@ -71,11 +71,17 @@ export default async function main(args) {
       context.logger.debug('Parsing Markup');
 
       const markup = await loadFiles(markupFiles, process.cwd(), context);
-      const classNames = extractClassNamesFromString(
-        markup.toString(),
-        transformed.classNames,
-      );
-      classesToGenerate.push(...classNames);
+      const found = extractClassNamesFromString({
+        code: markup.toString(),
+        classNames: transformed.classNames,
+        objectTokensOnly: false,
+      });
+
+      if (found.length > 0) {
+        classesToGenerate.push(
+          ...found.map(({ classNames }) => classNames).flat(),
+        );
+      }
     }
 
     if (classesToGenerate.length > 0) {

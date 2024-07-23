@@ -9,6 +9,11 @@ export default defineConfig({
     stilvoll({
       files: ['./src/index.css'],
       output: './src/styles/utils.css',
+      breakpoints: {
+        sm: 600,
+        md: 920,
+        lg: 1200,
+      },
     }),
   ],
 });
