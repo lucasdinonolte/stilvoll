@@ -12,6 +12,7 @@ export default function tokenUtilityCSSPlugin(_options) {
   const {
     files: inputFiles,
     typeDefinitions,
+    hashClassNames = false,
     ...rest
   } = validateConfig(_options);
 
@@ -85,7 +86,7 @@ export default function tokenUtilityCSSPlugin(_options) {
               if (cur.isObjectToken) {
                 return prev.replaceAll(
                   cur.token,
-                  `"${cur.classNames.map(hashClassName).join(' ')}"`,
+                  `"${cur.classNames.map(hashClassNames ? hashClassName : (x) => x).join(' ')}"`,
                 );
               } else {
                 return prev;
@@ -120,7 +121,7 @@ export default function tokenUtilityCSSPlugin(_options) {
             const css = chunk.source.replace(
               '.u____{display:none}',
               transformed
-                .generateCSS(classNames, true, true)
+                .generateCSS(classNames, hashClassNames, true)
                 .trim()
                 .replaceAll('\n', ''),
             );

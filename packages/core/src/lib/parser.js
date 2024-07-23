@@ -159,7 +159,7 @@ const generateCSS = (cssMap, _classNames = [], options) => {
     })
     .join('\n');
 
-  if (options.skipComment) return minify(css);
+  if (options.skipComment) return minify(`${css} ${mediaQueryCSS}`);
   return minify(
     `/* ${new Date().toISOString()} */\n${options.banner}\n\n${css}\n\n${mediaQueryCSS}`,
   );
