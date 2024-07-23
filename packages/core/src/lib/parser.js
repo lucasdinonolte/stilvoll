@@ -77,11 +77,14 @@ const generateUtilities = (utils, customProperties) => {
 
 const generateTypeDefinitions = (cssMap) => {
   const map = Object.keys(cssMap).map((className) => {
-    const { explainer, properties, selector } = cssMap[className](className);
+    const { explainer, properties, selector, css } =
+      cssMap[className](className);
 
-    const propertiesString = properties
-      .map(([attribute, value]) => `${attribute}: ${value};`)
-      .join('\n  ');
+    const propertiesString =
+      css ??
+      properties
+        .map(([attribute, value]) => `${attribute}: ${value};`)
+        .join('\n  ');
 
     return `/** ${explainer ?? ''
       }\n\n\`\`\`css\n${selector}\n{\n  ${propertiesString}\n}\n\`\`\`*/\n  ${className}: string;`;
@@ -104,26 +107,30 @@ const generateCSS = (cssMap, _classNames = [], options) => {
 
   const css = classNames
     .map((className) => {
-      const { selector, properties, media } = cssMap[className](
+      const { selector, properties, media, css } = cssMap[className](
         options.hash ? hashClassName(className) : className,
       );
 
-      const propertiesString = properties
-        .map(
-          ([attribute, value]) =>
-            `${attribute}: ${value}${options.useImportant ? ' !important' : ''
-            };`,
-        )
-        .join('\n  ');
+      let code;
+      if (css) {
+        code = css;
+      } else {
+        const propertiesString = properties
+          .map(
+            ([attribute, value]) =>
+              `${attribute}: ${value}${options.useImportant ? ' !important' : ''
+              };`,
+          )
+          .join('\n  ');
+
+        code = `${selector}{\n  ${propertiesString}\n}`;
+      }
 
       if (media) {
-        mediaQueries.set(media, [
-          ...(mediaQueries.get(media) ?? []),
-          `${selector}{\n${propertiesString}\n}`,
-        ]);
+        mediaQueries.set(media, [...(mediaQueries.get(media) ?? []), code]);
         return null;
       } else {
-        return `${selector}{\n${propertiesString}\n}`;
+        return code;
       }
     })
     .filter(Boolean)
@@ -188,18 +195,46 @@ const generateCSSMap = ({ utilities, staticUtilities, breakpoints }) => {
   }, {});
 
   return Object.keys(staticUtilities).reduce((acc, key) => {
-    const { properties, explainer } = staticUtilities[key];
+    const staticUtil = staticUtilities[key];
+
     for (const breakpoint of breakpointKeys) {
       const className = snakeCaseFromArray([breakpoint, key].filter(Boolean));
-      acc = {
-        ...acc,
-        [className]: (className) => ({
-          selector: `.${className} `,
-          properties: properties.map((p) => p),
-          explainer,
-          media: breakpoints[breakpoint],
-        }),
-      };
+
+      if (typeof staticUtil === 'function') {
+        acc = {
+          ...acc,
+          [className]: (className) => ({
+            ...staticUtil({ className }),
+            media: breakpoints[breakpoint],
+          }),
+        };
+      } else if (Array.isArray(staticUtil)) {
+        acc = {
+          ...acc,
+          [className]: (className) => ({
+            selector: `.${className} `,
+            properties: staticUtil.map(([attribute, value]) => [
+              attribute,
+              value,
+            ]),
+            media: breakpoints[breakpoint],
+          }),
+        };
+      } else if (typeof staticUtil === 'object') {
+        const { properties, explainer } = staticUtil;
+        acc = {
+          ...acc,
+          [className]: (className) => ({
+            selector: `.${className} `,
+            properties: properties.map(([attribute, value]) => [
+              attribute,
+              value,
+            ]),
+            explainer: explainer,
+            media: breakpoints[breakpoint],
+          }),
+        };
+      }
     }
 
     return acc;

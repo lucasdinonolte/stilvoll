@@ -80,14 +80,14 @@ export const space = () => ({
       customPropertyRegex: /^--space-/,
       utilities: {
         'stack-y': ({ className, value }) => ({
-          selector: `.${className} > :not([hidden]) ~ :not([hidden])`,
-          properties: [['margin-top', value]],
-          explainer: 'A stack puts space between elements in a stack.',
+          css: `.${className} > :not([hidden]) ~ :not([hidden]) {
+  margin-top: ${value};
+}`,
         }),
         'stack-x': ({ className, value }) => ({
-          selector: `.${className} > :not([hidden]) ~ :not([hidden])`,
-          properties: [['margin-left', value]],
-          explainer: 'A stack puts space between elements in a stack.',
+          css: `.${className} > :not([hidden]) ~ :not([hidden]) {
+  margin-left: ${value};
+}`,
         }),
       },
     },
