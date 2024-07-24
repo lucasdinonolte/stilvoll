@@ -34,7 +34,7 @@ const used = (classes = new Set()) => {
   return u;
 };
 
-export const u = new Proxy(
+export const sv = new Proxy(
   {},
   {
     get(_, prop) {

@@ -1,9 +1,9 @@
-import { u } from 'stilvoll';
+import { sv } from 'stilvoll';
 
 function App() {
   return (
-    <div className={u.row}>
-      <div className={u.col_12.md_col_4.md_push_2}>
+    <div className={sv.row}>
+      <div className={sv.col_12.md_col_6.md_push_6}>
         OMG, typesafe utility classes, so nice.
       </div>
     </div>

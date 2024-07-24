@@ -1,3 +1,5 @@
+import { STILVOLL_OBJECT_NAME, STILVOLL_SKIP_COMMENT } from '../constants.js';
+
 const splitRE = /[\\:]?[\s'"`;{}(),]+/g;
 
 export const extractClassNamesFromString = ({
@@ -8,16 +10,20 @@ export const extractClassNamesFromString = ({
   const res = [];
   const tokens = code.split(splitRE);
 
-  if (code.includes('/* UTILS_SKIP */')) {
+  const objPrefix = `${STILVOLL_OBJECT_NAME}.`;
+
+  if (code.includes(STILVOLL_SKIP_COMMENT)) {
     return res;
   }
 
   for (const token of tokens) {
-    if (objectTokensOnly && !token.startsWith('u.')) {
+    if (objectTokensOnly && !token.startsWith(objPrefix)) {
       continue;
     }
 
-    const toks = token.startsWith('u.') ? token.slice(2).split('.') : [token];
+    const toks = token.startsWith(objPrefix)
+      ? token.slice(2).split('.')
+      : [token];
     const foundClassNames = [];
 
     for (const tok of toks) {
@@ -28,7 +34,7 @@ export const extractClassNamesFromString = ({
 
     if (foundClassNames.length > 0) {
       res.push({
-        isObjectToken: token.startsWith('u.'),
+        isObjectToken: token.startsWith(objPrefix),
         token,
         classNames: foundClassNames,
       });

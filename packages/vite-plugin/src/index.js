@@ -6,7 +6,11 @@ import {
   validateConfig,
   hashClassName,
 } from '@stilvoll/core';
+
 import { loadFiles, writeFile } from './lib/files.js';
+
+const STILVOLL_VIRTUAL_MODULE_ID = 'virtual:util.css';
+const STILVOLL_REPLACE_STRING = '.u____{display:none}';
 
 export default function tokenUtilityCSSPlugin(_options) {
   const {
@@ -16,7 +20,7 @@ export default function tokenUtilityCSSPlugin(_options) {
     ...rest
   } = validateConfig(_options);
 
-  const virtualModuleId = 'virtual:util.css';
+  const virtualModuleId = STILVOLL_VIRTUAL_MODULE_ID;
   const resolvedVirtualModuleId = '\0' + virtualModuleId;
 
   const files = inputFiles.map((f) => path.join(process.cwd(), f));
@@ -28,7 +32,10 @@ export default function tokenUtilityCSSPlugin(_options) {
     const code = await loadFiles(files);
     transformed = parseTokensToUtilities({
       code,
-      options: rest ?? {},
+      options: {
+        ...rest,
+        classNameCase: 'snake',
+      },
     });
 
     if (typeDefinitions !== false) {
@@ -40,7 +47,7 @@ export default function tokenUtilityCSSPlugin(_options) {
     {
       // Dev plugin
       apply: 'serve',
-      name: 'token-utility-css:parser-dev',
+      name: 'stilvoll:parser-dev',
       buildStart: performWork,
       handleHotUpdate({ file }) {
         if (files.includes(file)) {
@@ -50,7 +57,7 @@ export default function tokenUtilityCSSPlugin(_options) {
     },
     {
       apply: 'serve',
-      name: 'token-utility-css:virtual-dev',
+      name: 'stilvoll:virtual-dev',
       resolveId(id) {
         if (id === virtualModuleId) {
           return resolvedVirtualModuleId;
@@ -68,7 +75,7 @@ export default function tokenUtilityCSSPlugin(_options) {
     // Build plugin
     {
       apply: 'build',
-      name: 'token-utility-css:parser-build',
+      name: 'stilvoll:parser-build',
       enforce: 'pre',
       buildStart: performWork,
       transform(code) {
@@ -99,7 +106,7 @@ export default function tokenUtilityCSSPlugin(_options) {
     {
       apply: 'build',
       enforce: 'post',
-      name: 'token-utility-css:virtual-build',
+      name: 'stilvoll:virtual-build',
       resolveId(id) {
         if (id === virtualModuleId) {
           return resolvedVirtualModuleId;
@@ -108,7 +115,7 @@ export default function tokenUtilityCSSPlugin(_options) {
       load(id) {
         if (id === resolvedVirtualModuleId) {
           return {
-            code: '.u____{display:none}',
+            code: STILVOLL_REPLACE_STRING,
           };
         }
       },
@@ -119,9 +126,12 @@ export default function tokenUtilityCSSPlugin(_options) {
           const chunk = bundle[file];
           if (chunk.type === 'asset' && typeof chunk.source === 'string') {
             const css = chunk.source.replace(
-              '.u____{display:none}',
+              STILVOLL_REPLACE_STRING,
               transformed
-                .generateCSS(classNames, hashClassNames, true)
+                .generateCSS(classNames, {
+                  hash: hashClassNames,
+                  skipComment: true,
+                })
                 .trim()
                 .replaceAll('\n', ''),
             );

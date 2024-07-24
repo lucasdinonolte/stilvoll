@@ -1,11 +1,15 @@
 import { transform } from 'lightningcss';
 
+import { STILVOLL_OBJECT_NAME } from '../constants.js';
+
 import {
+  kebabCaseFromArray,
   snakeCaseFromArray,
   hashClassName,
   omit,
   uniqueArray,
 } from './utils.js';
+
 import { defaultOptions } from './options.js';
 
 /**
@@ -92,7 +96,7 @@ const generateUtilities = (utils, customProperties) => {
 
 const generateTypeDefinitions = (cssMap) => {
   const map = Object.keys(cssMap).map((className) => {
-    const { explainer, properties, selector, css } =
+    const { explainer, properties, selector, css, media } =
       cssMap[className](className);
 
     const propertiesString =
@@ -101,8 +105,15 @@ const generateTypeDefinitions = (cssMap) => {
         .map(([attribute, value]) => `${attribute}: ${value};`)
         .join('\n  ');
 
-    return `/** ${explainer ?? ''
-      }\n\n\`\`\`css\n${selector}\n{\n  ${propertiesString}\n}\n\`\`\`*/\n  ${className}: Property;`;
+    const codeComment = explainer ? `${explainer}\n` : '';
+    const codeSample = selector
+      ? `${selector}{\n  ${propertiesString}\n}`
+      : propertiesString;
+    const responsiveCodeSample = media
+      ? `${media} {\n${codeSample}\n}`
+      : codeSample;
+
+    return `/** ${codeComment}\n\`\`\`css\n${responsiveCodeSample}\n\`\`\`*/\n  "${className}": Property;`;
   });
 
   return `type Property = UtilityMap & string;
@@ -111,8 +122,8 @@ type UtilityMap = {
   ${map.join('\n  ')}
 }
 
-declare const u: UtilityMap;
-export { u };
+declare const ${STILVOLL_OBJECT_NAME}: UtilityMap;
+export { ${STILVOLL_OBJECT_NAME} }
 `;
 };
 
@@ -169,13 +180,13 @@ const generateCSS = (cssMap, _classNames = [], options) => {
  * Generates a map of all possible CSS classes the current
  * input CSS can generate.
  */
-const generateCSSMap = ({ utilities, breakpoints }) => {
+const generateCSSMap = ({ utilities, breakpoints, classNameFormatter }) => {
   const breakpointKeys = [null, ...Object.keys(breakpoints)];
 
   return utilities.reduce((acc, { name, value, utilities }) => {
     for (const [classNameKey, generator] of Object.entries(utilities)) {
       for (const breakpoint of breakpointKeys) {
-        const className = snakeCaseFromArray(
+        const className = classNameFormatter(
           [breakpoint, classNameKey, '_', name].filter(Boolean),
         );
 
@@ -331,17 +342,21 @@ export const parseTokensToUtilities = ({
   const options = Object.assign({}, defaultOptions, _options);
   const { utilities, breakpoints } = parseInputCSS(code, options);
 
+  const classNameFormatter =
+    options.typeDefinitions === false ? kebabCaseFromArray : snakeCaseFromArray;
+
   const cssMap = generateCSSMap({
     utilities,
     breakpoints,
+    classNameFormatter,
   });
 
   return {
     classNames: Object.keys(cssMap),
-    generateTypeDefinitions(hash = false) {
+    generateTypeDefinitions({ hash = false } = {}) {
       return generateTypeDefinitions(cssMap, { ...options, hash });
     },
-    generateCSS(classNames = [], hash = false, skipComment = false) {
+    generateCSS(classNames = [], { hash = false, skipComment = false } = {}) {
       return generateCSS(cssMap, classNames, { ...options, hash, skipComment });
     },
   };

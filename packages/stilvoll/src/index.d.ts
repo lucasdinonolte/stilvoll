@@ -8,5 +8,5 @@ type UtilityMap = {
   not_generated: never;
 };
 
-declare const u: UtilityMap;
-export { u };
+declare const sv: UtilityMap;
+export { sv };
