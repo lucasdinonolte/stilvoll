@@ -1,0 +1,12 @@
+body {
+  margin: 0;
+  padding: 40px;
+  font-family: Helvetica, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-text);
+
+  /* stylelint-disable */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* stylelint-enable */
+}

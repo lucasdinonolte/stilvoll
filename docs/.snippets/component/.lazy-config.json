@@ -1,0 +1,47 @@
+{
+  "name": "React Component",
+  "description": "Scaffolds a basic React component with CSS Module",
+  "inputs": [
+    {
+      "name": "name",
+      "type": "text",
+      "default": "MyComponent",
+      "message": "What is the name of the component?"
+    },
+    {
+      "name": "directory",
+      "type": "text",
+      "default": "src/components",
+      "message": "Directory to put the component to"
+    },
+    {
+      "name": "withTest",
+      "type": "confirm",
+      "default": true,
+      "message": "Do you want to create a test file?"
+    }
+  ],
+  "templates": [
+    {
+      "src": "component.template.hbs",
+      "dest": "{{directory}}/{{name}}/{{name}}.jsx"
+    },
+    {
+      "src": "index.template.hbs",
+      "dest": "{{directory}}/{{name}}/index.js"
+    },
+    {
+      "src": "style.template.hbs",
+      "dest": "{{directory}}/{{name}}/{{name}}.module.css"
+    },
+    {
+      "src": "test.template.hbs",
+      "dest": "{{directory}}/{{name}}/{{name}}.test.jsx",
+      "when": {
+        "withTest": {
+          "eq": true
+        }
+      }
+    }
+  ]
+}

@@ -2,7 +2,8 @@
   "name": "stilvoll-mono-repo",
   "workspaces": [
     "packages/*",
-    "examples/*"
+    "examples/*",
+    "docs"
   ],
   "scripts": {
     "changeset": "changeset",

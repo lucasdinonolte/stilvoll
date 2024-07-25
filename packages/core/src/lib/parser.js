@@ -342,8 +342,8 @@ export const parseTokensToUtilities = ({
   const options = Object.assign({}, defaultOptions, _options);
   const { utilities, breakpoints } = parseInputCSS(code, options);
 
-  const classNameFormatter =
-    options.typeDefinitions === false ? kebabCaseFromArray : snakeCaseFromArray;
+  // Not used now, but maybe useful in the future
+  const classNameFormatter = snakeCaseFromArray;
 
   const cssMap = generateCSSMap({
     utilities,

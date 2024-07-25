@@ -4,7 +4,7 @@ export const grid = (settings) => ({
       customPropertyRegex: /^--space-/,
       utilities: {
         gutter: {
-          properties: ['--grid-gutter'],
+          properties: ['--layout-grid-gutter'],
           explainer: 'Sets the grid gutter',
         },
       },
@@ -15,8 +15,8 @@ export const grid = (settings) => ({
           css: `.${className} {
   display: flex;
   flex-wrap: wrap;
-  margin-right: calc(-0.5 * var(--grid-gutter, 0));
-  margin-left: calc(-0.5 * var(--grid-gutter, 0));
+  margin-right: calc(-0.5 * var(--layout-grid-gutter, 0));
+  margin-left: calc(-0.5 * var(--layout-grid-gutter, 0));
 }
 
 .${className} > * {
@@ -53,5 +53,8 @@ export const grid = (settings) => ({
         ),
       },
     },
+  },
+  customProperties: {
+    '--layout-grid-gutter': '16px',
   },
 });

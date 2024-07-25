@@ -1,0 +1,24 @@
+{
+  "name": "Page",
+  "description": "Scaffolds a basic Page component",
+  "inputs": [
+    {
+      "name": "path",
+      "type": "text",
+      "default": "new-page",
+      "message": "What is the name of the component?"
+    },
+    {
+      "name": "directory",
+      "type": "text",
+      "default": "src/pages",
+      "message": "Directory to put the page to"
+    }
+  ],
+  "templates": [
+    {
+      "src": "page.template.hbs",
+      "dest": "{{directory}}/{{path}}.jsx"
+    }
+  ]
+}

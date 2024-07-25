@@ -9,7 +9,7 @@ const require = createRequire(import.meta.url);
 const configSchema = z
   .object({
     input: z.array(z.string()),
-    output: z.string(),
+    output: z.string().nullable(),
     entries: z.array(z.string()),
     typeDefinitions: z.string().or(z.literal(false)),
     useImportant: z.boolean(),

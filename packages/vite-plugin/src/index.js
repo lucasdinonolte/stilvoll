@@ -34,7 +34,6 @@ export default function tokenUtilityCSSPlugin(_options) {
       code,
       options: {
         ...rest,
-        classNameCase: 'snake',
       },
     });
 

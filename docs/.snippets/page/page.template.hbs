@@ -1,0 +1,19 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+
+const Page = () => {
+  return (
+    <div>
+      <Helmet>
+        <title>My New Page</title>
+      </Helmet>
+      <Link to={'/'}>Homepage</Link>
+      <p>
+        Edit <code>{{ directory }}/{{ path }}.jsx</code> to get started
+      </p>
+    </div>
+  );
+};
+
+export default Page;

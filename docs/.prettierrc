@@ -1,0 +1,19 @@
+{
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "tabWidth": 2,
+  "useTabs": false,
+  "overrides": [
+    {
+      "files": ["*.css", "*.scss", "*.mdx", "*.md"],
+      "options": {
+        "singleQuote": false
+      }
+    }, {
+      "files": ["*.mdx", "*.md"],
+      "options": {
+        "proseWrap": "always"
+      }
+    }
+  ]
+}
