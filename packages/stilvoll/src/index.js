@@ -1,4 +1,5 @@
 // Heavily inspired by how typewind does it
+// to allow for chaining of classes
 const used = (classes = new Set()) => {
   const target = Object.assign(
     {},
