@@ -46,7 +46,7 @@ export const Checkbox = (props) => {
 };
 Checkbox.defaultProps = {
   value: true,
-  onChange: () => { },
+  onChange: () => {},
 };
 Checkbox.propTypes = {
   name: PropTypes.string,

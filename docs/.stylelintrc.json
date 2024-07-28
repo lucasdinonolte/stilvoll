@@ -1,7 +1,5 @@
 {
-  "plugins": [
-    "stylelint-no-unsupported-browser-features"
-  ],
+  "plugins": ["stylelint-no-unsupported-browser-features"],
   "extends": [
     "stylelint-config-standard",
     "stylelint-config-property-sort-order-smacss"

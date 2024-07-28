@@ -1,4 +1,10 @@
-import { flexRules, gapRules, gridRules, spacingRules, visibilityRules } from "@stilvoll/rules";
+import {
+  flexRules,
+  gapRules,
+  gridRules,
+  spacingRules,
+  visibilityRules,
+} from '@stilvoll/rules';
 
 export default {
   input: ['./src/input.css'],
@@ -16,6 +22,6 @@ export default {
     ...gridRules,
     ...gapRules,
     ...spacingRules,
-    ...visibilityRules
+    ...visibilityRules,
   ],
 };

@@ -1,6 +1,7 @@
 # Vite React Template
 
-A base template for building simple React websites and prototypes with Vite (including simple SSG).
+A base template for building simple React websites and prototypes with Vite
+(including simple SSG).
 
 ## Scripts
 
@@ -11,7 +12,8 @@ A base template for building simple React websites and prototypes with Vite (inc
 
 ## Get started
 
-Either choose the "Use this template" button on this repo or clone using `degit`.
+Either choose the "Use this template" button on this repo or clone using
+`degit`.
 
 ```bash
 npx degit github:designsystemsinternational/react-vite-template
@@ -29,12 +31,16 @@ This template comes with a solid `vite.config.js` package setup:
 - Production build with minification
 - Image resizing and webp-conversion via `import`
 - Automatic conversion of `svg` to React components via `import`
-- Support for `.env` files that are loading into client side `process.env.VAR_NAME`
-	- Only env variables prefixed with `PUBLIC_` will be made available in client side code, to prevent leaking secrets into public code
+- Support for `.env` files that are loading into client
+  side `process.env.VAR_NAME`
+  - Only env variables prefixed with `PUBLIC_` will be made available in client
+    side code, to prevent leaking secrets into public code
 - Optional testing with Vitest and Testing Library
 - Static HTML generation of non-dynamic routes
 - Lazy CLI to quickly scaffold new components and pages
 
 ## Deploying
 
-We suggest that you use [`@designsystemsinternational/static`](https://www.npmjs.com/package/@designsystemsinternational/static) for deployment.
+We suggest that you use
+[`@designsystemsinternational/static`](https://www.npmjs.com/package/@designsystemsinternational/static)
+for deployment.

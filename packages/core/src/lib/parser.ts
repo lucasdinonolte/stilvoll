@@ -318,12 +318,12 @@ const parseInputCSS = (
 
   const breakpoints: Record<string, string> = hasBreakpointsDefined
     ? Object.entries(options.breakpoints).reduce(
-      (acc, [key, value]) => ({
-        ...acc,
-        [key]: `@media screen and (min-width: ${value}px)`,
-      }),
-      {},
-    )
+        (acc, [key, value]) => ({
+          ...acc,
+          [key]: `@media screen and (min-width: ${value}px)`,
+        }),
+        {},
+      )
     : foundBreakpoints;
 
   return {

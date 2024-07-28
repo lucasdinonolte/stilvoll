@@ -30,7 +30,8 @@ export const Radio = (props) => {
         [css.focus]: focus,
         [css.checked]: checked,
         [css.disabled]: disabled,
-      })}>
+      })}
+    >
       <input
         checked={checked}
         id={id}

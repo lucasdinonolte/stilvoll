@@ -16,7 +16,14 @@ export const visibilityRules = [
   ['select-all', { '-webkit-user-select': 'all', 'user-select': 'all' }],
   ['select-text', { '-webkit-user-select': 'text', 'user-select': 'text' }],
   ['select-none', { '-webkit-user-select': 'none', 'user-select': 'none' }],
-  ['truncate', { 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }],
+  [
+    'truncate',
+    {
+      overflow: 'hidden',
+      'text-overflow': 'ellipsis',
+      'white-space': 'nowrap',
+    },
+  ],
   ['text-clip', { 'text-overflow': 'clip' }],
   [
     'sr-only',

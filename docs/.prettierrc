@@ -9,7 +9,8 @@
       "options": {
         "singleQuote": false
       }
-    }, {
+    },
+    {
       "files": ["*.mdx", "*.md"],
       "options": {
         "proseWrap": "always"
