@@ -34,6 +34,7 @@ export default defineConfig({
     stilvoll({
       files: ['./src/styles/variables.css', './src/styles/breakpoints.css'],
       output: './src/styles/utils.css',
+      rules: [['flex', { display: 'flex' }]],
     }),
 
     /**

@@ -6,8 +6,16 @@ export const extractClassNamesFromString = ({
   code,
   classNames,
   objectTokensOnly = false,
+}: {
+  code: string;
+  classNames: Array<string>;
+  objectTokensOnly: boolean;
 }) => {
-  const res: Array<{ isObjectToken: boolean; token: string; classNames: Array<string> }> = [];
+  const res: Array<{
+    isObjectToken: boolean;
+    token: string;
+    classNames: Array<string>;
+  }> = [];
   const tokens = code.split(splitRE);
 
   const objPrefix = `${STILVOLL_OBJECT_NAME}.`;

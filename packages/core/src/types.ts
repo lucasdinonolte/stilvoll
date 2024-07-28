@@ -21,8 +21,6 @@ export type TConfig = {
   entries: Array<string>;
   output: string | null;
   typeDefinitionsOutput: string | false;
-  useImportant: boolean;
-  banner: string;
   rules: Array<TRule>;
   breakpoints: Record<string, number>;
 };
