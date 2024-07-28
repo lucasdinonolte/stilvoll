@@ -1,6 +1,6 @@
 {
   "name": "@stilvoll/docs",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "src/index.js",
   "type": "module",
   "scripts": {
@@ -28,7 +28,7 @@
   "devDependencies": {
     "@csstools/postcss-global-data": "^2.0.1",
     "@lucasdinonolte/lazy-cli": "0.2.0",
-    "@stilvoll/vite-plugin": "0.0.3",
+    "@stilvoll/vite-plugin": "0.0.4",
     "@testing-library/jest-dom": "^6.1.2",
     "@testing-library/react": "^14.0.0",
     "@vitejs/plugin-react": "^4.0.4",
@@ -46,7 +46,7 @@
     "postcss-preset-env": "^9.1.1",
     "prettier": "^3.0.2",
     "serve": "^14.2.1",
-    "stilvoll": "0.0.3",
+    "stilvoll": "0.0.4",
     "stylelint": "^15.10.3",
     "stylelint-config-prettier": "^8.0.2",
     "stylelint-config-property-sort-order-smacss": "^9.1.0",

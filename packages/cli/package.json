@@ -1,6 +1,6 @@
 {
   "name": "@stilvoll/cli",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
   "license": "MIT",
   "main": "./src/index.js",
@@ -11,7 +11,7 @@
     "lint": "eslint ./src"
   },
   "dependencies": {
-    "@stilvoll/core": "0.0.3",
+    "@stilvoll/core": "0.0.4",
     "glob": "^11.0.0"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 {
   "name": "@stilvoll/vite-plugin",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
   "license": "MIT",
   "main": "./src/index.js",
@@ -8,7 +8,7 @@
     "lint": "eslint ./src"
   },
   "dependencies": {
-    "@stilvoll/core": "0.0.3"
+    "@stilvoll/core": "0.0.4"
   },
   "devDependencies": {
     "eslint": "^8.57.0"
