@@ -6,6 +6,11 @@ import type { TConfig } from '../types';
 
 const require = createRequire(import.meta.url);
 
+export const defaultTypeDefinitionsPath = path.join(
+  require.resolve('stilvoll'),
+  '../index.d.ts',
+);
+
 const configSchema = z
   .object({
     input: z.array(z.string()),
@@ -21,10 +26,7 @@ export const defaultOptions: TConfig = {
   input: [],
   entries: [],
   output: null,
-  typeDefinitionsOutput: path.join(
-    require.resolve('stilvoll'),
-    '../index.d.ts',
-  ),
+  typeDefinitionsOutput: defaultTypeDefinitionsPath,
   breakpoints: {},
   rules: [],
 };

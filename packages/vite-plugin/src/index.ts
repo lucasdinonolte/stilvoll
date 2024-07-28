@@ -1,32 +1,30 @@
 import path from 'node:path';
+import type { OutputChunk, OutputAsset, OutputOptions } from 'rollup';
 
 import {
   parseTokensToUtilities,
   extractClassNamesFromString,
   validateConfig,
-  hashClassName,
+  TParseResult,
+  defaultTypeDefinitionsPath,
 } from '@stilvoll/core';
 
-import { loadFiles, writeFile } from './lib/files.js';
+import type { TPluginConfig } from './types';
+import { loadFiles, writeFile } from './lib/files';
 
 const STILVOLL_VIRTUAL_MODULE_ID = 'virtual:util.css';
 const STILVOLL_REPLACE_STRING = '.u____{display:none}';
 
-export default function tokenUtilityCSSPlugin(_options) {
-  const {
-    files: inputFiles,
-    typeDefinitionsOutput,
-    hashClassNames = false,
-    ...rest
-  } = validateConfig(_options);
+export default function tokenUtilityCSSPlugin(_options: TPluginConfig) {
+  const { input: inputFiles, ...rest } = validateConfig(_options);
 
   const virtualModuleId = STILVOLL_VIRTUAL_MODULE_ID;
   const resolvedVirtualModuleId = '\0' + virtualModuleId;
 
   const files = inputFiles.map((f) => path.join(process.cwd(), f));
 
-  let transformed = null;
-  const classNames = [];
+  let transformed: TParseResult | null = null;
+  const classNames: Array<string> = [];
 
   const performWork = async () => {
     const code = await loadFiles(files);
@@ -37,8 +35,11 @@ export default function tokenUtilityCSSPlugin(_options) {
       },
     });
 
-    if (typeDefinitionsOutput !== false) {
-      await writeFile(typeDefinitionsOutput, transformed.generateTypeDefinitions());
+    if (transformed) {
+      await writeFile(
+        defaultTypeDefinitionsPath,
+        transformed.generateTypeDefinitions(),
+      );
     }
   };
 
@@ -57,13 +58,13 @@ export default function tokenUtilityCSSPlugin(_options) {
     {
       apply: 'serve',
       name: 'stilvoll:virtual-dev',
-      resolveId(id) {
+      resolveId(id: string) {
         if (id === virtualModuleId) {
           return resolvedVirtualModuleId;
         }
       },
-      load(id) {
-        if (id === resolvedVirtualModuleId) {
+      load(id: string) {
+        if (id === resolvedVirtualModuleId && transformed) {
           return {
             code: transformed.generateCSS(),
           };
@@ -77,7 +78,9 @@ export default function tokenUtilityCSSPlugin(_options) {
       name: 'stilvoll:parser-build',
       enforce: 'pre',
       buildStart: performWork,
-      transform(code) {
+      transform(code: string) {
+        if (transformed === null) return;
+
         const found = extractClassNamesFromString({
           code,
           classNames: transformed.classNames,
@@ -92,7 +95,7 @@ export default function tokenUtilityCSSPlugin(_options) {
               if (cur.isObjectToken) {
                 return prev.replaceAll(
                   cur.token,
-                  `"${cur.classNames.map(hashClassNames ? hashClassName : (x) => x).join(' ')}"`,
+                  `"${cur.classNames.join(' ')}"`,
                 );
               } else {
                 return prev;
@@ -106,33 +109,36 @@ export default function tokenUtilityCSSPlugin(_options) {
       apply: 'build',
       enforce: 'post',
       name: 'stilvoll:virtual-build',
-      resolveId(id) {
+      resolveId(id: string) {
         if (id === virtualModuleId) {
           return resolvedVirtualModuleId;
         }
       },
-      load(id) {
+      load(id: string) {
         if (id === resolvedVirtualModuleId) {
           return {
             code: STILVOLL_REPLACE_STRING,
           };
         }
       },
-      generateBundle(_, bundle) {
+      generateBundle(
+        _: OutputOptions,
+        bundle: { [fileName: string]: OutputAsset | OutputChunk },
+      ) {
+        if (!transformed) return;
+
         const files = Object.keys(bundle).filter((i) => i.endsWith('.css'));
 
         for (const file of files) {
           const chunk = bundle[file];
-          if (chunk.type === 'asset' && typeof chunk.source === 'string') {
+          if (
+            chunk &&
+            chunk.type === 'asset' &&
+            typeof chunk.source === 'string'
+          ) {
             const css = chunk.source.replace(
               STILVOLL_REPLACE_STRING,
-              transformed
-                .generateCSS(classNames, {
-                  hash: hashClassNames,
-                  skipComment: true,
-                })
-                .trim()
-                .replaceAll('\n', ''),
+              transformed.generateCSS(classNames).trim().replaceAll('\n', ''),
             );
             chunk.source = css;
           }

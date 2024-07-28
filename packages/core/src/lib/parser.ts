@@ -3,6 +3,7 @@ import type {
   TBreakpoint,
   TConfig,
   TCustomProperty,
+  TParseResult,
   TRule,
   TRuleName,
   TRuleResult,
@@ -347,7 +348,7 @@ export const parseTokensToUtilities = ({
 }: {
   code: string | Buffer;
   options: Partial<TConfig>;
-}) => {
+}): TParseResult => {
   const options = mergeWithDefaultConfig(_options);
   const { customProperties, breakpoints } = parseInputCSS(code, options);
 

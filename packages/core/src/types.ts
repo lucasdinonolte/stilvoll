@@ -35,3 +35,9 @@ export type TBreakpoint = {
   name: string;
   media: string;
 }
+
+export type TParseResult = {
+  classNames: Array<string>;
+  generateTypeDefinitions: () => string;
+  generateCSS: (classNames?: Array<string>) => string;
+}
