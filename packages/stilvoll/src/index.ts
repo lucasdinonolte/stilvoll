@@ -1,3 +1,5 @@
+import type { UtilityMap } from "./types";
+
 // Heavily inspired by how typewind does it
 // to allow for chaining of classes
 const used = (classes = new Set()) => {
@@ -36,10 +38,10 @@ const used = (classes = new Set()) => {
 };
 
 export const sv = new Proxy(
-  {},
+  { },
   {
     get(_, prop) {
       return used()[prop];
     },
   },
-);
+) as UtilityMap;

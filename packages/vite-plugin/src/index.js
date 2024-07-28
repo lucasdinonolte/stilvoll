@@ -15,7 +15,7 @@ const STILVOLL_REPLACE_STRING = '.u____{display:none}';
 export default function tokenUtilityCSSPlugin(_options) {
   const {
     files: inputFiles,
-    typeDefinitions,
+    typeDefinitionsOutput,
     hashClassNames = false,
     ...rest
   } = validateConfig(_options);
@@ -37,8 +37,8 @@ export default function tokenUtilityCSSPlugin(_options) {
       },
     });
 
-    if (typeDefinitions !== false) {
-      await writeFile(typeDefinitions, transformed.generateTypeDefinitions());
+    if (typeDefinitionsOutput !== false) {
+      await writeFile(typeDefinitionsOutput, transformed.generateTypeDefinitions());
     }
   };
 

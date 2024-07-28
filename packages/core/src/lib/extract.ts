@@ -7,7 +7,7 @@ export const extractClassNamesFromString = ({
   classNames,
   objectTokensOnly = false,
 }) => {
-  const res = [];
+  const res: Array<{ isObjectToken: boolean; token: string; classNames: Array<string> }> = [];
   const tokens = code.split(splitRE);
 
   const objPrefix = `${STILVOLL_OBJECT_NAME}.`;
@@ -24,7 +24,7 @@ export const extractClassNamesFromString = ({
     const toks = token.startsWith(objPrefix)
       ? token.slice(2).split('.')
       : [token];
-    const foundClassNames = [];
+    const foundClassNames: Array<string> = [];
 
     for (const tok of toks) {
       if (classNames.includes(tok)) {

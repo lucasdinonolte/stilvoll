@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# cache
+.eslintcache
+.rollup.cache
+.turbo
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

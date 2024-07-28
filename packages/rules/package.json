@@ -1,5 +1,5 @@
 {
-  "name": "stilvoll",
+  "name": "@stilvoll/rules",
   "version": "0.0.3",
   "type": "module",
   "license": "MIT",
@@ -10,6 +10,9 @@
     "clean": "rimraf dist",
     "lint": "eslint ./src",
     "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@stilvoll/core": "0.0.3"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^11.1.6",

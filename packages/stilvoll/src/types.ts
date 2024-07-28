@@ -1,4 +1,4 @@
-type UtilityMap = {
+export type UtilityMap = {
   /**
    * It appears that stilvoll didn't run just yet.
    * Make sure to run it as either the vite plugin or
@@ -7,6 +7,3 @@ type UtilityMap = {
    */
   not_generated: never;
 };
-
-declare const sv: UtilityMap;
-export { sv };

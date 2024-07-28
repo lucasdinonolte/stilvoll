@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "stilvoll": "*",
-    "@stilvoll/cli": "0.0.3"
+    "@stilvoll/cli": "0.0.3",
+    "@stilvoll/rules": "0.0.3"
   }
 }

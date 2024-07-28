@@ -57,3 +57,11 @@ export const hashClassName = (input) =>
     .reduce((hash, char) => (hash << 5) - hash + char.charCodeAt(0), 0)
     .toString(36)
     .slice(0, 8)}`;
+
+export const ensureBuffer = (input: string | Buffer): Buffer => {
+  if (typeof input === 'string') return Buffer.from(input);
+  return input;
+};
+
+export const notNull = (i: any) => i !== null && i !== undefined;
+export const nonEmpty = (s: string) => s !== '';
