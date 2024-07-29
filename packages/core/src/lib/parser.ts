@@ -11,14 +11,11 @@ import type {
   TFormatterProps,
 } from '../types';
 
-import { STILVOLL_OBJECT_NAME } from '../constants.js';
-
-import { ensureBuffer, uniqueArray } from './utils.js';
-
+import { STILVOLL_OBJECT_NAME } from '../constants';
+import { ensureBuffer, uniqueArray } from './utils';
 import { escapeSelector } from './escape';
 import { snakeCaseFormatter, tailwindFormatter } from './formatters';
-
-import { mergeWithDefaultConfig } from './options.js';
+import { mergeWithDefaultConfig } from './options';
 
 const NOOP_BREAKPOINT = { name: null, media: null };
 

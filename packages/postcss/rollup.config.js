@@ -6,7 +6,31 @@ export default [
     input: 'src/index.ts',
     output: [
       {
-        file: 'dist/index.js',
+        file: 'dist/index.mjs',
+        format: 'esm',
+      },
+      {
+        file: 'dist/index.cjs',
+        format: 'cjs',
+      },
+    ],
+    external: ['@stilvoll/postcss/esm'],
+    plugins: [
+      typescript({
+        tsconfig: './tsconfig.json',
+        include: ['src/**'],
+        exclude: ['**/*.test.*'],
+        compilerOptions: {
+          emitDeclarationOnly: true,
+        },
+      }),
+    ],
+  },
+  {
+    input: 'src/plugin.ts',
+    output: [
+      {
+        file: 'dist/esm.mjs',
         format: 'esm',
       },
     ],

@@ -3,7 +3,15 @@
   "version": "0.0.4",
   "type": "module",
   "license": "MIT",
-  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    },
+    "./esm": {
+      "default": "./dist/esm.mjs"
+    }
+  },
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "npm run clean && rollup -c",

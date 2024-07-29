@@ -4,19 +4,19 @@ import type { OutputChunk, OutputAsset, OutputOptions } from 'rollup';
 import {
   parseTokensToUtilities,
   extractClassNamesFromString,
-  validateConfig,
+  loadUserConfig,
   TParseResult,
   defaultTypeDefinitionsPath,
+  TUserConfig,
 } from '@stilvoll/core';
 
-import type { TPluginConfig } from './types';
 import { loadFiles, writeFile } from './lib/files';
 
 const STILVOLL_VIRTUAL_MODULE_ID = 'virtual:util.css';
 const STILVOLL_REPLACE_STRING = '.u____{display:none}';
 
-export default function tokenUtilityCSSPlugin(_options: TPluginConfig) {
-  const { input: inputFiles, ...rest } = validateConfig(_options);
+export default async function tokenUtilityCSSPlugin(_options: Partial<TUserConfig>) {
+  const { input: inputFiles, ...rest } = await loadUserConfig(_options);
 
   const virtualModuleId = STILVOLL_VIRTUAL_MODULE_ID;
   const resolvedVirtualModuleId = '\0' + virtualModuleId;

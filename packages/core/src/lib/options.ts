@@ -1,6 +1,7 @@
 import { z } from 'zod';
+import { loadConfig } from 'unconfig';
 
-import type { TConfig } from '../types';
+import type { TConfig, TUserConfig } from '../types';
 import { defaultFileSystemGlobs, defaultTypeDefinitionsPath } from '../defaults';
 
 const configSchema = z
@@ -34,3 +35,18 @@ export const mergeWithDefaultConfig = (
 
 export const validateConfig = (config: Partial<TConfig>) =>
   configSchema.parse(mergeWithDefaultConfig(config));
+
+export const loadUserConfig = async (inlineConfig: Partial<TUserConfig> = {}, cwd: string = process.cwd()): Promise<TConfig> => {
+  const { config } = await loadConfig<Partial<TUserConfig>>({
+    cwd,
+    sources: [
+      {
+        files: 'stilvoll.config',
+        extensions: ['js', 'cjs', 'mjs'],
+      }
+    ],
+    defaults: inlineConfig,
+  });
+
+  return mergeWithDefaultConfig(config);
+}
