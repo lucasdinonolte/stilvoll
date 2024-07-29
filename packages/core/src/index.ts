@@ -3,6 +3,7 @@ export {
   validateConfig,
   mergeWithDefaultConfig,
   loadUserConfig,
+  createConfig,
 } from './lib/options';   
 export { extractClassNamesFromString } from './lib/extract';
 export { hashClassName } from './lib/utils';

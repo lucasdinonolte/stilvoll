@@ -1,3 +1,5 @@
+import { createConfig } from '@stilvoll/core';
+
 import {
   flexRules,
   gapRules,
@@ -6,7 +8,7 @@ import {
   visibilityRules,
 } from '@stilvoll/rules';
 
-export default {
+export default createConfig({
   input: ['./src/index.css'],
   rules: [
     ...flexRules,
@@ -15,4 +17,4 @@ export default {
     ...spacingRules,
     ...visibilityRules,
   ],
-};
+});

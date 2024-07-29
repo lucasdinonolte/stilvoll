@@ -1,14 +1,12 @@
 import { glob } from 'glob';
 import path from 'node:path';
 import {
+  loadUserConfig,
   parseTokensToUtilities,
   extractClassNamesFromString,
 } from '@stilvoll/core';
 
-import { CONFIG_FILE_NAME } from './constants.js';
-
 import { parseCLIFlags } from './lib/flags.js';
-import { loadConfig } from './lib/config.js';
 import { loadPkg, loadFiles, watchFiles, writeFile } from './lib/files.js';
 import { roundWithPrecision } from './lib/util.js';
 import { createLogger } from './lib/logger.js';
@@ -40,7 +38,7 @@ export default async function main(args) {
   }
 
   // Step 1: Look for and load config
-  const config = await loadConfig(CONFIG_FILE_NAME, process.cwd(), context);
+  const config = await loadUserConfig({});
   if (config === null) process.exit(1);
 
   let markupFiles = [];
