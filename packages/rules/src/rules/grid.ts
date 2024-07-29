@@ -74,7 +74,7 @@ export const gridRules = [
   ],
   ['col-end-auto', { 'grid-column-end': 'auto' }],
   [
-    (count: string) => `col-start-${count}`,
+    (count: string) => `col-end-${count}`,
     (value: number) => ({
       'grid-column-end': value,
     }),
