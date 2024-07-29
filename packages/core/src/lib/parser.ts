@@ -8,16 +8,15 @@ import type {
   TRuleName,
   TRuleResult,
   TUtilityStyle,
+  TFormatterProps,
 } from '../types';
 
 import { STILVOLL_OBJECT_NAME } from '../constants.js';
 
-import {
-  ensureBuffer,
-  nonEmpty,
-  snakeCaseFromArray,
-  uniqueArray,
-} from './utils.js';
+import { ensureBuffer, uniqueArray } from './utils.js';
+
+import { escapeSelector } from './escape';
+import { snakeCaseFormatter, tailwindFormatter } from './formatters';
 
 import { mergeWithDefaultConfig } from './options.js';
 
@@ -66,7 +65,7 @@ const generateUtilities = (
   rules: Array<TRule>,
   customProperties: Array<TCustomProperty>,
   breakpoints: Array<TBreakpoint>,
-  classNameFormatter: (input: Array<string>) => string,
+  classNameFormatter: (input: TFormatterProps) => string,
 ) => {
   const res: Array<TUtilityStyle> = [];
 
@@ -76,11 +75,9 @@ const generateUtilities = (
     breakpoint: string | null,
   ): string => {
     if (typeof name === 'string')
-      return classNameFormatter([breakpoint ?? '', name].filter(nonEmpty));
+      return classNameFormatter({ breakpoint, className: name });
     if (typeof name === 'function' && value)
-      return classNameFormatter(
-        [breakpoint ?? '', name(value)].filter(nonEmpty),
-      );
+      return classNameFormatter({ breakpoint, className: name(value) });
 
     throw new Error(
       `A function to generate a classname can only be used if the utility is set up to use multiple values.`,
@@ -91,7 +88,7 @@ const generateUtilities = (
     obj: Record<string, string | number>,
     name: string,
   ): string => {
-    return `.${name} {\n  ${Object.entries(obj)
+    return `.${escapeSelector(name)} {\n  ${Object.entries(obj)
       .map(([k, v]) => `${k}: ${v};`)
       .join('\n  ')}\n}`;
   };
@@ -106,7 +103,7 @@ const generateUtilities = (
     }
 
     if (typeof input === 'function') {
-      const styleResult = input(value, name);
+      const styleResult = input(value, escapeSelector(name));
 
       if (typeof styleResult === 'string') return styleResult;
       if (typeof styleResult === 'object')
@@ -195,9 +192,9 @@ const generateCSS = (
     return `${media} {\n${rules.join('\n')}\n}`;
   });
 
-  return minify(
-    `/* AUTO-GENERATED, DO NOT EDIT */ ${[...defaultStyles, ...mediaStyles].join(' ')}`,
-  );
+  const styles = [...defaultStyles, ...mediaStyles].join(' ');
+
+  return minify(`/* AUTO-GENERATED, DO NOT EDIT */ ${styles}`);
 };
 
 const generateTypeDefinitions = (utilities: Array<TUtilityStyle>): string => {
@@ -318,12 +315,12 @@ const parseInputCSS = (
 
   const breakpoints: Record<string, string> = hasBreakpointsDefined
     ? Object.entries(options.breakpoints).reduce(
-        (acc, [key, value]) => ({
-          ...acc,
-          [key]: `@media screen and (min-width: ${value}px)`,
-        }),
-        {},
-      )
+      (acc, [key, value]) => ({
+        ...acc,
+        [key]: `@media screen and (min-width: ${value}px)`,
+      }),
+      {},
+    )
     : foundBreakpoints;
 
   return {
@@ -353,7 +350,15 @@ export const parseTokensToUtilities = ({
   const { customProperties, breakpoints } = parseInputCSS(code, options);
 
   // Not used now, but maybe useful in the future
-  const classNameFormatter = snakeCaseFromArray;
+  const formatterLookup = {
+    snakeCase: snakeCaseFormatter,
+    tailwind: tailwindFormatter,
+  };
+
+  const classNameFormatter =
+    typeof options.classNameFormat === 'function'
+      ? options.classNameFormat
+      : formatterLookup[options.classNameFormat];
 
   const utilities = generateUtilities(
     options.rules,

@@ -11,6 +11,7 @@ export default {
   output: './dist/utils.css',
   entries: ['./src/pages/**/*.html'],
   typeDefinitions: './dist/types.d.ts',
+  classNameFormat: 'tailwind',
   breakpoints: {
     sm: 640,
     md: 768,

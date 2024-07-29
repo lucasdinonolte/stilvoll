@@ -97,10 +97,7 @@ export default async function main(args) {
         await writeFile(
           config.output,
           process.cwd(),
-          transformed.generateCSS(classesToGenerate, {
-            hash: false,
-            skipComment: false,
-          }),
+          transformed.generateCSS(classesToGenerate),
           context,
         );
       } else {

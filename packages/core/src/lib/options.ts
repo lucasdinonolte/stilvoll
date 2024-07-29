@@ -28,6 +28,7 @@ export const defaultOptions: TConfig = {
   output: null,
   typeDefinitionsOutput: defaultTypeDefinitionsPath,
   breakpoints: {},
+  classNameFormat: 'snakeCase',
   rules: [],
 };
 
