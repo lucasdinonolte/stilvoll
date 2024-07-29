@@ -1,0 +1,67 @@
+---
+title: Getting Started
+description: A guide to getting started with Stilvoll
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+Stilvoll is an atomic CSS engine, that’s based around CSS custom properties to define tokens, generating typesafe utility CSS. It's un-opinionated and designed to be flexible. By default it does not generate any utility CSS classes. All utilities are opt-in via rules. Stilvoll comes with rules to pick up or let's you easily define your own rules to fit your project.
+
+```js
+// stilvoll.config.js
+import { flexRules } from '@stilvoll/rules';
+
+export default {
+  input: ['./src/index.css'],
+  rules: [
+    // Pre-made rule
+    ...flexRules,
+
+    // Custom defined rules
+    ['hidden', { display: 'none' }],
+    ['visible', { visibility: 'visible' }],
+  ]
+}
+```
+
+This will add `hidden` and `visible` CSS utilities to your project. If configured to watch markup files it won't add them to your codebase until you're actually using them.
+
+```html
+<div class="hidden">I'm hidden</div>
+```
+
+When using the typesafe CSS you can import the `sv` object from `stilvoll` to access your utility classes.
+
+```jsx
+import { sv } from 'stilvoll';
+
+function() {
+  return (
+    <div className={sv.hidden}>I'm hidden</div>
+  );
+}
+```
+
+Both will output the following CSS:
+
+```css
+.hidden { display: none; }
+```
+## Integrations
+
+Stilvoll comes with integrations to be plug and play with popular tech stacks.
+
+
+<CardGrid>
+	<Card title="Vite Plugin" icon="pencil">
+		Edit `src/content/docs/index.mdx` to see this page change.
+	</Card>
+  <Card title="PostCSS Plugin" icon="pencil">
+		Edit `src/content/docs/index.mdx` to see this page change.
+	</Card>
+  <Card title="CLI" icon="pencil">
+		Edit `src/content/docs/index.mdx` to see this page change.
+	</Card>
+</CardGrid>
+
+## Examples
