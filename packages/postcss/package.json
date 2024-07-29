@@ -1,0 +1,32 @@
+{
+  "name": "@stilvoll/postcss",
+  "version": "0.0.4",
+  "type": "module",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "npm run clean && rollup -c",
+    "clean": "rimraf dist",
+    "lint": "eslint ./src",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "postcss": "^8.4.21"
+  },
+  "dependencies": {
+    "@stilvoll/core": "0.0.4",
+    "fast-glob": "^3.3.2",
+    "postcss": "^8.4.40",
+    "stilvoll": "*"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^11.1.6",
+    "eslint": "^8.57.0",
+    "rimraf": "^5.0.7",
+    "rollup": "^4.18.0",
+    "rollup-plugin-dts": "^6.1.1",
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^7.11.0"
+  }
+}

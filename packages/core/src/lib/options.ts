@@ -1,15 +1,7 @@
-import path from 'node:path';
-import { createRequire } from 'node:module';
 import { z } from 'zod';
 
 import type { TConfig } from '../types';
-
-const require = createRequire(import.meta.url);
-
-export const defaultTypeDefinitionsPath = path.join(
-  require.resolve('stilvoll'),
-  '../index.d.ts',
-);
+import { defaultFileSystemGlobs, defaultTypeDefinitionsPath } from '../defaults';
 
 const configSchema = z
   .object({
@@ -24,7 +16,7 @@ const configSchema = z
 
 export const defaultOptions: TConfig = {
   input: [],
-  entries: [],
+  entries: defaultFileSystemGlobs,
   output: null,
   typeDefinitionsOutput: defaultTypeDefinitionsPath,
   breakpoints: {},

@@ -1,7 +1,0 @@
-/* Mobile first media queries */
-@custom-media --xsmall (min-width: 400px);
-@custom-media --small (min-width: 700px);
-@custom-media --medium (min-width: 960px);
-@custom-media --large (min-width: 1200px);
-@custom-media --xlarge (min-width: 1550px);
-@custom-media --max (min-width: 1920px);

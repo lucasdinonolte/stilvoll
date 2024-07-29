@@ -17,13 +17,29 @@ export type TCustomProperty = {
   value: string;
 };
 
+export type TUserConfig = {
+  input: Array<string>;
+  entries?: Array<string>;
+  output?: string | null;
+  typeDefinitionsOutput?: string | false;
+  rules?: Array<TRule>;
+  classNameFormat?:
+  | 'snakeCase'
+  | 'tailwind'
+  | ((props: TFormatterProps) => string);
+  breakpoints?: Record<string, number>;
+};
+
 export type TConfig = {
   input: Array<string>;
   entries: Array<string>;
   output: string | null;
   typeDefinitionsOutput: string | false;
   rules: Array<TRule>;
-  classNameFormat: 'snakeCase' | 'tailwind' | ((props: TFormatterProps) => string);
+  classNameFormat:
+  | 'snakeCase'
+  | 'tailwind'
+  | ((props: TFormatterProps) => string);
   breakpoints: Record<string, number>;
 };
 

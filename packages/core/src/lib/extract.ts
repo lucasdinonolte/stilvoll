@@ -2,6 +2,9 @@ import { STILVOLL_OBJECT_NAME, STILVOLL_SKIP_COMMENT } from '../constants.js';
 
 const splitRE = /[\\:]?[\s'"`;{}(),]+/g;
 
+/**
+ * Extracts stilvoll classnames from a string of code
+ */
 export const extractClassNamesFromString = ({
   code,
   classNames,

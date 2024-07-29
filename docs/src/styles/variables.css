@@ -1,9 +1,0 @@
-:root {
-  /* BASE COLORS */
-  --base-color-dark-blue: 34, 38, 41;
-  --base-color-white: 255, 255, 255;
-
-  /* SEMANTIC COLORS */
-  --color-background: rgb(var(--base-color-dark-blue));
-  --color-text: rgb(var(--base-color-white));
-}

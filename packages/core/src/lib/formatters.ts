@@ -1,4 +1,4 @@
-import type { TFormatterProps } from "../types";
+import type { TFormatterProps } from '../types';
 
 export const snakeCaseFormatter = ({
   breakpoint,
