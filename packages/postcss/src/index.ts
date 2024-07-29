@@ -10,7 +10,7 @@ import {
 
 import type { Result, Root } from 'postcss';
 import type { TStilvollPostCSSConfig } from './types';
-import { loadFiles, loadFileToString } from './utils';
+import { loadFiles, loadFileToString, writeStringToFile } from './utils';
 
 const STILVOLL_AT_RULE = 'stilvoll';
 
@@ -31,6 +31,14 @@ function stilvollPostCSSPlugin(_options: TStilvollPostCSSConfig) {
           code,
           options,
         });
+
+        if (options.typeDefinitionsOutput !== false) {
+          writeStringToFile(
+            transformed.generateTypeDefinitions(),
+            options.typeDefinitionsOutput,
+            ''
+          );
+        }
 
         const entries = (await fg(options.entries, {
           cwd: process.cwd(),

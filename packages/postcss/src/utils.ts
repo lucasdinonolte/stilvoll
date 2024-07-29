@@ -1,6 +1,12 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
+export const writeStringToFile = async (
+  content: string,
+  file: string,
+  rootDir: string,
+) => await fs.writeFile(path.join(rootDir, file), content);
+
 export const loadFileToString = async (
   file: string,
   rootDir: string,
