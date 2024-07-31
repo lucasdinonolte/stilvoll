@@ -1,5 +1,15 @@
 # @stilvoll/core
 
+## 0.0.5
+
+### Patch Changes
+
+- 3f4700e: Add postcss plugin
+- 6628ea8: Add `classNameFormat` option to config and escape CSS selectors
+- 666b9f2: Load user config from stilvoll.config.js files
+- Updated dependencies [666b9f2]
+  - stilvoll@0.0.5
+
 ## 0.0.4
 
 ### Patch Changes

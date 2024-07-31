@@ -1,5 +1,11 @@
 # stilvoll
 
+## 0.0.5
+
+### Patch Changes
+
+- 666b9f2: Load user config from stilvoll.config.js files
+
 ## 0.0.4
 
 ### Patch Changes

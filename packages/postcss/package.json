@@ -1,6 +1,6 @@
 {
   "name": "@stilvoll/postcss",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
   "license": "MIT",
   "exports": {
@@ -20,12 +20,12 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "postcss": "^8.4.21"
+    "postcss": "^1.0.1"
   },
   "dependencies": {
-    "@stilvoll/core": "0.0.4",
+    "@stilvoll/core": "0.0.5",
     "fast-glob": "^3.3.2",
-    "postcss": "^8.4.40",
+    "postcss": "^1.0.1",
     "stilvoll": "*"
   },
   "devDependencies": {

@@ -1,6 +1,7 @@
 {
   "name": "postcss",
-  "version": "1.0.0",
+  "private": true,
+  "version": "1.0.1",
   "main": "index.js",
   "scripts": {
     "build": "node run.js"
@@ -11,8 +12,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@stilvoll/postcss": "0.0.4",
-    "@stilvoll/rules": "0.0.4",
-    "postcss": "^8.4.40"
+    "@stilvoll/postcss": "0.0.5",
+    "@stilvoll/rules": "0.0.5",
+    "postcss": "^1.0.1"
   }
 }

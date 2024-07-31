@@ -1,5 +1,18 @@
 # @stilvoll/cli
 
+## 0.0.5
+
+### Patch Changes
+
+- 3f4700e: Add postcss plugin
+- 1fab6fa: Draft watch mode in CLI
+- 666b9f2: Load user config from stilvoll.config.js files
+- Updated dependencies [3f4700e]
+- Updated dependencies [6628ea8]
+- Updated dependencies [666b9f2]
+  - @stilvoll/core@0.0.5
+  - stilvoll@0.0.5
+
 ## 0.0.4
 
 ### Patch Changes

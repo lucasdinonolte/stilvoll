@@ -15,9 +15,9 @@
   },
   "devDependencies": {
     "stilvoll": "*",
-    "@stilvoll/core": "0.0.4",
-    "@stilvoll/rules": "0.0.4",
-    "@stilvoll/vite-plugin": "0.0.4",
+    "@stilvoll/core": "0.0.5",
+    "@stilvoll/rules": "0.0.5",
+    "@stilvoll/vite-plugin": "0.0.5",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",

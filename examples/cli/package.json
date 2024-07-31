@@ -1,7 +1,7 @@
 {
   "name": "cli-playground",
   "private": true,
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "scripts": {
     "dev": "mkdir -p ./dist && stilvoll --watch",
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "stilvoll": "*",
-    "@stilvoll/cli": "0.0.4",
-    "@stilvoll/rules": "0.0.4"
+    "@stilvoll/cli": "0.0.5",
+    "@stilvoll/rules": "0.0.5"
   }
 }
