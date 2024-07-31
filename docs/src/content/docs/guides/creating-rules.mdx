@@ -1,0 +1,81 @@
+---
+title: Creating Rules
+description: Get started configuring Stilvoll to output the rules you need
+---
+
+See below for different examples configuring rules.
+
+```javascript
+// stilvoll.config.js
+export default {
+  input: ["./src/index.css"],
+  rules: [
+    // Defines a static rule, will generate just the "hidden" class
+    ["hidden", { display: "none" }],
+
+    // Another example of a static rule, but defining more properties
+    [
+      "sr-only",
+      {
+        position: "absolute",
+        width: "1px",
+        height: "1px",
+        padding: "0",
+        margin: "-1px",
+        overflow: "hidden",
+        clip: "rect(0, 0, 0, 0)",
+        "white-space": "nowrap",
+        border: "0",
+      },
+      {
+        // You can provide an optional text explaining what
+        // the rule does. This will show up as in the auto-
+        // completion of the classname when using the sv object.
+        explainer:
+          "Hides the element visually but keeps it accessible to screenreaders",
+      },
+    ],
+
+    // A dynamic rule, that will potentially generate all permutations
+    // based on the pased values. Note how name and rule definition
+    // are functions now
+    [
+      (name) => `m-${name}`,
+      (value) => ({ margin: value }),
+      {
+        values: {
+          // strings and numbers are considered static values,
+          // they are generated as is
+          auto: "auto",
+          px: "1px",
+          none: 0,
+
+          // Passing a regular expression will find matching CSS
+          // variables in your input CSS file and generate
+          // variations for them. So if you had --space-l and
+          // --space-xl design tokens, this would generate the
+          // classes m-l and m-xl. Note how the regular expression
+          // part is stripped from the classname
+          _: /^--space-/,
+        },
+      },
+    ],
+
+    // Instead of returning an object you can also return a
+    // string of CSS. Note how the string needs to include the
+    // selector explicitly.
+    [
+      (name) => `stack-${name}`,
+      (value, selector) => `.${selector} > * + * {
+        margin-top: ${value};
+      }`,
+      {
+        values: {
+          none: 0,
+          _: /^--space-/,
+        },
+      },
+    ],
+  ],
+};
+```

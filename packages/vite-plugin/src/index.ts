@@ -12,7 +12,7 @@ import {
 
 import { loadFiles, writeFile } from './lib/files';
 
-const STILVOLL_VIRTUAL_MODULE_ID = 'virtual:util.css';
+const STILVOLL_VIRTUAL_MODULE_ID = 'virtual:stilvoll.css';
 const STILVOLL_REPLACE_STRING = '.u____{display:none}';
 
 export default async function tokenUtilityCSSPlugin(_options: Partial<TUserConfig>) {

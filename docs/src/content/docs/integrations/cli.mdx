@@ -1,0 +1,84 @@
+---
+title: CLI
+description: Use Stilvoll as a CLI utility
+---
+
+import { Steps } from '@astrojs/starlight/components';
+
+
+The command line interface for Stilvoll. Made for tech-stacks not using a Javascript build pipeline, so it's the perfect fit for Kirby, Wordpress, etc.
+
+## Installation
+
+<Steps>
+1. Install `stilvoll` and `@stilvoll/cli`
+
+    ```bash
+    npm install -D stilvoll @stilvoll/cli
+    ```
+
+2. Create a `stilvoll.config.js` file:
+
+    ```javascript
+    // stilvoll.config.js
+    export default {
+      input: ['./src/index.css'],
+
+      // When using the CLI you'll need to define
+      // an output path
+      output: './dist/utils.css',
+
+      // By default the glob shown below is used to 
+      // find any files to parse for utility classes
+      // used. You might need to tweak this, based
+      // on your setup
+      entries: [
+        '**/*.{html,js,ts,jsx,tsx,vue,svelte,astro,elm,php,phtml,mdx,md}',
+      ],
+
+      rules: [
+        // Define or use imported rules here
+      ],
+    };
+    ```
+
+3. Run the CLI to generate your utility CSS.
+
+    ```bash
+    stilvoll
+    ```
+
+</Steps>
+
+***
+
+You can also run the CLI in watch mode, so changes made to your CSS or markup files trigger a rebuild.
+
+```bash
+stilvoll --watch
+```
+
+...or set them up as npm scripts
+
+```json
+// package.json
+{
+  "scripts": {
+    "dev": "stilvoll --watch",
+    "build": "stilvoll"
+  },
+  "devDependencies": {
+    "@stilvoll/cli": "latest",
+    "stilvoll": "latest"
+  }
+}
+```
+
+## Options
+
+| Options       |               |
+| ------------- | ------------- |
+| `-v, --version` | Display the current version of Stilvoll |
+| `-w, --watch`   | Run in watch mode, file changes trigger a rebuild |
+| `--verbose`     | Output additional debug information |
+| `--dry`         | Dry run, don't write any files |

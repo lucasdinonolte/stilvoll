@@ -1,0 +1,69 @@
+---
+title: Vite
+description: Get started using stilvoll as a vite plugin
+---
+
+import { Steps } from '@astrojs/starlight/components';
+
+## Installation
+
+<Steps>
+1. Install `stilvoll` and `@stilvoll/vite-plugin`
+
+    ```bash
+    npm install -D stilvoll @stilvoll/vite-plugin
+    ```
+
+2. Include the plugin in your vite config
+
+    ```javascript
+    // vite.config.js
+    import { defineConfig } from 'vite';
+    import stilvoll from '@stilvoll/vite-plugin';
+
+    export default defineConfig({
+      plugins: [
+        stilvoll(),
+      ],
+    });
+    ```
+
+3. Create a `stilvoll.config.js` file:
+
+    ```javascript
+    // stilvoll.config.js
+    export default {
+      input: ['./src/index.css'],
+      rules: [
+        // Define or use imported rules here
+      ],
+    };
+    ```
+
+4. Add `virtual:stilvoll.css` to your main entry file
+
+    ```javascript
+    // main.js
+    import 'virtual:stilvoll.css';
+    ```
+
+5. You can now use your utility classes directly, or by importing the `sv` object
+
+    ```jsx
+    // page.jsx
+    import React from 'react';
+    import { sv } from 'stilvoll';
+
+    function Page() {
+      return (
+        <div className={sv.flex.items_center.gap_l}>
+          <div className={sv.invisible}>
+            OMG, typesafe utility classes, so nice.
+          </div>
+        </div>
+      );
+    }
+
+    export default Page;
+    ```
+</Steps>

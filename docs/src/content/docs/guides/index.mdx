@@ -3,9 +3,9 @@ title: Getting Started
 description: A guide to getting started with Stilvoll
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
-Stilvoll is an atomic CSS engine, that’s based around CSS custom properties to define tokens, generating typesafe utility CSS. It's un-opinionated and designed to be flexible. By default it does not generate any utility CSS classes. All utilities are opt-in via rules. Stilvoll comes with rules to pick up or let's you easily define your own rules to fit your project.
+Stilvoll is an utility CSS engine, that’s based around CSS custom properties to define tokens, generating typesafe utility CSS. It's un-opinionated and designed to be flexible. By default it does not generate any utility CSS classes. All utilities are opt-in via rules. Stilvoll comes with rules to pick up or let's you easily define your own rules to fit your project.
 
 ```js
 // stilvoll.config.js
@@ -53,15 +53,7 @@ Stilvoll comes with integrations to be plug and play with popular tech stacks.
 
 
 <CardGrid>
-	<Card title="Vite Plugin" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
-	</Card>
-  <Card title="PostCSS Plugin" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
-	</Card>
-  <Card title="CLI" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
-	</Card>
+	<LinkCard title="Vite Plugin" href="/integrations/vite" />
+  <LinkCard title="PostCSS Plugin" href="/integrations/postcss" />
+  <LinkCard title="CLI" href="/integrations/cli" />
 </CardGrid>
-
-## Examples

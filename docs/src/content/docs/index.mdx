@@ -1,36 +1,21 @@
 ---
-title: Welcome to Starlight
-description: Get started building your docs site with Starlight.
-template: splash
-hero:
-  tagline: Congrats on setting up a new Starlight project!
-  image:
-    file: ../../assets/houston.webp
-  actions:
-    - text: Example Guide
-      link: /guides/example/
-      icon: right-arrow
-      variant: primary
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
-      icon: external
+title: Stilvoll
+description: Utility styles without the drama
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
 
-## Next steps
+<Aside type="caution" title="Watch out!">
+  Stilvoll still is in early and exploratory development, so it's not really recommended for heavy-duty production use yet. Contributions, Issues and PRs are welcome!
+</Aside>
 
-<CardGrid>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
-	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs` to create new pages.
-	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
-	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
-	</Card>
-</CardGrid>
+***
+
+Stilvoll is an undogmatic utility CSS engine, focussed on creating utility styles that actually fit your workflow. By default it's unopinionated, allowing you to configure the utility CSS styles you need for your project. Oh, and it's piggy-backing the typescript language server to provide autocomplete for all your utility classes in your code editor.
+
+***
+
+<LinkCard title="Use it as a Vite Plugin" href="/integrations/vite" />
+<LinkCard title="Use it as a PostCSS Plugin" href="/integrations/postcss" />
+<LinkCard title="Use it as a CLI" href="/integrations/cli" />
