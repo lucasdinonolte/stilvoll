@@ -25,9 +25,9 @@ export const gridRules = [
     },
   ],
   ['col-auto', { 'grid-column': 'auto' }],
-  ['col-span-full', { 'grid-column': '1 / -1' }],
+  ['col-full', { 'grid-column': '1 / -1' }],
   [
-    (count: string) => `col-span-${count}`,
+    (count: string) => `col-${count}`,
     (value: number) => ({
       'grid-column': `span ${value} / span ${value}`,
     }),

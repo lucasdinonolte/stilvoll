@@ -21,6 +21,7 @@ export default async function main(args) {
       verbose: ['--verbose'],
       version: ['--version', '-v'],
       watch: ['--watch', '-w'],
+      typesOnly: ['--types', '-t'],
     },
     args,
   );
@@ -43,6 +44,14 @@ export default async function main(args) {
   // Step 1: Look for and load config
   const config = await loadUserConfig({});
   if (config === null) process.exit(1);
+
+  console.log(config);
+
+  // Check if type definitions are disabled when running in types only mode
+  if (flags.typesOnly !== false && config.typeDefinitionsOutput === false) {
+    context.logger.error('Type definitions are disabled in the config');
+    process.exit(1);
+  }
 
   const fileCache = new Map();
 
@@ -121,22 +130,29 @@ export default async function main(args) {
     }
 
     if (config.output) {
-      if (!flags.dryRun) {
+      if (!flags.dryRun && !flags.typesOnly) {
         await writeFile(
           config.output,
           process.cwd(),
           transformed.generateCSS(classesToGenerate),
           context,
         );
-      } else {
+      }
+
+      if (flags.typesOnly) {
+        context.logger.info(
+          'Generating type definitions only, skipping CSS output.',
+        );
+      }
+      if (flags.dryRun) {
         context.logger.info(`Dry Run, nothing was written to ${config.output}`);
       }
     }
 
-    if (config.typeDefinitions !== false) {
+    if (config.typeDefinitionsOutput !== false) {
       if (!flags.dryRun) {
         await writeFile(
-          path.relative(process.cwd(), config.typeDefinitions),
+          path.relative(process.cwd(), config.typeDefinitionsOutput),
           process.cwd(),
           transformed.generateTypeDefinitions(),
           context,

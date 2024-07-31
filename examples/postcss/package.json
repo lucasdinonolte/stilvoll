@@ -1,5 +1,5 @@
 {
-  "name": "postcss",
+  "name": "postcss-example",
   "private": true,
   "version": "1.0.1",
   "main": "index.js",
