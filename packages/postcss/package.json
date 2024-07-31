@@ -20,12 +20,12 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "postcss": "^1.0.1"
+    "postcss": "^8.4.40"
   },
   "dependencies": {
     "@stilvoll/core": "0.0.5",
     "fast-glob": "^3.3.2",
-    "postcss": "^1.0.1",
+    "postcss": "^8.4.40",
     "stilvoll": "*"
   },
   "devDependencies": {
