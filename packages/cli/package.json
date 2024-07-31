@@ -12,7 +12,10 @@
   },
   "dependencies": {
     "@stilvoll/core": "0.0.4",
-    "glob": "^11.0.0"
+    "chokidar": "^3.6.0",
+    "fast-glob": "^3.3.2",
+    "glob": "^11.0.0",
+    "perfect-debounce": "^1.0.0"
   },
   "devDependencies": {
     "eslint": "^8.57.0"

@@ -35,19 +35,3 @@ export const writeFile = async (file, rootDir, content, { logger }) => {
     logger.error(`Could not write ${filePath}`, e);
   }
 };
-
-export const watchFiles = (files, rootDir, callback, { logger }) => {
-  const filePaths = files.map((f) => path.join(rootDir, f));
-
-  for (const file of filePaths) {
-    watchFile(file, (current, previous) => {
-      logger.debug(
-        `Change detected to ${file}. ${current.mtime} ${previous.mtime}`,
-      );
-      if (current.mtime !== previous.mtime) {
-        logger.info(`${file} changed. Rerunning`);
-        callback();
-      }
-    });
-  }
-};

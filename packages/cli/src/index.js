@@ -1,5 +1,7 @@
-import { glob } from 'glob';
+import fg from 'fast-glob';
 import path from 'node:path';
+import { debounce } from 'perfect-debounce';
+
 import {
   loadUserConfig,
   parseTokensToUtilities,
@@ -7,9 +9,10 @@ import {
 } from '@stilvoll/core';
 
 import { parseCLIFlags } from './lib/flags.js';
-import { loadPkg, loadFiles, watchFiles, writeFile } from './lib/files.js';
+import { loadPkg, loadFiles, writeFile } from './lib/files.js';
 import { roundWithPrecision } from './lib/util.js';
 import { createLogger } from './lib/logger.js';
+import { createWatcher } from './lib/watcher.js';
 
 export default async function main(args) {
   const flags = parseCLIFlags(
@@ -41,16 +44,34 @@ export default async function main(args) {
   const config = await loadUserConfig({});
   if (config === null) process.exit(1);
 
-  let markupFiles = [];
+  const fileCache = new Map();
+
+  const markupFiles = await fg(config.entries, { absolute: true });
+  const cssFiles = await fg(config.input, { absolute: true });
+
+  await Promise.all(
+    [...markupFiles, ...cssFiles].map(async (file) => {
+      fileCache.set(file, await loadFiles([file], '', context));
+    }),
+  );
 
   const performWork = async () => {
-    // Step 2: Load the input file(s) into
-    // a buffer
-    const code = await loadFiles(config.input, process.cwd(), context);
-
     // Step 3: Run the parser and transformer
     context.logger.debug('Parsing CSS input');
     let start = performance.now();
+
+    const code = cssFiles
+      .map((file) => {
+        const buffer = fileCache.get(file);
+        if (!buffer) {
+          context.logger.error(`Could not find file ${file}`);
+          process.exit(1);
+        }
+        return buffer;
+      })
+      .reduce((acc, buffer) => {
+        return Buffer.concat([acc, buffer]);
+      }, Buffer.from(''));
 
     const transformed = parseTokensToUtilities({
       code,
@@ -64,22 +85,31 @@ export default async function main(args) {
 
     const classesToGenerate = [];
 
-    if (config.entries.length > 0 && !flags.watch) {
-      markupFiles = await glob(config.entries);
-      context.logger.debug('Parsing Markup');
+    context.logger.debug('Parsing Markup');
 
-      const markup = await loadFiles(markupFiles, process.cwd(), context);
-      const found = extractClassNamesFromString({
-        code: markup.toString(),
-        classNames: transformed.classNames,
-        objectTokensOnly: false,
-      });
+    const markup = markupFiles
+      .map((file) => {
+        const buffer = fileCache.get(file);
+        if (!buffer) {
+          context.logger.error(`Could not find file ${file}`);
+          process.exit(1);
+        }
+        return buffer;
+      })
+      .reduce((acc, buffer) => {
+        return Buffer.concat([acc, buffer]);
+      }, Buffer.from(''));
 
-      if (found.length > 0) {
-        classesToGenerate.push(
-          ...found.map(({ classNames }) => classNames).flat(),
-        );
-      }
+    const found = extractClassNamesFromString({
+      code: markup.toString(),
+      classNames: transformed.classNames,
+      objectTokensOnly: false,
+    });
+
+    if (found.length > 0) {
+      classesToGenerate.push(
+        ...found.map(({ classNames }) => classNames).flat(),
+      );
     }
 
     if (classesToGenerate.length > 0) {
@@ -132,9 +162,37 @@ export default async function main(args) {
   // to the input files and run the process
   // again if they change
   if (flags.watch) {
+    const debouncedWork = debounce(performWork, 100);
+
     context.logger.info(
       'Running in watch mode. Will re-compile on changes to your css',
     );
-    watchFiles(config.input, process.cwd(), performWork, context);
+
+    const files = [...config.entries, ...config.input];
+
+    const watcher = createWatcher({
+      entries: files,
+    });
+
+    context.logger.debug(files.join(', '));
+
+    watcher.on('all', async (type, file) => {
+      const absolutePath = path.resolve(process.cwd(), file);
+      console.log(absolutePath);
+
+      if (type.startsWith('unlink')) {
+        fileCache.delete(absolutePath);
+      } else {
+        fileCache.set(
+          absolutePath,
+          await loadFiles([file], process.cwd(), context),
+        );
+      }
+
+      context.logger.info('Change detected, recompiling');
+      context.logger.debug(`File: ${file}`);
+      context.logger.debug(`Change type: ${type}`);
+      debouncedWork();
+    });
   }
 }
