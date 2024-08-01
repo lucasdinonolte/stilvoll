@@ -1,5 +1,12 @@
 # @stilvoll/core
 
+## 0.0.6
+
+### Patch Changes
+
+- Updated dependencies [fa3096b]
+  - stilvoll@0.0.6
+
 ## 0.0.5
 
 ### Patch Changes

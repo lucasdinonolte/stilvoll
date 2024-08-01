@@ -1,5 +1,14 @@
 # @stilvoll/cli
 
+## 0.0.6
+
+### Patch Changes
+
+- cbf82ad: Add --types flag to CLI to only generate type definitions
+- Updated dependencies [fa3096b]
+  - stilvoll@0.0.6
+  - @stilvoll/core@0.0.6
+
 ## 0.0.5
 
 ### Patch Changes

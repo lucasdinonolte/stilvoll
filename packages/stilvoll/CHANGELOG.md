@@ -1,5 +1,11 @@
 # stilvoll
 
+## 0.0.6
+
+### Patch Changes
+
+- fa3096b: make stilvoll proxy work with next.js server components
+
 ## 0.0.5
 
 ### Patch Changes
