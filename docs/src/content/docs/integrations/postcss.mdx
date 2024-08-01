@@ -3,7 +3,8 @@ title: PostCSS
 description: Get started using stilvoll as a PostCSS plugin
 ---
 
-import { Steps } from '@astrojs/starlight/components';
+import { LinkCard } from "@astrojs/starlight/components";
+import { Steps } from "@astrojs/starlight/components";
 
 ## Installation
 
@@ -14,51 +15,63 @@ import { Steps } from '@astrojs/starlight/components';
     npm install -D stilvoll @stilvoll/postcss
     ```
 
-2. Include the plugin in your postcss config
+2.  Include the plugin in your postcss config
 
     ```javascript
     // postcss.config.js
     module.exports = {
-      plugins: { '@stilvoll/postcss': {} },
+      plugins: { "@stilvoll/postcss": {} },
     };
     ```
 
-3. Create a `stilvoll.config.js` file:
+3.  Create a `stilvoll.config.js` file:
 
     ```javascript
     // stilvoll.config.js
     export default {
-      input: ['./src/index.css'],
+      input: ["./src/index.css"],
       rules: [
         // Define or use imported rules here
       ],
     };
     ```
 
-4. Add the `@stilvoll` directive to your main CSS file. This will get replaced by the generated utility class in the build step.
+4.  Add the `@stilvoll` directive to your main CSS file. This will get replaced by the generated utility class in the build step.
 
     ```css
     // main.css
     @stilvoll;
     ```
 
-5. You can now use your utility classes directly, or by importing the `sv` object
+5.  You can now use your utility classes directly, or by importing the `sv` object
 
-    ```jsx
-    // page.jsx
-    import React from 'react';
-    import { sv } from 'stilvoll';
+        ```jsx
+        // page.jsx
+        import React from 'react';
+        import { sv } from 'stilvoll';
 
-    function Page() {
-      return (
-        <div className={sv.flex.items_center.gap_l}>
-          <div className={sv.invisible}>
-            OMG, typesafe utility classes, so nice.
-          </div>
-        </div>
-      );
-    }
+        function Page() {
+          return (
+            <div className={sv.flex.items_center.gap_l}>
+              <div className={sv.invisible}>
+                OMG, typesafe utility classes, so nice.
+              </div>
+            </div>
+          );
+        }
 
-    export default Page;
-    ```
+        export default Page;
+        ```
+
 </Steps>
+
+## Examples
+
+<LinkCard
+  title="Vite with Postcss"
+  href="https://github.com/lucasdinonolte/stilvoll/tree/main/examples/vite-postcss"
+/>
+<LinkCard
+  title="Next.js"
+  href="https://github.com/lucasdinonolte/stilvoll/tree/main/examples/next.js"
+/>
