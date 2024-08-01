@@ -4,7 +4,7 @@ import type { UtilityMap } from './types';
 // to allow for chaining of classes
 const used = (classes = new Set()) => {
   const target = Object.assign(
-    {},
+    () => {},
     {
       classes,
       [Symbol.toPrimitive]() {
@@ -19,6 +19,7 @@ const used = (classes = new Set()) => {
       if (
         prop === 'toString' ||
         prop === 'valueOf' ||
+        prop === 'toJSON' ||
         prop === Symbol.toPrimitive
       ) {
         return target[Symbol.toPrimitive];
