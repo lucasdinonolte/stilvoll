@@ -8,6 +8,10 @@
     "lint": {
       "cache": false,
       "dependsOn": []
+    },
+    "test": {
+      "cache": false,
+      "dependsOn": []
     }
   }
 }
