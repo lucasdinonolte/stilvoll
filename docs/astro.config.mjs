@@ -19,9 +19,10 @@ export default defineConfig({
           items: [
             // Each item here is one entry in the navigation menu.
             { label: 'Getting Started', slug: 'guides' },
-            { label: 'Why', slug: 'guides/why' },
+            { label: 'Using Stilvoll', slug: 'guides/usage' },
             { label: 'Config File', slug: 'guides/config-file' },
             { label: 'Creating Rules', slug: 'guides/creating-rules' },
+            { label: 'Why Stilvoll', slug: 'guides/why' },
           ],
         },
         {
