@@ -1,5 +1,12 @@
 # @stilvoll/rules
 
+## 0.0.7
+
+### Patch Changes
+
+- Updated dependencies [087f285]
+  - @stilvoll/core@0.0.7
+
 ## 0.0.6
 
 ### Patch Changes

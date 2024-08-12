@@ -1,5 +1,12 @@
 # stilvoll
 
+## 0.0.7
+
+### Patch Changes
+
+- d050d96: Add drop-in replacement for classnames
+- 087f285: Remove experimental classname chaining (might be added back in later)
+
 ## 0.0.6
 
 ### Patch Changes

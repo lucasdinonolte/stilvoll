@@ -1,5 +1,14 @@
 # @stilvoll/cli
 
+## 0.0.7
+
+### Patch Changes
+
+- Updated dependencies [d050d96]
+- Updated dependencies [087f285]
+  - stilvoll@0.0.7
+  - @stilvoll/core@0.0.7
+
 ## 0.0.6
 
 ### Patch Changes

@@ -14,8 +14,8 @@
     "next": "14.2.5"
   },
   "devDependencies": {
-    "@stilvoll/postcss": "0.0.6",
-    "@stilvoll/rules": "0.0.6",
-    "stilvoll": "0.0.6"
+    "@stilvoll/postcss": "0.0.7",
+    "@stilvoll/rules": "0.0.7",
+    "stilvoll": "0.0.7"
   }
 }
