@@ -7,16 +7,3 @@ export type UtilityMap = {
    */
   not_generated: never;
 };
-
-export type ClassValue =
-  | ClassArray
-  | ClassDictionary
-  | string
-  | number
-  | bigint
-  | null
-  | boolean
-  | UtilityMap
-  | undefined;
-export type ClassDictionary = Record<string, any>;
-export type ClassArray = ClassValue[];

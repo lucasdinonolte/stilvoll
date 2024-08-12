@@ -33,9 +33,16 @@ export const extractClassNamesFromString = ({
     }
 
     const toks = token.startsWith(objPrefix)
-      ? token.slice(2).split('.')
+      ? token.slice(3).split('.')
       : [token];
     const foundClassNames: Array<string> = [];
+
+    if (toks.length === 0) continue;
+    if (toks.length > 1) {
+      throw new Error(
+        `Classname chaining is not supported by stilvoll. Found "${token}"`,
+      );
+    }
 
     for (const tok of toks) {
       if (classNames.includes(tok)) {
