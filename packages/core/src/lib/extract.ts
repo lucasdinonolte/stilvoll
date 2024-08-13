@@ -8,11 +8,9 @@ const splitRE = /[\\:]?[\s'"`;{}(),]+/g;
 export const extractClassNamesFromString = ({
   code,
   classNames,
-  objectTokensOnly = false,
 }: {
   code: string;
   classNames: Array<string>;
-  objectTokensOnly: boolean;
 }) => {
   const res: Array<{
     isObjectToken: boolean;
@@ -28,10 +26,6 @@ export const extractClassNamesFromString = ({
   }
 
   for (const token of tokens) {
-    if (objectTokensOnly && !token.startsWith(objPrefix)) {
-      continue;
-    }
-
     const toks = token.startsWith(objPrefix)
       ? token.slice(3).split('.')
       : [token];

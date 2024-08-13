@@ -3,7 +3,7 @@ import fg from 'fast-glob';
 import { normalize } from 'node:path';
 
 import type { Result, Root } from 'postcss';
-import type { TUserConfig } from "@stilvoll/core";
+import type { TUserConfig } from '@stilvoll/core';
 
 import {
   loadUserConfig,
@@ -34,7 +34,7 @@ export const createPlugin = async (_options: Partial<TUserConfig> = {}) => {
       writeStringToFile(
         transformed.generateTypeDefinitions(),
         options.typeDefinitionsOutput,
-        ''
+        '',
       );
     }
 
@@ -57,10 +57,7 @@ export const createPlugin = async (_options: Partial<TUserConfig> = {}) => {
         plugin: 'stilvoll-postcss',
       });
 
-      if (
-        fileMap.has(entry.path) &&
-        fileMap.get(entry.path) >= entry.mtimeMs
-      ) {
+      if (fileMap.has(entry.path) && fileMap.get(entry.path) >= entry.mtimeMs) {
         continue;
       } else {
         fileMap.set(entry.path, entry.mtimeMs);
@@ -70,7 +67,6 @@ export const createPlugin = async (_options: Partial<TUserConfig> = {}) => {
       const classes = extractClassNamesFromString({
         code,
         classNames: transformed.classNames,
-        objectTokensOnly: false,
       }).map(({ classNames }) => classNames);
 
       fileClassMap.set(entry.path, classes);

@@ -88,7 +88,6 @@ export default async function tokenUtilityCSSPlugin(
         const found = extractClassNamesFromString({
           code,
           classNames: transformed.classNames,
-          objectTokensOnly: true,
         });
 
         if (found.length > 0) {
