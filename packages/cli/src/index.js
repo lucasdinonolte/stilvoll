@@ -112,7 +112,6 @@ export default async function main(args) {
     const found = extractClassNamesFromString({
       code: markup.toString(),
       classNames: transformed.classNames,
-      objectTokensOnly: false,
     });
 
     if (found.length > 0) {

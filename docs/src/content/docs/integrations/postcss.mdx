@@ -48,11 +48,12 @@ import { Steps } from "@astrojs/starlight/components";
         ```jsx
         // page.jsx
         import React from 'react';
+        import cn from 'classnames';
         import { sv } from 'stilvoll';
 
         function Page() {
           return (
-            <div className={sv.flex.items_center.gap_l}>
+            <div className={cn(sv.flex, sv.items_center, sv.gap_l)}>
               <div className={sv.invisible}>
                 OMG, typesafe utility classes, so nice.
               </div>

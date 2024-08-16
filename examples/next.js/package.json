@@ -9,13 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "clsx": "^2.1.1",
+    "next": "14.2.5",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.2.5"
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "@stilvoll/postcss": "0.0.6",
-    "@stilvoll/rules": "0.0.6",
-    "stilvoll": "0.0.6"
+    "@stilvoll/postcss": "0.0.7",
+    "@stilvoll/rules": "0.0.7",
+    "stilvoll": "0.0.7"
   }
 }

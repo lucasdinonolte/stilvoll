@@ -1,5 +1,14 @@
 # @stilvoll/core
 
+## 0.0.7
+
+### Patch Changes
+
+- 087f285: Remove experimental classname chaining (might be added back in later)
+- Updated dependencies [d050d96]
+- Updated dependencies [087f285]
+  - stilvoll@0.0.7
+
 ## 0.0.6
 
 ### Patch Changes

@@ -14,8 +14,12 @@ import { loadFiles, writeFile } from './lib/files';
 
 const STILVOLL_VIRTUAL_MODULE_ID = 'virtual:stilvoll.css';
 const STILVOLL_REPLACE_STRING = '.u____{display:none}';
+const STILVOLL_IMPORT_REGEX =
+  /import\s*\{\s*sv\s*\}\s*from\s*['"]stilvoll['"];?/g;
 
-export default async function tokenUtilityCSSPlugin(_options: Partial<TUserConfig>) {
+export default async function tokenUtilityCSSPlugin(
+  _options: Partial<TUserConfig>,
+) {
   const { input: inputFiles, ...rest } = await loadUserConfig(_options);
 
   const virtualModuleId = STILVOLL_VIRTUAL_MODULE_ID;
@@ -84,24 +88,29 @@ export default async function tokenUtilityCSSPlugin(_options: Partial<TUserConfi
         const found = extractClassNamesFromString({
           code,
           classNames: transformed.classNames,
-          objectTokensOnly: true,
         });
 
         if (found.length > 0) {
           classNames.push(...found.map(({ classNames }) => classNames).flat());
 
-          return {
-            code: found.reduce((prev, cur) => {
-              if (cur.isObjectToken) {
-                return prev.replaceAll(
-                  cur.token,
-                  `"${cur.classNames.join(' ')}"`,
-                );
-              } else {
-                return prev;
-              }
-            }, code),
+          const res = {
+            code: found
+              .reduce((prev, cur) => {
+                if (cur.isObjectToken) {
+                  return prev.replaceAll(
+                    cur.token,
+                    `"${cur.classNames.join(' ')}"`,
+                  );
+                } else {
+                  return prev;
+                }
+              }, code)
+              .replaceAll(STILVOLL_IMPORT_REGEX, ''),
           };
+
+          console.log(code, res);
+
+          return res;
         }
       },
     },

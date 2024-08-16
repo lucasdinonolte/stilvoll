@@ -1,5 +1,15 @@
 # cli-playground
 
+## 0.0.5
+
+### Patch Changes
+
+- Updated dependencies [d050d96]
+- Updated dependencies [087f285]
+  - stilvoll@0.0.7
+  - @stilvoll/cli@0.0.7
+  - @stilvoll/rules@0.0.7
+
 ## 0.0.4
 
 ### Patch Changes

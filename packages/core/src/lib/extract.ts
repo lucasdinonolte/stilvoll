@@ -8,11 +8,9 @@ const splitRE = /[\\:]?[\s'"`;{}(),]+/g;
 export const extractClassNamesFromString = ({
   code,
   classNames,
-  objectTokensOnly = false,
 }: {
   code: string;
   classNames: Array<string>;
-  objectTokensOnly: boolean;
 }) => {
   const res: Array<{
     isObjectToken: boolean;
@@ -28,14 +26,17 @@ export const extractClassNamesFromString = ({
   }
 
   for (const token of tokens) {
-    if (objectTokensOnly && !token.startsWith(objPrefix)) {
-      continue;
-    }
-
     const toks = token.startsWith(objPrefix)
-      ? token.slice(2).split('.')
+      ? token.slice(3).split('.')
       : [token];
     const foundClassNames: Array<string> = [];
+
+    if (toks.length === 0) continue;
+    if (toks.length > 1) {
+      throw new Error(
+        `Classname chaining is not supported by stilvoll. Found "${token}"`,
+      );
+    }
 
     for (const tok of toks) {
       if (classNames.includes(tok)) {
