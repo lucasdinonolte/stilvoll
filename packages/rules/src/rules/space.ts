@@ -51,7 +51,7 @@ export const spacingRules = [
   ],
   [
     (name) => `p-${name}`,
-    (value: string | number) => ({ margin: value }),
+    (value: string | number) => ({ padding: value }),
     { values },
   ],
   [
