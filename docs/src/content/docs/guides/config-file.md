@@ -3,9 +3,9 @@ title: Config File
 description: Configuring Stilvoll using a config file
 ---
 
-You can add a `stilvoll.config.js` file to the root of your project, or define the config inline – depending on the ingegration you're using. Using a dedicated config file is recommended.
+Add a stilvoll.config.js file to the root of your project, or define the config inline based on your integration. Using a dedicated config file is the recommended way. 
 
-Check below for all options of the config file.
+Check out the options for the config file below.
 
 ```javascript
 // stilvoll.config.js

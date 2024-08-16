@@ -3,52 +3,52 @@ title: Why Stilvoll?
 description: Configuring Stilvoll using a config file
 ---
 
-I initially created Stilvoll to scratch my own itch. Having never fully bought into the utility CSS for everything approach I wanted something that played nicely with component-scoped CSS. Essentially allowing you to only sprinkle in utility styles where needed.
+I started Stilvoll to solve my own problem. I’ve never been a fan of the utility CSS for everything approach. I wanted something that works well with component-scoped CSS, letting you sprinkle in utility styles only where you need them.
 
-## Why not utility only CSS?
+## Why skip utility-only CSS?
 
-First of all, I don't want to get sucked into highly emotional twitter drama on utility css. This is my stance, feel free to disagree, I don't mind.
+First off, I’m not here to dive into the Twitter drama around utility CSS. This is just my take—feel free to disagree!
 
-### Unreadable Classname Strings
+### Unreadable Class Names
 
-Yes, I said it. I hate how using a utility only approach can yield in very long and hard to read classnames. I know there's tools to help with that. But I think in web development we're using enough tools adding yet another step to our build process already, so I'm not convinced fixing my tools with meta-tools is the right approach.
+Yep, I said it. I can’t stand how utility-only CSS can lead to long, messy class names. Sure, there are tools to help with that, but we already juggle enough tools in web development. Adding more steps to our build process doesn’t feel right to me.
 
-Utility classes are fine for – well – doing utility things. But trying to author anything more complex only using atomic classnames becomes unbearable to me quickly. I just don't see the point adding 20+ classes to every HTML element.
+Utility classes are great for utility tasks, but trying to create anything complex with just atomic class names gets old fast. I just don’t see the point in slapping 20+ classes on every HTML element.
 
 ### Learning Curve
 
-While something like tailwind isn't the craziest of learning curves, it does feel like a domain specific language that sits on top of CSS. I do think there's a link to the popularity of utility only approaches here. If you have to learn all those classnames (or buy into their editor tooling) it only makes sense to just use them for everything.
+While Tailwind isn’t the hardest to learn, it feels like a whole new language on top of CSS. There’s a reason utility-only approaches are popular. If you have to memorize all those class names (or rely on their editor tools), it makes sense to use them everywhere.
 
-## Why not component only CSS?
+## Why not component-only CSS?
 
-We have it good these days, with solutions like CSS Modules (or scoped styles in frameworks like Vue and Svelte), allowing us to neatly encapsulate our styles with our components. However, I do think, a component-only approach isn't the right solution either. Here's why, again, feel free to disagree, I don't mind.
+We’re lucky these days with solutions like CSS Modules or scoped styles in frameworks like Vue and Svelte. They let us neatly wrap our styles with our components. But a component-only approach isn’t the best solution either. Here’s why—again, feel free to disagree!
 
 ### Weird Abstractions
 
-I do think components and component-scoped styles really shine, if the abstraction a component represents is clear and defined. For something like a button, a card or a dialog it makes complete sense to create fully encapsulated abstractions. But what about layout primitives, like a column grid or horizontal spacing between different elements. I does feel weird to create components for these things. I've tried it a bunch of times, and always ended up with either super complex abstractions, or super specific components that only solve a layout for one particular case but aren't really re-usable. Trust me, I've written `display: flex;` to vertically lay items out in various components ad nauseam.
+Components and scoped styles really shine when the abstraction is clear and defined. For a button, card, or dialog, it makes total sense to create fully encapsulated components. But what about layout elements like a column grid or spacing between items? It feels off to create components for those. I’ve tried it a bunch of times, and I always end up with either overly complex abstractions or super specific components that only solve one layout case and aren’t reusable. Trust me, I’ve written permutations of `display: flex;` to vertically align items in various components way too many times.
 
-### One-off styles
+### One-off Styles
 
-I think we all know the situation, there's a card sitting on a page – alongside a bunch of other cards. And we need this one specific card to have more spacing from the next card than all the others. What do we do? We could add props and modifiers to our components. But that feels odd. After all a component should only care about what's inside itself, not what's around itself. We could create a super specific layout abstraction component that just handles that case. But more code means more maintenance liability, so do we really want a component, that in five months time no one will remember what it's for just to solve this issue? This is where utility CSS shines, just slab a `mt-xl` class on it and move on with your life.
+We all know the feeling: there’s a card on a page with a bunch of others, and we need this one specific card to have extra space from the next. What do we do? We could add props and modifiers to our components, but that feels weird. A component should focus on what’s inside, not what’s around it. We could create a super specific layout component just for that case, but more code means more maintenance. Do we really want a component that no one will remember in five months just to solve this issue? This is where utility CSS shines—just slap something like a `mt-xl` class on it and move on!
 
-## So what's the solution?
+## So what’s the solution?
 
-I do agree that at it's core utility css is a good idea. I also do think that the merits it's promising lead to people over-using it, ignoring that CSS offers a lot more to achieve the benefits utility only approaches offer. The same is true for component only approaches.
+I think utility CSS is a good idea at its core. But people often overuse it and ignore that CSS has more to offer. The same goes for component-only approaches.
 
-### Design tokens
+### Design Tokens
 
-Using CSS variable (aka custom prpoerties) for all design tokens – like color, spacings, font sizes, etc. – gives you a full system to standardize your app, without needing the "API surface" of dedicated utility classes. Design tokens can be used by both utility classes and in component styles. If you want a safety net you can always configure a lint rule to check that colors and spaces always come from CSS variables.
+Using CSS variables (custom properties) for all design tokens—like colors, spacing, font sizes, etc.—gives you a solid system to standardize your app without needing a bunch of dedicated utility classes. Design tokens work for both utility classes and component styles. If you want a safety net, you can set up a lint rule to ensure colors and spaces always come from CSS variables. There's a [stylelint plugin](https://github.com/AndyOGo/stylelint-declaration-strict-value) for that.
 
 ### Component Styles
 
-As outlined above, encapsulated styles make a lot of sense for clearly scoped and well-known abstractions. This is my favorite way to write CSS, directly scoped to the component, nothing leaks to the outside.
+As mentioned, encapsulated styles work great for clearly defined abstractions. This is my favorite way to write CSS—directly scoped to the component, with nothing leaking outside.
 
 ### Utility Styles
 
-Utility styles shine for one-off situations or for abstractions that don't make sense to encapsulate in a component (I'm mostly thinking of grids and other macro layout mechanisms here). Utility styles can also be used in place of a component until you know enough about the problem a component should be solving to actually encapsulate things. This also means having control over the utility classes is crucial, as the ones needed might differ from project to project.
+Utility styles are perfect for one-off situations or for abstractions that don’t make sense to wrap in a component (like grids and other layout mechanisms). You can also use utility styles instead of a component until you understand the problem well enough to encapsulate it. This means controlling the utility classes is key, as the needed ones might vary from project to project. Which is the main reason why Tailwind never really was an option to me.
 
-## How does Stilvoll fit in here?
+## How does Stilvoll fit in?
 
-Stilvoll essentially is a utility CSS engine. Pointed to the CSS containing your design tokens and given a set of rule defintions to build it will spit out all permutations of utility classes ready to be used. Setting it up to parse your markup (out of the box HTML and JSX are supported) makes sure only the classes you're actually using end up in your production CSS bundle. This creates a set of ready-to-use utility sprinkles for you to use. You can choose to use the opinionted pre-defined rules from `@stilvoll/rules`, or [create your own rules](/guides/creating-rules). Rules can be defined as objects or CSS, so everything you'd manually write in CSS can be turned into an on-demand rule.
+Think of Stilvoll as a utility CSS engine. Point it to your CSS code containing your design tokens and give it some rule definitions, and it’ll generate all the utility class permutations you need. Setting it up to parse your markup (HTML and JSX are supported out of the box) ensures only the classes you actually use end up in your production CSS bundle. This gives you a set of ready-to-use utility sprinkles. You can stick with the pre-defined rules from `@stilvoll/rules`, or [create your own rules](/guides/creating-rules). You can define rules as objects or CSS, so anything you'd manually write in CSS can turn into an on-demand rule.
 
-udditionally Stilvoll generates typedefinitions for your utility styles. So when you're working with Javascript components you can import `sv` into your component code and get full type-ahead for your utility classes without needing an extra plugin. Depending on the integration you're using the `sv` import compiles itself away in the build step or is replaced by a thin Javascript Proxy, so runtime overhead is zero or near-zero.
+Plus, Stilvoll generates type definitions for your utility styles. When you’re working with JavaScript component frameworks, you can import `sv` into your code and get full type-ahead for your utility classes without needing an extra plugin. Depending on your integration, the `sv` import either compiles away in the build step or becomes a lightweight JavaScript Proxy, so the runtime overhead is zero or super minimal.
