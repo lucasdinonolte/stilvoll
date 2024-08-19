@@ -2,9 +2,9 @@ export type TRuleName = string | ((name: string) => string);
 export type TRuleResult =
   | Record<string, string | number>
   | ((
-    value: string | number | null,
-    selector?: string,
-  ) => Record<string, string | number> | string);
+      value: string | number | null,
+      selector?: string,
+    ) => Record<string, string | number> | string);
 
 export type TRuleOptions = {
   explainer?: string;
@@ -24,9 +24,9 @@ export type TUserConfig = {
   typeDefinitionsOutput?: string | false;
   rules?: Array<TRule>;
   classNameFormat?:
-  | 'snakeCase'
-  | 'tailwind'
-  | ((props: TFormatterProps) => string);
+    | 'snakeCase'
+    | 'tailwind'
+    | ((props: TFormatterProps) => string);
   breakpoints?: Record<string, number>;
 };
 
@@ -37,9 +37,9 @@ export type TConfig = {
   typeDefinitionsOutput: string | false;
   rules: Array<TRule>;
   classNameFormat:
-  | 'snakeCase'
-  | 'tailwind'
-  | ((props: TFormatterProps) => string);
+    | 'snakeCase'
+    | 'tailwind'
+    | ((props: TFormatterProps) => string);
   breakpoints: Record<string, number>;
 };
 

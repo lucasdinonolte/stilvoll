@@ -1,5 +1,10 @@
 export { parseTokensToUtilities } from './lib/parser';
 export {
+  generateUtilities,
+  generateCSS,
+  generateTypeDefinitions,
+} from './lib/generator';
+export {
   validateConfig,
   mergeWithDefaultConfig,
   loadUserConfig,

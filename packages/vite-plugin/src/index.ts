@@ -108,8 +108,6 @@ export default async function tokenUtilityCSSPlugin(
               .replaceAll(STILVOLL_IMPORT_REGEX, ''),
           };
 
-          console.log(code, res);
-
           return res;
         }
       },
