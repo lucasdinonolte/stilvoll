@@ -1,0 +1,30 @@
+{
+  "name": "@stilvoll/fluid-scale",
+  "version": "0.0.7",
+  "type": "module",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "test": "vitest run",
+    "build": "npm run clean && rollup -c",
+    "clean": "rimraf dist",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier . --check",
+    "format:fix": "prettier . --write",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^11.1.6",
+    "rimraf": "^5.0.7",
+    "rollup": "^4.18.0",
+    "rollup-plugin-dts": "^6.1.1",
+    "tslib": "^2.6.2",
+    "typescript": "^5.4.5",
+    "prettier": "^3.3.2",
+    "@vitest/coverage-c8": "^0.22.0",
+    "@vitest/ui": "^0.22.0",
+    "vite": "^3.0.8",
+    "vitest": "^0.22.0"
+  }
+}
