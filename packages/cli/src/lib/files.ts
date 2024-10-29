@@ -7,10 +7,19 @@ export const loadPkg = async () => {
   const __dirname = path.dirname(__filename);
 
   const pkg = await fs.readFile(
-    path.join(__dirname, '../../', 'package.json'),
+    path.join(__dirname, '../', 'package.json'),
     'utf8',
   );
   return JSON.parse(pkg);
+};
+
+export const fileExists = async (file: string, rootDir: string) => {
+  try {
+    await fs.access(path.join(rootDir, file));
+    return true;
+  } catch (e) {
+    return false;
+  }
 };
 
 export const loadFiles = async (

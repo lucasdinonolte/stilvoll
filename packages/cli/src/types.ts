@@ -1,1 +1,6 @@
-export type TFlags = 'dryRun' | 'verbose' | 'version' | 'watch' | 'typesOnly';
+import { TLogger } from './lib/logger';
+
+export type TGlobalFlags = 'verbose' | 'version';
+export type TContext = {
+  logger: TLogger;
+};
