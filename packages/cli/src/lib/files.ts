@@ -1,7 +1,6 @@
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import fs from 'node:fs/promises';
-import { watchFile } from 'node:fs';
 
 export const loadPkg = async () => {
   const __filename = fileURLToPath(import.meta.url);
@@ -14,7 +13,11 @@ export const loadPkg = async () => {
   return JSON.parse(pkg);
 };
 
-export const loadFiles = async (files = [], rootDir, { logger }) => {
+export const loadFiles = async (
+  files: Array<string> = [],
+  rootDir: string,
+  { logger },
+) => {
   const buffers = await Promise.all(
     files.map((f) => {
       const file = path.join(rootDir, f);
@@ -26,7 +29,12 @@ export const loadFiles = async (files = [], rootDir, { logger }) => {
   return Buffer.concat(buffers);
 };
 
-export const writeFile = async (file, rootDir, content, { logger }) => {
+export const writeFile = async (
+  file: string,
+  rootDir: string,
+  content: string,
+  { logger },
+) => {
   const filePath = path.join(rootDir, file);
   try {
     logger.debug(`Writing to ${filePath}`);

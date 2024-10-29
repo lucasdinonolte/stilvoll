@@ -1,8 +1,11 @@
-import { watch } from 'chokidar'
+import { FSWatcher, watch } from 'chokidar';
 
-let watcher;
+let watcher: FSWatcher;
 
-export const createWatcher = ({ entries = [], cwd = process.cwd() } = {}) => {
+export const createWatcher = ({
+  entries = [],
+  cwd = process.cwd(),
+}: { entries?: Array<string>; cwd?: string } = {}) => {
   if (watcher) return watcher;
 
   watcher = watch(entries, {

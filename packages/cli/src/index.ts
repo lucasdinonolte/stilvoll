@@ -8,14 +8,15 @@ import {
   extractClassNamesFromString,
 } from '@stilvoll/core';
 
-import { parseCLIFlags } from './lib/flags.js';
-import { loadPkg, loadFiles, writeFile } from './lib/files.js';
-import { roundWithPrecision } from './lib/util.js';
-import { createLogger } from './lib/logger.js';
-import { createWatcher } from './lib/watcher.js';
+import { parseCLIFlags } from './lib/flags';
+import { loadPkg, loadFiles, writeFile } from './lib/files';
+import { roundWithPrecision } from './lib/util';
+import { createLogger } from './lib/logger';
+import { createWatcher } from './lib/watcher';
+import type { TFlags } from './types';
 
-export default async function main(args) {
-  const flags = parseCLIFlags(
+export default async function main(args: Array<string>) {
+  const flags = parseCLIFlags<TFlags>(
     {
       dryRun: ['--dry'],
       verbose: ['--verbose'],
@@ -44,8 +45,6 @@ export default async function main(args) {
   // Step 1: Look for and load config
   const config = await loadUserConfig({});
   if (config === null) process.exit(1);
-
-  console.log(config);
 
   // Check if type definitions are disabled when running in types only mode
   if (flags.typesOnly !== false && config.typeDefinitionsOutput === false) {
@@ -92,7 +91,7 @@ export default async function main(args) {
     );
     context.logger.debug(transformed.classNames.join(', '));
 
-    const classesToGenerate = [];
+    const classesToGenerate: Array<string> = [];
 
     context.logger.debug('Parsing Markup');
 
@@ -158,7 +157,7 @@ export default async function main(args) {
         );
       } else {
         context.logger.info(
-          `Dry Run, nothing was written to ${config.classNameMap}`,
+          `Dry Run, nothing was written to ${config.typeDefinitionsOutput}`,
         );
       }
     }
