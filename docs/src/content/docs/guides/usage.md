@@ -3,18 +3,19 @@ title: Using Stilvoll
 description: How to access your utility styles
 ---
 
-All the utility classes provided by your config are available in the `sv` proxy. The proxy allows for chaining utility classes one after another.
+All utility classes specified in your configuration are accessible through the `sv` proxy. Please note that class name chaining on the proxy is not currently supported; therefore, if you need to apply multiple classes, a utility such as `classnames` or `clsx` will be beneficial.
 
 See [config file options](/guides/config-file) and the [creating rules guide](/guides/creating-rules) to learn how to tweak the available utility classes.
 
 ```jsx
 import { sv } from 'stilvoll';
+import cn from 'clsx';
 
 function() {
   return (
-    <div className={sv.grid.grid_cols_12}>
+    <div className={cn(sv.grid, sv.grid_cols_12)}>
         <div className={sv.col_6}>Half width column</div>
-        <div className={sv.hidden.block_md.col_6}>
+        <div className={cn(sv.hidden, sv.block_md, sv.col_6)}>
             Half width column only visible from the md breakpoint
         </div>
     </div>
