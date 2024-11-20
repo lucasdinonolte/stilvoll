@@ -1,3 +1,5 @@
+import { formatters } from './lib/formatters';
+
 export type TRuleName = string | ((name: string) => string);
 export type TRuleResult =
   | Record<string, string | number>
@@ -24,8 +26,7 @@ export type TUserConfig = {
   typeDefinitionsOutput?: string | false;
   rules?: Array<TRule>;
   classNameFormat?:
-    | 'snakeCase'
-    | 'tailwind'
+    | keyof typeof formatters
     | ((props: TFormatterProps) => string);
   breakpoints?: Record<string, number | string>;
 };
@@ -37,8 +38,7 @@ export type TConfig = {
   typeDefinitionsOutput: string | false;
   rules: Array<TRule>;
   classNameFormat:
-    | 'snakeCase'
-    | 'tailwind'
+    | keyof typeof formatters
     | ((props: TFormatterProps) => string);
   breakpoints: Record<string, number | string>;
 };

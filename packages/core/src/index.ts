@@ -1,4 +1,4 @@
-export { parseTokensToUtilities } from './lib/parser';
+export { parseTokensToUtilities } from './lib/core';
 export {
   generateUtilities,
   generateCSS,

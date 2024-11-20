@@ -1,19 +1,7 @@
 import { SelectorList, TokenOrValue, transform } from 'lightningcss';
-import type {
-  TBreakpoint,
-  TConfig,
-  TCustomProperty,
-  TParseResult,
-} from '../types';
+import type { TBreakpoint, TConfig, TCustomProperty } from '../types';
 
 import { ensureBuffer } from './utils';
-import { snakeCaseFormatter, tailwindFormatter } from './formatters';
-import { mergeWithDefaultConfig } from './options';
-import {
-  generateUtilities,
-  generateCSS,
-  generateTypeDefinitions,
-} from './generator';
 
 /**
  * Checks if the current element is a CSS `:root`
@@ -68,7 +56,7 @@ const parseCustomMedia = (
             return '(';
           }
           case 'close-parenthesis': {
-            return ')';
+            return ') ';
           }
           case 'colon': {
             return ':';
@@ -100,17 +88,18 @@ const stringifyBreakpoint = (input: number | string) => {
   return input;
 };
 
-const parseInputCSS = (
+/**
+ * Takes in CSS an parses it into a list of custom
+ * properties and found breakpoints.
+ */
+export const parseInputCSS = (
   code: string | Buffer,
-  options: TConfig,
 ): {
   customProperties: TCustomProperty[];
-  breakpoints: TBreakpoint[];
+  foundBreakpoints: Record<string, string>;
 } => {
   const customProperties: Array<TCustomProperty> = [];
   const foundBreakpoints: Record<string, string> = {};
-
-  const hasBreakpointsDefined = Object.keys(options.breakpoints).length > 0;
 
   transform({
     code: ensureBuffer(code),
@@ -130,7 +119,7 @@ const parseInputCSS = (
           }
         }
 
-        if (rule.type === 'unknown' && !hasBreakpointsDefined) {
+        if (rule.type === 'unknown') {
           const value = rule.value;
           if (value.name === 'custom-media') {
             const resolvedCustomMedia = parseCustomMedia(value.prelude);
@@ -145,6 +134,23 @@ const parseInputCSS = (
     },
   });
 
+  return {
+    customProperties,
+    foundBreakpoints,
+  };
+};
+
+/**
+ * Tranforms breakpoints (found or user supplied ones) from
+ * their original object shape into the array with added
+ * metadata that the utility generator expects.
+ */
+export const transformBreakpoints = (
+  foundBreakpoints: Record<string, string>,
+  options: TConfig,
+): TBreakpoint[] => {
+  const hasBreakpointsDefined = Object.keys(options.breakpoints).length > 0;
+
   const breakpoints: Record<string, string> = hasBreakpointsDefined
     ? Object.entries(options.breakpoints).reduce(
         (acc, [key, value]) => ({
@@ -155,56 +161,8 @@ const parseInputCSS = (
       )
     : foundBreakpoints;
 
-  return {
-    customProperties,
-    breakpoints: Object.entries(breakpoints).map(([name, media]) => ({
-      name,
-      media,
-    })),
-  };
-};
-
-/**
- * Extracts tokens from CSS custom properties and turns
- * them into utiliy css classes as well as a map to look
- * up utiliy classes, so you can import and use them the
- * same way as CSS Modules, making combining component
- * CSS with utility CSS more ergonomic.
- */
-export const parseTokensToUtilities = ({
-  code,
-  options: _options = {},
-}: {
-  code: string | Buffer;
-  options: Partial<TConfig>;
-}): TParseResult => {
-  const options = mergeWithDefaultConfig(_options);
-  const { customProperties, breakpoints } = parseInputCSS(code, options);
-
-  const formatterLookup = {
-    snakeCase: snakeCaseFormatter,
-    tailwind: tailwindFormatter,
-  };
-
-  const classNameFormatter =
-    typeof options.classNameFormat === 'function'
-      ? options.classNameFormat
-      : formatterLookup[options.classNameFormat];
-
-  const utilities = generateUtilities({
-    rules: options.rules,
-    customProperties,
-    breakpoints,
-    classNameFormatter,
-  });
-
-  return {
-    classNames: utilities.map(({ selector }) => selector),
-    generateTypeDefinitions() {
-      return generateTypeDefinitions(utilities);
-    },
-    generateCSS(classNames: Array<string> = []) {
-      return generateCSS(utilities, classNames);
-    },
-  };
+  return Object.entries(breakpoints).map(([name, media]) => ({
+    name,
+    media,
+  }));
 };

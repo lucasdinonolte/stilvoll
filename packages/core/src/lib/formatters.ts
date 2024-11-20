@@ -1,6 +1,6 @@
 import type { TFormatterProps } from '../types';
 
-export const snakeCaseFormatter = ({
+const snakeCaseFormatter = ({
   breakpoint,
   className,
 }: TFormatterProps): string => {
@@ -14,7 +14,7 @@ export const snakeCaseFormatter = ({
   return breakpoint ? `${name}_${breakpoint}` : name;
 };
 
-export const tailwindFormatter = ({
+const tailwindFormatter = ({
   breakpoint,
   className,
 }: TFormatterProps): string => {
@@ -25,4 +25,9 @@ export const tailwindFormatter = ({
     .map((i) => i.toLowerCase())
     .join('-');
   return breakpoint ? `${breakpoint}:${name}` : name;
+};
+
+export const formatters = {
+  snakeCase: snakeCaseFormatter,
+  tailwind: tailwindFormatter,
 };
