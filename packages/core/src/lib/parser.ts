@@ -93,6 +93,13 @@ const parseCustomMedia = (
   return [name, `@media ${query}`];
 };
 
+const stringifyBreakpoint = (input: number | string) => {
+  if (typeof input === 'number')
+    return `@media screen and (min-width: ${input}px)`;
+
+  return input;
+};
+
 const parseInputCSS = (
   code: string | Buffer,
   options: TConfig,
@@ -123,7 +130,7 @@ const parseInputCSS = (
           }
         }
 
-        if (rule.type === 'unknown') {
+        if (rule.type === 'unknown' && !hasBreakpointsDefined) {
           const value = rule.value;
           if (value.name === 'custom-media') {
             const resolvedCustomMedia = parseCustomMedia(value.prelude);
@@ -142,7 +149,7 @@ const parseInputCSS = (
     ? Object.entries(options.breakpoints).reduce(
         (acc, [key, value]) => ({
           ...acc,
-          [key]: `@media screen and (min-width: ${value}px)`,
+          [key]: stringifyBreakpoint(value),
         }),
         {},
       )

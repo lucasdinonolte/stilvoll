@@ -27,7 +27,7 @@ export type TUserConfig = {
     | 'snakeCase'
     | 'tailwind'
     | ((props: TFormatterProps) => string);
-  breakpoints?: Record<string, number>;
+  breakpoints?: Record<string, number | string>;
 };
 
 export type TConfig = {
@@ -40,7 +40,7 @@ export type TConfig = {
     | 'snakeCase'
     | 'tailwind'
     | ((props: TFormatterProps) => string);
-  breakpoints: Record<string, number>;
+  breakpoints: Record<string, number | string>;
 };
 
 export type TUtilityStyle = {
