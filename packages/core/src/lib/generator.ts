@@ -126,9 +126,18 @@ export const generateUtilities = ({
   return res;
 };
 
+const maybeWrapInCascadeLayer = (
+  code: string,
+  casecadeLayer: string | false,
+) => {
+  if (!casecadeLayer) return code;
+  return `@layer ${casecadeLayer} {\n${code}\n}`;
+};
+
 export const generateCSS = (
   utilities: Array<TUtilityStyle>,
   _classNames: Array<string> = [],
+  cascadeLayer: string | false,
 ) => {
   const classNames =
     _classNames.length === 0
@@ -152,7 +161,12 @@ export const generateCSS = (
 
   const styles = [...defaultStyles, ...mediaStyles].join(' ');
 
-  return minify(`/* AUTO-GENERATED, DO NOT EDIT */ ${styles}`);
+  return minify(
+    `/* AUTO-GENERATED, DO NOT EDIT */ ${maybeWrapInCascadeLayer(
+      styles,
+      cascadeLayer,
+    )}`,
+  );
 };
 
 export const generateTypeDefinitions = (

@@ -23,6 +23,7 @@ export const defaultOptions: TConfig = {
   entries: defaultFileSystemGlobs,
   output: null,
   typeDefinitionsOutput: defaultTypeDefinitionsPath,
+  cascadeLayer: false,
   breakpoints: {},
   classNameFormat: 'snakeCase',
   rules: [],
