@@ -24,6 +24,7 @@ export type TUserConfig = {
   entries?: Array<string>;
   output?: string | null;
   typeDefinitionsOutput?: string | false;
+  cascadeLayer?: string | false;
   rules?: Array<TRule>;
   classNameFormat?:
     | keyof typeof formatters
@@ -31,17 +32,7 @@ export type TUserConfig = {
   breakpoints?: Record<string, number | string>;
 };
 
-export type TConfig = {
-  input: Array<string>;
-  entries: Array<string>;
-  output: string | null;
-  typeDefinitionsOutput: string | false;
-  rules: Array<TRule>;
-  classNameFormat:
-    | keyof typeof formatters
-    | ((props: TFormatterProps) => string);
-  breakpoints: Record<string, number | string>;
-};
+export type TConfig = Required<TUserConfig>;
 
 export type TUtilityStyle = {
   selector: string;

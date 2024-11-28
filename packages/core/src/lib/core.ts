@@ -46,7 +46,7 @@ export const parseTokensToUtilities = ({
       return generateTypeDefinitions(utilities);
     },
     generateCSS(classNames: Array<string> = []) {
-      return generateCSS(utilities, classNames);
+      return generateCSS(utilities, classNames, options.cascadeLayer);
     },
   };
 };
