@@ -87,5 +87,19 @@ describe('generators', () => {
         '/* AUTO-GENERATED, DO NOT EDIT */ @layer utilities { .flex { display: flex; } }',
       );
     });
+
+    it('should only output the classes passed in', () => {
+      const utilities = generateUtilities({
+        rules: [responsiveRule, ['hidden', { display: 'none' }]],
+        customProperties: [],
+        breakpoints: [],
+        classNameFormatter,
+      });
+
+      const res = generateCSS(utilities, ['hidden'], false);
+      expect(res).toBe(
+        '/* AUTO-GENERATED, DO NOT EDIT */ .hidden { display: none; }',
+      );
+    });
   });
 });
