@@ -151,18 +151,10 @@ export const transformBreakpoints = (
 ): TBreakpoint[] => {
   const hasBreakpointsDefined = Object.keys(options.breakpoints).length > 0;
 
-  const breakpoints: Record<string, string> = hasBreakpointsDefined
-    ? Object.entries(options.breakpoints).reduce(
-        (acc, [key, value]) => ({
-          ...acc,
-          [key]: stringifyBreakpoint(value),
-        }),
-        {},
-      )
-    : foundBreakpoints;
-
-  return Object.entries(breakpoints).map(([name, media]) => ({
+  return Object.entries(
+    hasBreakpointsDefined ? options.breakpoints : foundBreakpoints,
+  ).map(([name, value]) => ({
     name,
-    media,
+    media: stringifyBreakpoint(value),
   }));
 };

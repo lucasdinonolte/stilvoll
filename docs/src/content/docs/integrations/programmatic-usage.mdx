@@ -1,0 +1,51 @@
+---
+title: Programmatic Usage
+description: Deeply integrate stilvoll into existing workflows
+---
+
+import { Steps } from "@astrojs/starlight/components";
+import { LinkCard } from "@astrojs/starlight/components";
+
+## Installation
+
+<Steps>
+1. Install and `@stilvoll/core`
+
+    ```bash
+    npm install -D @stilvoll/core
+    ```
+2. Import and use `generateUtilities` and `generateCSS`
+
+    ```javascript
+    import { generateUtilities, generateCSS } from '@stilvoll/core';
+
+    /**
+     * Generate a set of utilities from rules 
+     */
+    const utilities = generateUtilities({
+      rules: [
+        ['hidden', { display: 'none' }],
+      ],
+      breakpoints: [
+        {
+          name: 'md',
+          media: '@media screen and (min-width: 768px)',
+        },
+      ],
+    });
+
+    /**
+     * Turn the utilities into a string of CSS.
+     */
+    const css = generateCSS(utilities);
+    ```
+
+</Steps>
+
+
+## Examples
+
+<LinkCard
+  title="Vite with Postcss"
+  href="https://github.com/lucasdinonolte/stilvoll/tree/main/examples/programmatic-usage"
+/>
