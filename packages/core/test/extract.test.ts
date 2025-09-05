@@ -14,6 +14,15 @@ describe('extractClassNamesFromString', () => {
     expect(res).toHaveLength(2);
   });
 
+  it('should extract regexp classnames from a string of code', () => {
+    const code = '<div class="m-4 p-2">Hello</div>';
+    const res = extractClassNamesFromString({
+      code,
+      classNames: [/^m-(\d+)$/, /^p-(\d+)$/],
+    });
+    expect(res).toHaveLength(2);
+  });
+
   it('should return an empty array if no matches are found', () => {
     const code = '<div class="nonMatchingClass someOtherText">Hello</div>';
     const res = extractClassNamesFromString({ code, classNames });

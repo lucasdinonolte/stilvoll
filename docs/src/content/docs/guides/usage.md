@@ -29,10 +29,10 @@ Not using JSX, or don't want to use the `sv` proxy? No problem, as stilvoll also
 
 ```html
 <div class="grid grid_cols_12">
-    <div class="col_6">Half width column</div>
-    <div class="hidden block_md col_6">
-        Half width column only visible from the md breakpoint
-    </div>
+  <div class="col_6">Half width column</div>
+  <div class="hidden block_md col_6">
+    Half width column only visible from the md breakpoint
+  </div>
 </div>
 ```
 
@@ -45,17 +45,17 @@ By default Stilvoll generates utility classnames using `snake_case`, as this all
 import { createConfig } from '@stilvoll/core';
 
 export default createConfig({
-    input: ['./src/index.css'],
+  input: ['./src/index.css'],
 
-    // Define the format of the utility classnames. Built in options
-    // are `snakeCase` (default setting, generating `md_col_12`) and
-    // `tailwind` (generating `md:col-12`). You can also pass a function
-    // to roll your own class name formatting.
-    //
-    // Keep in mind that `snakeCase` is the recommended setting when
-    // yout want to work with the typesafe sv import, as snake case
-    // object keys don't need to be quoted in JavaScript.
-    classNameFormat: 'tailwind',
+  // Define the format of the utility classnames. Built in options
+  // are `snakeCase` (default setting, generating `md_col_12`) and
+  // `tailwind` (generating `md:col-12`). You can also pass a function
+  // to roll your own class name formatting.
+  //
+  // Keep in mind that `snakeCase` is the recommended setting when
+  // yout want to work with the typesafe sv import, as snake case
+  // object keys don't need to be quoted in JavaScript.
+  classNameFormat: 'tailwind',
 });
 ```
 
@@ -63,9 +63,9 @@ With these settings the above example can now be written like this:
 
 ```html
 <div class="grid grid-cols-12">
-    <div class="col-6">Half width column</div>
-    <div class="hidden md:block col-6">
-        Half width column only visible from the md breakpoint
-    </div>
+  <div class="col-6">Half width column</div>
+  <div class="hidden md:block col-6">
+    Half width column only visible from the md breakpoint
+  </div>
 </div>
 ```

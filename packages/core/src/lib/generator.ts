@@ -9,7 +9,7 @@ import type {
 } from '../types';
 
 import { STILVOLL_OBJECT_NAME } from '../constants';
-import { minify, uniqueArray } from './utils';
+import { minify as minifyCss, uniqueArray } from './utils';
 import { escapeSelector } from './escape';
 
 const NOOP_BREAKPOINT = { name: null, media: null };
@@ -134,10 +134,21 @@ const maybeWrapInCascadeLayer = (
   return `@layer ${casecadeLayer} {\n${code}\n}`;
 };
 
+const maybeMinify = (code: string, minify: boolean) => {
+  if (!minify) return code;
+  return minifyCss(code);
+};
+
 export const generateCSS = (
   utilities: Array<TUtilityStyle>,
   _classNames: Array<string> = [],
-  cascadeLayer: string | false,
+  {
+    cascadeLayer = false,
+    minify = true,
+  }: {
+    cascadeLayer?: string | false;
+    minify?: boolean;
+  } = {},
 ) => {
   const classNames =
     _classNames.length === 0
@@ -161,11 +172,12 @@ export const generateCSS = (
 
   const styles = [...defaultStyles, ...mediaStyles].join(' ');
 
-  return minify(
-    `/* AUTO-GENERATED, DO NOT EDIT */ ${maybeWrapInCascadeLayer(
+  return maybeMinify(
+    `/* AUTO-GENERATED, DO NOT EDIT */\n\n${maybeWrapInCascadeLayer(
       styles,
       cascadeLayer,
     )}`,
+    minify,
   );
 };
 

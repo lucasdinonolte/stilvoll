@@ -19,6 +19,7 @@ describe('generators', () => {
     { display: 'flex' },
     { responsive: false },
   ];
+  const regexRule: TRule = [/^m-(\d+)$/, (value) => ({ margin: `${value}px` })];
 
   describe('generateUtilities', () => {
     it('should generate utilities', () => {
@@ -30,6 +31,17 @@ describe('generators', () => {
       });
 
       expect(res.length).toBe(2);
+    });
+
+    it('should generate utilities for regex classes', () => {
+      const res = generateUtilities({
+        rules: [regexRule],
+        customProperties: [],
+        breakpoints: [],
+        classNameFormatter,
+      });
+
+      expect(res.length).toBe(1);
     });
 
     it('should return an empty array if no rules are provided', () => {

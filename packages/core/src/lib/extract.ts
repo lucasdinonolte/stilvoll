@@ -10,14 +10,18 @@ export const extractClassNamesFromString = ({
   classNames,
 }: {
   code: string;
-  classNames: Array<string>;
+  classNames: Array<string | RegExp>;
 }) => {
   const res: Array<{
     isObjectToken: boolean;
     token: string;
     classNames: Array<string>;
   }> = [];
+
   const tokens = code.split(splitRE);
+  const classNameRegexps = classNames.map((c) =>
+    typeof c === 'string' ? new RegExp(`^${c}$`) : c,
+  );
 
   const objPrefix = `${STILVOLL_OBJECT_NAME}.`;
 
@@ -39,7 +43,7 @@ export const extractClassNamesFromString = ({
     }
 
     for (const tok of toks) {
-      if (classNames.includes(tok)) {
+      if (classNameRegexps.some((c) => tok.match(c))) {
         foundClassNames.push(tok);
       }
     }

@@ -9,4 +9,3 @@ export const defaultTypeDefinitionsPath = path.join(
   require.resolve('stilvoll'),
   '../index.d.ts',
 );
-

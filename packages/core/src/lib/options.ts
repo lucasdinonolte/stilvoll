@@ -26,6 +26,7 @@ export const defaultOptions: TConfig = {
   cascadeLayer: false,
   breakpoints: {},
   classNameFormat: 'snakeCase',
+  minifyOutput: true,
   rules: [],
 };
 

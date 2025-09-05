@@ -28,7 +28,7 @@ export default createConfig({
   // to roll your own class name formatting.
   //
   // Keep in mind that \`snakeCase\` is the recommended setting when
-  // yout want to work with the typesafe sv import, as snake case
+  // you want to work with the typesafe \`sv\` import, as snake case
   // object keys don't need to be quoted in JavaScript.
   classNameFormat: 'snakeCase',
 });`;

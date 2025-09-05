@@ -3,25 +3,25 @@ title: Getting Started
 description: A guide to getting started with Stilvoll
 ---
 
-import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+import { LinkCard, CardGrid } from "@astrojs/starlight/components";
 
 Stilvoll is an utility CSS engine, that’s based around CSS custom properties to define tokens, generating typesafe utility CSS. It's un-opinionated and designed to be flexible. By default it does not generate any utility CSS classes. All utilities are opt-in via rules. Stilvoll comes with rules to pick up or let's you easily define your own rules to fit your project.
 
 ```js
 // stilvoll.config.js
-import { flexRules } from '@stilvoll/rules';
+import { flexRules } from "@stilvoll/rules";
 
 export default {
-  input: ['./src/index.css'],
+  input: ["./src/index.css"],
   rules: [
     // Pre-made rule
     ...flexRules,
 
     // Custom defined rules
-    ['hidden', { display: 'none' }],
-    ['visible', { visibility: 'visible' }],
-  ]
-}
+    ["hidden", { display: "none" }],
+    ["visible", { visibility: "visible" }],
+  ],
+};
 ```
 
 This will add `hidden` and `visible` CSS utilities to your project. If configured to watch markup files it won't add them to your codebase until you're actually using them.
@@ -45,14 +45,17 @@ function() {
 Both will output the following CSS:
 
 ```css
-.hidden { display: none; }
+.hidden {
+  display: none;
+}
 ```
+
 ## Integrations
 
 Stilvoll comes with integrations to be plug and play with popular tech stacks.
 
 <CardGrid>
-	<LinkCard title="Vite Plugin" href="/integrations/vite" />
+  <LinkCard title="Vite Plugin" href="/integrations/vite" />
   <LinkCard title="PostCSS Plugin" href="/integrations/postcss" />
   <LinkCard title="CLI" href="/integrations/cli" />
 </CardGrid>

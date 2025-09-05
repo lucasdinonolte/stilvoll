@@ -1,6 +1,6 @@
 import { formatters } from './lib/formatters';
 
-export type TRuleName = string | ((name: string) => string);
+export type TRuleName = RegExp | string | ((name: string) => string);
 export type TRuleResult =
   | Record<string, string | number>
   | ((
@@ -30,6 +30,7 @@ export type TUserConfig = {
     | keyof typeof formatters
     | ((props: TFormatterProps) => string);
   breakpoints?: Record<string, number | string>;
+  minifyOutput?: boolean;
 };
 
 export type TConfig = Required<TUserConfig>;

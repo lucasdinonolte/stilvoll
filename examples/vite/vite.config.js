@@ -4,8 +4,5 @@ import stilvoll from '@stilvoll/vite-plugin';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    react(),
-    stilvoll(),
-  ],
+  plugins: [react(), stilvoll()],
 });
