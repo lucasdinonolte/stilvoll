@@ -37,6 +37,8 @@ export default async function buildCommand(
   const config = await loadUserConfig({});
   if (config === null) process.exit(1);
 
+  context.logger.debug('Resolved config', config);
+
   // Check if type definitions are disabled when running in types only mode
   if (flags.typesOnly !== false && config.typeDefinitionsOutput === false) {
     context.logger.error('Type definitions are disabled in the config');

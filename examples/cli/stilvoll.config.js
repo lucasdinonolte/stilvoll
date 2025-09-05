@@ -30,7 +30,7 @@ export default {
     lg: 1024,
     xl: 1280,
   },
-  minify: false,
+  minifyOutput: false,
   rules: [
     ...flexRules,
     ...gridRules,

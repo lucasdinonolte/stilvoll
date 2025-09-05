@@ -170,7 +170,7 @@ export const generateCSS = (
     return `${media} {\n${rules.join('\n')}\n}`;
   });
 
-  const styles = [...defaultStyles, ...mediaStyles].join(' ');
+  const styles = [...defaultStyles, ...mediaStyles].join('\n\n');
 
   return maybeMinify(
     `/* AUTO-GENERATED, DO NOT EDIT */\n\n${maybeWrapInCascadeLayer(
