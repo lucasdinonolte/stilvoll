@@ -113,6 +113,7 @@ export const generateUtilities = ({
 
           if (resolvedStyles) {
             res.push({
+              name: [name, key, breakpoint.name],
               selector: resolvedName,
               css: resolvedStyles,
               media: breakpoint.media,
@@ -143,12 +144,14 @@ export const generateCSS = (
   utilities: Array<TUtilityStyle>,
   _classNames: Array<string> = [],
   {
+    banner,
     cascadeLayer = false,
     minify = true,
   }: {
+    banner: string;
     cascadeLayer?: string | false;
     minify?: boolean;
-  } = {},
+  },
 ) => {
   const classNames =
     _classNames.length === 0
@@ -173,10 +176,7 @@ export const generateCSS = (
   const styles = [...defaultStyles, ...mediaStyles].join('\n\n');
 
   return maybeMinify(
-    `/* AUTO-GENERATED, DO NOT EDIT */\n\n${maybeWrapInCascadeLayer(
-      styles,
-      cascadeLayer,
-    )}`,
+    `${banner}\n\n${maybeWrapInCascadeLayer(styles, cascadeLayer)}`,
     minify,
   );
 };

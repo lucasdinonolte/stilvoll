@@ -8,8 +8,9 @@
     "build": "mkdir -p ./dist && stilvoll --verbose"
   },
   "dependencies": {
-    "stilvoll": "*",
+    "stilvoll": "0.0.7",
     "@stilvoll/cli": "*",
+    "@stilvoll/core": "*",
     "@stilvoll/rules": "*"
   }
 }

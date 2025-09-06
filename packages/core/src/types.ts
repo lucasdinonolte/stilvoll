@@ -21,6 +21,7 @@ export type TCustomProperty = {
 
 export type TUserConfig = {
   input: Array<string>;
+  banner?: string | (() => string);
   entries?: Array<string>;
   output?: string | null;
   typeDefinitionsOutput?: string | false;
@@ -31,6 +32,7 @@ export type TUserConfig = {
     | ((props: TFormatterProps) => string);
   breakpoints?: Record<string, number | string>;
   minifyOutput?: boolean;
+  plugins?: Array<TPlugin>;
 };
 
 export type TConfig = Required<TUserConfig>;
@@ -55,4 +57,13 @@ export type TParseResult = {
 export type TFormatterProps = {
   breakpoint: string | null;
   className: string;
+};
+
+export type TPlugin = {
+  name: string;
+  generate?: (opts: {
+    utilities: Array<TUtilityStyle>;
+    foundClassNames: Array<string>;
+    options: Omit<TConfig, 'plugins'>;
+  }) => Promise<void>;
 };

@@ -46,7 +46,22 @@ export const parseTokensToUtilities = ({
       return generateTypeDefinitions(utilities);
     },
     generateCSS(classNames: Array<string> = []) {
-      return generateCSS(utilities, classNames, { cascadeLayer: options.cascadeLayer, minify: options.minifyOutput });
+      options.plugins.forEach(plugin => {
+        plugin.generate?.({
+          utilities,
+          foundClassNames: classNames,
+          options,
+        });
+      });
+
+      return generateCSS(utilities, classNames, {
+        banner:
+          typeof options.banner === 'function'
+            ? options.banner()
+            : options.banner,
+        cascadeLayer: options.cascadeLayer,
+        minify: options.minifyOutput,
+      });
     },
   };
 };

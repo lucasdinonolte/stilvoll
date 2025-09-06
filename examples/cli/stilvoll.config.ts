@@ -1,3 +1,5 @@
+import { createConfig } from '@stilvoll/core';
+
 import {
   flexRules,
   gapRules,
@@ -6,10 +8,12 @@ import {
   visibilityRules,
 } from '@stilvoll/rules';
 
-export default {
+export default createConfig({
   input: ['./src/input.css'],
   output: './dist/utils.css',
-  entries: ['./src/pages/**/*.html'],
+  entries: [],
+  banner: () => 
+    `/* AUTO GENERATED ON ${new Date().toISOString()} */`,
   /**
    * This is an example of a custom className
    * formatter
@@ -38,4 +42,4 @@ export default {
     ...spacingRules,
     ...visibilityRules,
   ],
-};
+});
