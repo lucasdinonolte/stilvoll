@@ -11,19 +11,20 @@ import type {
 import { STILVOLL_OBJECT_NAME } from '../constants';
 import { minify as minifyCss, uniqueArray } from './utils';
 import { escapeSelector } from './escape';
+import { formatters } from './formatters';
 
 const NOOP_BREAKPOINT = { name: null, media: null };
 
 export const generateUtilities = ({
   rules,
-  customProperties,
-  breakpoints,
-  classNameFormatter,
+  customProperties = [],
+  breakpoints = [],
+  classNameFormatter = formatters.tailwind,
 }: {
   rules: Array<TRule>;
-  customProperties: Array<TCustomProperty>;
-  breakpoints: Array<TBreakpoint>;
-  classNameFormatter: (input: TFormatterProps) => string;
+  customProperties?: Array<TCustomProperty>;
+  breakpoints?: Array<TBreakpoint>;
+  classNameFormatter?: (input: TFormatterProps) => string;
 }) => {
   const res: Array<TUtilityStyle> = [];
 
