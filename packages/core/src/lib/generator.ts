@@ -149,10 +149,10 @@ export const generateCSS = (
     cascadeLayer = false,
     minify = true,
   }: {
-    banner: string;
+    banner?: string;
     cascadeLayer?: string | false;
     minify?: boolean;
-  },
+  } = {},
 ) => {
   const classNames =
     _classNames.length === 0
@@ -177,7 +177,7 @@ export const generateCSS = (
   const styles = [...defaultStyles, ...mediaStyles].join('\n\n');
 
   return maybeMinify(
-    `${banner}\n\n${maybeWrapInCascadeLayer(styles, cascadeLayer)}`,
+    `${banner ? `${banner}\n\n` : ''}${maybeWrapInCascadeLayer(styles, cascadeLayer)}`,
     minify,
   );
 };

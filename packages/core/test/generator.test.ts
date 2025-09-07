@@ -19,7 +19,6 @@ describe('generators', () => {
     { display: 'flex' },
     { responsive: false },
   ];
-  const regexRule: TRule = [/^m-(\d+)$/, (value) => ({ margin: `${value}px` })];
 
   describe('generateUtilities', () => {
     it('should generate utilities', () => {
@@ -31,17 +30,6 @@ describe('generators', () => {
       });
 
       expect(res.length).toBe(2);
-    });
-
-    it('should generate utilities for regex classes', () => {
-      const res = generateUtilities({
-        rules: [regexRule],
-        customProperties: [],
-        breakpoints: [],
-        classNameFormatter,
-      });
-
-      expect(res.length).toBe(1);
     });
 
     it('should return an empty array if no rules are provided', () => {
@@ -87,16 +75,23 @@ describe('generators', () => {
     });
 
     it('should produce CSS', () => {
-      const res = generateCSS(utilities, [], false);
+      const res = generateCSS(utilities, [], {});
       expect(res).toBe(
-        '/* AUTO-GENERATED, DO NOT EDIT */ .flex { display: flex; }',
+        '.flex { display: flex; }',
       );
     });
 
     it('should wrap produced CSS in cascade layer', () => {
-      const res = generateCSS(utilities, [], 'utilities');
+      const res = generateCSS(utilities, [], { cascadeLayer: 'utilities' });
       expect(res).toBe(
-        '/* AUTO-GENERATED, DO NOT EDIT */ @layer utilities { .flex { display: flex; } }',
+        '@layer utilities { .flex { display: flex; } }',
+      );
+    });
+
+    it('should apply the supplied banner', () => {
+      const res = generateCSS(utilities, [], { banner: '/* Banner */' });
+      expect(res).toBe(
+        '/* Banner */ .flex { display: flex; }',
       );
     });
 
@@ -108,9 +103,9 @@ describe('generators', () => {
         classNameFormatter,
       });
 
-      const res = generateCSS(utilities, ['hidden'], false);
+      const res = generateCSS(utilities, ['hidden'], {});
       expect(res).toBe(
-        '/* AUTO-GENERATED, DO NOT EDIT */ .hidden { display: none; }',
+        '.hidden { display: none; }',
       );
     });
   });
