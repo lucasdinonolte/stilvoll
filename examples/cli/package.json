@@ -1,14 +1,14 @@
 {
   "name": "stilvoll-example-cli",
   "private": true,
-  "version": "0.0.5",
+  "version": "0.0.6",
   "type": "module",
   "scripts": {
     "dev": "mkdir -p ./dist && stilvoll --watch",
     "build": "mkdir -p ./dist && stilvoll --verbose"
   },
   "dependencies": {
-    "stilvoll": "0.0.7",
+    "stilvoll": "0.0.8",
     "@stilvoll/cli": "*",
     "@stilvoll/core": "*",
     "@stilvoll/rules": "*"

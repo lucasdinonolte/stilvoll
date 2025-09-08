@@ -1,5 +1,23 @@
 # cli-playground
 
+## 0.0.6
+
+### Patch Changes
+
+- 60b0a72: Adds banner option to user configuration, allowing to edit the banner added on top of the generated CSS.
+- Updated dependencies [6cca8a9]
+- Updated dependencies [e0dedf5]
+- Updated dependencies [d9162dc]
+- Updated dependencies [1765008]
+- Updated dependencies [8a6bb9a]
+- Updated dependencies [a1f5506]
+- Updated dependencies [6e1963a]
+- Updated dependencies [60b0a72]
+  - @stilvoll/cli@0.0.8
+  - @stilvoll/core@0.0.8
+  - @stilvoll/rules@0.0.8
+  - stilvoll@0.0.8
+
 ## 0.0.5
 
 ### Patch Changes

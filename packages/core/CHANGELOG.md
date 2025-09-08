@@ -1,5 +1,17 @@
 # @stilvoll/core
 
+## 0.0.8
+
+### Patch Changes
+
+- e0dedf5: Make minification configurable in stilvoll.config.js
+- d9162dc: Cleanup: Remove no longer used code
+- 1765008: Make default rules more opinionated + stylistic fixes of code output.
+- 8a6bb9a: Add cascade layer option
+- a1f5506: Restructure arguments of generateUtilities to make programmatic usage of stilvoll easier
+- 60b0a72: Adds banner option to user configuration, allowing to edit the banner added on top of the generated CSS.
+  - stilvoll@0.0.8
+
 ## 0.0.7
 
 ### Patch Changes

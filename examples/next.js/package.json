@@ -15,8 +15,8 @@
     "react-dom": "^18"
   },
   "devDependencies": {
-    "@stilvoll/postcss": "0.0.7",
-    "@stilvoll/rules": "0.0.7",
-    "stilvoll": "0.0.7"
+    "@stilvoll/postcss": "0.0.8",
+    "@stilvoll/rules": "0.0.8",
+    "stilvoll": "0.0.8"
   }
 }

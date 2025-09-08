@@ -1,6 +1,6 @@
 {
   "name": "@stilvoll/fluid-scale",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "type": "module",
   "license": "MIT",
   "main": "./dist/index.js",

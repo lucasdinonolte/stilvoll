@@ -1,5 +1,19 @@
 # @stilvoll/rules
 
+## 0.0.8
+
+### Patch Changes
+
+- 1765008: Make default rules more opinionated + stylistic fixes of code output.
+- 6e1963a: Add color rules
+- Updated dependencies [e0dedf5]
+- Updated dependencies [d9162dc]
+- Updated dependencies [1765008]
+- Updated dependencies [8a6bb9a]
+- Updated dependencies [a1f5506]
+- Updated dependencies [60b0a72]
+  - @stilvoll/core@0.0.8
+
 ## 0.0.7
 
 ### Patch Changes

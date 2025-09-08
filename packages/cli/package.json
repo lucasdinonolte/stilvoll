@@ -1,6 +1,6 @@
 {
   "name": "@stilvoll/cli",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "type": "module",
   "license": "MIT",
   "main": "./dist/index.js",
@@ -14,7 +14,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@stilvoll/core": "0.0.7",
+    "@stilvoll/core": "0.0.8",
     "chokidar": "^3.6.0",
     "fast-glob": "^3.3.2",
     "glob": "^11.0.0",
