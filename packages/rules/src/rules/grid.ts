@@ -1,28 +1,16 @@
-import type { TRule } from '@stilvoll/core';
+import type { TRule, TRuleValue } from '@stilvoll/core';
 
-export const gridRules = [
-  ['grid', { display: 'grid' }],
+export const makeGridRules = (columnCount: number) => {
+const columns: Array<TRuleValue> = Array.from({ length: columnCount }).map((_, i) => [`${i + 1}`, i + 1]);
+
+const res: Array<TRule> = [
   [
     (count: string) => `grid-cols-${count}`,
     (value: number) => ({
+      display: 'grid',
       'grid-template-columns': `repeat(${value}, minmax(0, 1fr))`,
     }),
-    {
-      values: {
-        1: 1,
-        2: 2,
-        3: 3,
-        4: 4,
-        5: 5,
-        6: 6,
-        7: 7,
-        8: 8,
-        9: 9,
-        10: 10,
-        11: 11,
-        12: 12,
-      },
-    },
+    columns,
   ],
   ['col-auto', { 'grid-column': 'auto' }],
   ['col-full', { 'grid-column': '1 / -1' }],
@@ -31,22 +19,7 @@ export const gridRules = [
     (value: number) => ({
       'grid-column': `span ${value} / span ${value}`,
     }),
-    {
-      values: {
-        1: 1,
-        2: 2,
-        3: 3,
-        4: 4,
-        5: 5,
-        6: 6,
-        7: 7,
-        8: 8,
-        9: 9,
-        10: 10,
-        11: 11,
-        12: 12,
-      },
-    },
+    columns,
   ],
   ['col-start-auto', { 'grid-column-start': 'auto' }],
   [
@@ -54,23 +27,7 @@ export const gridRules = [
     (value: number) => ({
       'grid-column-start': value,
     }),
-    {
-      values: {
-        1: 1,
-        2: 2,
-        3: 3,
-        4: 4,
-        5: 5,
-        6: 6,
-        7: 7,
-        8: 8,
-        9: 9,
-        10: 10,
-        11: 11,
-        12: 12,
-        13: 13,
-      },
-    },
+    columns,
   ],
   ['col-end-auto', { 'grid-column-end': 'auto' }],
   [
@@ -78,22 +35,10 @@ export const gridRules = [
     (value: number) => ({
       'grid-column-end': value,
     }),
-    {
-      values: {
-        1: 1,
-        2: 2,
-        3: 3,
-        4: 4,
-        5: 5,
-        6: 6,
-        7: 7,
-        8: 8,
-        9: 9,
-        10: 10,
-        11: 11,
-        12: 12,
-        13: 13,
-      },
-    },
+    columns,
   ],
-] satisfies Array<TRule>;
+];
+return res;
+};
+
+export const gridRules = makeGridRules(12);

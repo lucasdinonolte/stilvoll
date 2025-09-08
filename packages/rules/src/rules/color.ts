@@ -1,14 +1,14 @@
 import type { TRule } from '@stilvoll/core';
 
-export const colorRules = [
+export const colorRules: Array<TRule> = [
   [
     (name) => `bg-${name}`,
     (value: string) => ({ 'background-color': value }),
-    { values: { _: /^--color-background-/ } },
+    /^--color-background-/,
   ],
   [
     (name) => `text-${name}`,
     (value: string) => ({ color: value }),
-    { values: { _: /^--color-text-/ } },
+    /^--color-text-/,
   ],
-] satisfies Array<TRule>;
+];

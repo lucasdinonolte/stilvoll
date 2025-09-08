@@ -42,22 +42,40 @@ export default {
     [
       (name) => `m-${name}`,
       (value) => ({ margin: value }),
-      {
-        values: {
-          // strings and numbers are considered static values,
-          // they are generated as is
-          auto: "auto",
-          px: "1px",
-          none: 0,
 
-          // Passing a regular expression will find matching CSS
-          // variables in your input CSS file and generate
-          // variations for them. So if you had --space-l and
-          // --space-xl design tokens, this would generate the
-          // classes m-l and m-xl. Note how the regular expression
-          // part is stripped from the classname
-          _: /^--space-/,
-        },
+      // Passing a regular expression will find matching CSS
+      // variables in your input CSS file and generate
+      // variations for them. So if you had --space-l and
+      // --space-xl design tokens, this would generate the
+      // classes m-l and m-xl. Note how the regular expression
+      // part is stripped from the classname
+      /^--space-/,
+    ],
+
+    // Options for dynamic rules can be passed as a regular
+    // expression, as shown above, or as an array of key-value
+    // sub-arrays for static values.
+    [
+      (name) => `p-${name}`,
+      (value) => ({ padding: value }),
+      [
+        ["none", 0],
+        ["px", "1px"],
+      ],
+    ],
+
+    // Instead of just passing the dynamic values, the last part
+    // of a rule can also contain configuration options for that
+    // rule. The dynamic values — if any — are passed in the `values`
+    // key in this case.
+    [
+      (name) => `mt-${name}`,
+      (value) => ({ "padding-top": value }),
+      {
+        // Opting out of generating responsive variants of
+        // this utility class.
+        responsive: false,
+        values: /^--space-/,
       },
     ],
 
@@ -70,10 +88,7 @@ export default {
         margin-top: ${value};
       }`,
       {
-        values: {
-          none: 0,
-          _: /^--space-/,
-        },
+        values: [["none", 0], /^--space-/],
       },
     ],
   ],

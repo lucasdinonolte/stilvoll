@@ -9,6 +9,17 @@ const sampleBreakpoints: Array<TBreakpoint> = [
   { name: 'xl', media: '@media (min-width: 1280px)' },
 ];
 
+const sampleCustomProperties = [
+  {
+    key: '--space-xl',
+    value: 'var(--space-xl)',
+  },
+  {
+    key: '--space-l',
+    value: 'var(--space-l)',
+  },
+];
+
 const classNameFormatter = ({ breakpoint, className }) =>
   breakpoint ? `${breakpoint}:${className}` : className;
 
@@ -18,6 +29,18 @@ describe('generators', () => {
     'flex',
     { display: 'flex' },
     { responsive: false },
+  ];
+
+  const ruleWithValues: TRule = [
+    (name) => `space-${name}`,
+    (value: string) => ({ margin: value }),
+    /^--space-/,
+  ];
+
+  const ruleWithCustomAndStaticValues: TRule = [
+    (name) => `space-${name}`,
+    (value: string) => ({ margin: value }),
+    [/^--space-/, ['none', 0]],
   ];
 
   describe('generateUtilities', () => {
@@ -41,6 +64,28 @@ describe('generators', () => {
       });
 
       expect(res).toEqual([]);
+    });
+
+    it('should generate dynamic rules for custom properties', () => {
+      const res = generateUtilities({
+        rules: [ruleWithValues],
+        customProperties: sampleCustomProperties,
+        breakpoints: [],
+        classNameFormatter,
+      });
+
+      expect(res.length).toBe(sampleCustomProperties.length);
+    });
+
+    it('should generate dynamic rules for custom properties and static values', () => {
+      const res = generateUtilities({
+        rules: [ruleWithCustomAndStaticValues],
+        customProperties: sampleCustomProperties,
+        breakpoints: [],
+        classNameFormatter,
+      });
+
+      expect(res.length).toBe(sampleCustomProperties.length + 1);
     });
 
     it('should generate responsive utilities when breakpoints are given', () => {
@@ -76,23 +121,17 @@ describe('generators', () => {
 
     it('should produce CSS', () => {
       const res = generateCSS(utilities, [], {});
-      expect(res).toBe(
-        '.flex { display: flex; }',
-      );
+      expect(res).toBe('.flex { display: flex; }');
     });
 
     it('should wrap produced CSS in cascade layer', () => {
       const res = generateCSS(utilities, [], { cascadeLayer: 'utilities' });
-      expect(res).toBe(
-        '@layer utilities { .flex { display: flex; } }',
-      );
+      expect(res).toBe('@layer utilities { .flex { display: flex; } }');
     });
 
     it('should apply the supplied banner', () => {
       const res = generateCSS(utilities, [], { banner: '/* Banner */' });
-      expect(res).toBe(
-        '/* Banner */ .flex { display: flex; }',
-      );
+      expect(res).toBe('/* Banner */ .flex { display: flex; }');
     });
 
     it('should only output the classes passed in', () => {
@@ -104,9 +143,7 @@ describe('generators', () => {
       });
 
       const res = generateCSS(utilities, ['hidden'], {});
-      expect(res).toBe(
-        '.hidden { display: none; }',
-      );
+      expect(res).toBe('.hidden { display: none; }');
     });
   });
 });

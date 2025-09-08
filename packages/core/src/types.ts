@@ -1,19 +1,28 @@
 import { formatters } from './lib/formatters';
 
-export type TRuleName = RegExp | string | ((name: string) => string);
-export type TRuleResult =
-  | Record<string, string | number>
-  | ((
+export type TRuleName = string;
+export type TRuleNameFunction =  ((name: string) => string);
+
+export type TRuleResult = Record<string, string | number>
+
+export type TRuleResultFunction = ((
       value: string | number | null,
       selector?: string,
     ) => Record<string, string | number> | string);
 
-export type TRuleOptions = {
-  explainer?: string;
-  responsive?: boolean;
-  values?: Record<string, string | number | RegExp>;
-};
-export type TRule = [TRuleName, TRuleResult, TRuleOptions?];
+export type TRuleValue = [string, string | number] | RegExp;
+
+export type TRuleOptions =
+  | RegExp
+  | Array<TRuleValue>
+  | {
+      explainer?: string;
+      responsive?: boolean;
+      values?: Array<TRuleValue>;
+    };
+export type TRule = [TRuleName, TRuleResult, TRuleOptions?] |
+  [TRuleNameFunction, TRuleResultFunction, TRuleOptions?];
+
 export type TCustomProperty = {
   key: string;
   value: string;

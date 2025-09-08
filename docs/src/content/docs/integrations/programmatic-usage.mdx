@@ -14,34 +14,32 @@ import { LinkCard } from "@astrojs/starlight/components";
     ```bash
     npm install -D @stilvoll/core
     ```
+
 2. Import and use `generateUtilities` and `generateCSS`
 
-    ```javascript
-    import { generateUtilities, generateCSS } from '@stilvoll/core';
+   ```javascript
+   import { generateUtilities, generateCSS } from "@stilvoll/core";
 
-    /**
-     * Generate a set of utilities from rules 
-     */
-    const utilities = generateUtilities({
-      rules: [
-        ['hidden', { display: 'none' }],
-      ],
-      breakpoints: [
-        {
-          name: 'md',
-          media: '@media screen and (min-width: 768px)',
-        },
-      ],
-    });
+   /**
+    * Generate a set of utilities from rules
+    */
+   const utilities = generateUtilities({
+     rules: [["hidden", { display: "none" }]],
+     breakpoints: [
+       {
+         name: "md",
+         media: "@media screen and (min-width: 768px)",
+       },
+     ],
+   });
 
-    /**
-     * Turn the utilities into a string of CSS.
-     */
-    const css = generateCSS(utilities);
-    ```
+   /**
+    * Turn the utilities into a string of CSS.
+    */
+   const css = generateCSS(utilities);
+   ```
 
 </Steps>
-
 
 ## Examples
 

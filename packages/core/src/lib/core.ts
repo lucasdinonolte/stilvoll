@@ -46,7 +46,7 @@ export const parseTokensToUtilities = ({
       return generateTypeDefinitions(utilities);
     },
     generateCSS(classNames: Array<string> = []) {
-      options.plugins.forEach(plugin => {
+      options.plugins.forEach((plugin) => {
         plugin.generate?.({
           utilities,
           foundClassNames: classNames,

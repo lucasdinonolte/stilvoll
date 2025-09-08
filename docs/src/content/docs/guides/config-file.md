@@ -57,8 +57,8 @@ export default createConfig({
   // Defaults to true
   minifyOutput: false,
 
-  // Set the banner to add to the top of the generated output 
-  // CSS.  This can be specified as a string or a function 
+  // Set the banner to add to the top of the generated output
+  // CSS.  This can be specified as a string or a function
   // returning a string.
   //
   // Defaults to:

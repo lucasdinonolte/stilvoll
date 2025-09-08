@@ -1,17 +1,12 @@
-import type { TRule } from '@stilvoll/core';
+import type { TRule, TRuleValue } from '@stilvoll/core';
 
-const values = {
-  auto: 'auto',
-  none: 0,
-  px: '1px',
-  _: /^--space-/,
-};
+const value: TRuleValue = /^--space-/;
 
-export const spacingRules = [
+export const spacingRules: Array<TRule> = [
   [
     (name) => `m-${name}`,
     (value: string | number) => ({ margin: value }),
-    { values },
+    value,
   ],
   [
     (name) => `mx-${name}`,
@@ -19,7 +14,7 @@ export const spacingRules = [
       'margin-right': value,
       'margin-left': value,
     }),
-    { values },
+    value,
   ],
   [
     (name) => `my-${name}`,
@@ -27,32 +22,32 @@ export const spacingRules = [
       'margin-top': value,
       'margin-bottom': value,
     }),
-    { values },
+    value,
   ],
   [
     (name) => `mt-${name}`,
     (value: string | number) => ({ 'margin-top': value }),
-    { values },
+    value,
   ],
   [
     (name) => `mr-${name}`,
     (value: string | number) => ({ 'margin-right': value }),
-    { values },
+    value,
   ],
   [
     (name) => `mb-${name}`,
     (value: string | number) => ({ 'margin-bottom': value }),
-    { values },
+    value,
   ],
   [
     (name) => `ml-${name}`,
     (value: string | number) => ({ 'margin-left': value }),
-    { values },
+    value,
   ],
   [
     (name) => `p-${name}`,
     (value: string | number) => ({ padding: value }),
-    { values },
+    value,
   ],
   [
     (name) => `px-${name}`,
@@ -60,7 +55,7 @@ export const spacingRules = [
       'padding-right': value,
       'padding-left': value,
     }),
-    { values },
+    value,
   ],
   [
     (name) => `py-${name}`,
@@ -68,33 +63,48 @@ export const spacingRules = [
       'padding-top': value,
       'padding-bottom': value,
     }),
-    { values },
+    value,
   ],
   [
     (name) => `pt-${name}`,
     (value: string | number) => ({ 'padding-top': value }),
-    { values },
+    value,
   ],
   [
     (name) => `pr-${name}`,
     (value: string | number) => ({ 'padding-right': value }),
-    { values },
+    value,
   ],
   [
     (name) => `pb-${name}`,
     (value: string | number) => ({ 'padding-bottom': value }),
-    { values },
+    value,
   ],
   [
     (name) => `pl-${name}`,
     (value: string | number) => ({ 'padding-left': value }),
-    { values },
+    value,
   ],
   [
     (name) => `stack-${name}`,
     (value, selector) => `.${selector} > * + * {
   margin-top: ${value};
 }`,
-    { values },
+    value,
   ],
-] satisfies Array<TRule>;
+    [
+      (name) => `gap-${name}`,
+      (value: string | number) => ({ gap: value }),
+      value,
+    ],
+    [
+      (name) => `gap-x-${name}`,
+      (value: string | number) => ({ 'column-gap': value }),
+      value,
+    ],
+    [
+      (name) => `gap-y-${name}`,
+      (value: string | number) => ({ 'row-gap': value }),
+      value,
+    ],
+];

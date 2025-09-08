@@ -3,13 +3,15 @@ import type {
   TCustomProperty,
   TRule,
   TRuleName,
+  TRuleNameFunction,
   TRuleResult,
+  TRuleResultFunction,
   TUtilityStyle,
   TFormatterProps,
 } from '../types';
 
 import { STILVOLL_OBJECT_NAME } from '../constants';
-import { minify as minifyCss, uniqueArray } from './utils';
+import { minify as minifyCss, indent, uniqueArray } from './utils';
 import { escapeSelector } from './escape';
 import { formatters } from './formatters';
 
@@ -29,7 +31,7 @@ export const generateUtilities = ({
   const res: Array<TUtilityStyle> = [];
 
   const resolveName = (
-    name: TRuleName,
+    name: TRuleName | TRuleNameFunction,
     value: string,
     breakpoint: string | null,
   ): string => {
@@ -53,7 +55,7 @@ export const generateUtilities = ({
   };
 
   const resolveStyles = (
-    input: TRuleResult,
+    input: TRuleResult | TRuleResultFunction,
     name: string,
     value: string | number | null,
   ): string | null => {
@@ -73,40 +75,53 @@ export const generateUtilities = ({
   };
 
   for (const [name, result, options] of rules) {
-    const values = options?.values ?? {};
-    const resolvedValues = Object.entries(values).reduce(
-      (acc, [key, value]) => {
-        if (typeof value === 'string' || typeof value === 'number') {
-          acc[key] = value;
-        }
+    const isStaticRule = typeof name === 'string';
 
-        if (value instanceof RegExp) {
-          for (const customProperty of customProperties) {
-            if (customProperty.key.match(value)) {
-              acc[customProperty.key.replace(value, '')] = customProperty.value;
-            }
+    const values =
+      options instanceof RegExp
+        ? [options]
+        : Array.isArray(options)
+          ? options
+          : (options?.values ?? []);
+
+    const resolvedValues = values.reduce((acc, value) => {
+      if (Array.isArray(value)) {
+        const [key, itemValue] = value;
+        acc[key] = itemValue;
+      }
+
+      if (value instanceof RegExp) {
+        for (const customProperty of customProperties) {
+          if (customProperty.key.match(value)) {
+            acc[customProperty.key.replace(value, '')] = customProperty.value;
           }
         }
+      }
 
-        return acc;
-      },
-      {},
-    );
+      return acc;
+    }, {});
 
     const hasResolvedValues = Object.keys(resolvedValues).length > 0;
 
-    if (typeof name === 'string' && hasResolvedValues) {
+    if (isStaticRule && hasResolvedValues) {
       throw new Error(
         `${name} is defined as a static utility, but set up to use values. Please use a function instead of a string to generate the classname in this case`,
       );
     }
 
-    Object.entries(hasResolvedValues ? resolvedValues : { a: null }).forEach(
-      ([key, value]) => {
-        const breakpointsToUse =
-          options?.responsive === false
-            ? [NOOP_BREAKPOINT]
-            : [NOOP_BREAKPOINT, ...breakpoints];
+    const responsive =
+      options instanceof RegExp
+        ? true
+        : Array.isArray(options)
+          ? true
+          : (options?.responsive ?? true);
+
+    for (const [key, value] of Object.entries(hasResolvedValues ? resolvedValues : { a: null })) {
+        const breakpointsToUse = responsive
+          ? [NOOP_BREAKPOINT, ...breakpoints]
+          : [NOOP_BREAKPOINT];
+
+        if (!isStaticRule && value === null) continue;
 
         for (const breakpoint of breakpointsToUse) {
           const resolvedName = resolveName(name, key, breakpoint.name);
@@ -114,15 +129,13 @@ export const generateUtilities = ({
 
           if (resolvedStyles) {
             res.push({
-              name: [name, key, breakpoint.name],
               selector: resolvedName,
               css: resolvedStyles,
               media: breakpoint.media,
             });
           }
         }
-      },
-    );
+      }
   }
 
   return res;
@@ -171,7 +184,7 @@ export const generateCSS = (
     });
 
   const mediaStyles = [...mediaQueries.entries()].map(([media, rules]) => {
-    return `${media} {\n${rules.join('\n')}\n}`;
+    return `${media} {\n${indent(rules.join('\n\n'))}\n}`;
   });
 
   const styles = [...defaultStyles, ...mediaStyles].join('\n\n');

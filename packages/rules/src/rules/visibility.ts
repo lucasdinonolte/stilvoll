@@ -4,18 +4,9 @@ export const visibilityRules = [
   ['inline', { display: 'inline' }],
   ['block', { display: 'block' }],
   ['inline-block', { display: 'inline-block' }],
-  ['contents', { display: 'contents' }],
-  ['flow-root', { display: 'flow-root' }],
-  ['list-item', { display: 'list-item' }],
   ['hidden', { display: 'none' }],
   ['visible', { visibility: 'visible' }],
   ['invisible', { visibility: 'hidden' }],
-  ['backface-visible', { 'backface-visibility': 'visible' }],
-  ['backface-hidden', { 'backface-visibility': 'hidden' }],
-  ['select-auto', { '-webkit-user-select': 'auto', 'user-select': 'auto' }],
-  ['select-all', { '-webkit-user-select': 'all', 'user-select': 'all' }],
-  ['select-text', { '-webkit-user-select': 'text', 'user-select': 'text' }],
-  ['select-none', { '-webkit-user-select': 'none', 'user-select': 'none' }],
   [
     'truncate',
     {
@@ -24,7 +15,6 @@ export const visibilityRules = [
       'white-space': 'nowrap',
     },
   ],
-  ['text-clip', { 'text-overflow': 'clip' }],
   [
     'sr-only',
     {
