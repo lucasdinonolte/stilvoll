@@ -31,6 +31,7 @@ export default defineConfig({
             { label: 'Vite', slug: 'integrations/vite' },
             { label: 'PostCSS', slug: 'integrations/postcss' },
             { label: 'CLI', slug: 'integrations/cli' },
+            { label: 'Programmatic Usage', slug: 'integrations/programmatic-usage' },
           ],
         },
       ],
